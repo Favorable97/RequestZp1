@@ -20,8 +20,13 @@ namespace RequestZp1 {
         private void SignIn_Click(object sender, EventArgs e) {
             ToSignIn();
         }
-        
-        void ToSignIn() {
+
+        public void ClearTextBox() {
+            NameP.Clear();
+            Password.Clear();
+            RememberMe.Checked = false;
+        }        
+        private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
             FileStream stream = null;
@@ -85,12 +90,12 @@ namespace RequestZp1 {
                         write.WriteLine(strName);
                         write.WriteLine(strPas);
                     }
+                    write.Close();
                 }
-
 
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close(); write.Close(); }
+            finally { con.Close(); stream.Close(); }
         }
 
 

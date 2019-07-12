@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace RequestZp1 {
     public partial class Form1 : Form {
         public string nameUser, rights;
         public Form1() {
             InitializeComponent();
+            registration1.Hide();
         }
 
         public void VisibleProfile() {
@@ -46,6 +48,12 @@ namespace RequestZp1 {
 
         private void SignOut_Click(object sender, EventArgs e) {
             signInProfile1.Show();
+            signInProfile1.ClearTextBox();
+            using(FileStream stream = new FileStream("date.txt", FileMode.Truncate)) {
+                StreamWriter write = new StreamWriter(stream);
+                write.Write("");
+                write.Close();
+            }
         }
 
         public void IsAdmin() {
@@ -54,7 +62,8 @@ namespace RequestZp1 {
         }
 
         private void AddUsers_Click(object sender, EventArgs e) {
-             
+            signInProfile1.Hide();
+            registration1.Show();
         }
     }
 }

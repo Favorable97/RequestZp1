@@ -78,7 +78,7 @@
             this.NameP.Location = new System.Drawing.Point(21, 117);
             this.NameP.Name = "NameP";
             this.NameP.Size = new System.Drawing.Size(286, 30);
-            this.NameP.TabIndex = 3;
+            this.NameP.TabIndex = 1;
             // 
             // lPassword
             // 
@@ -97,7 +97,7 @@
             this.Password.Name = "Password";
             this.Password.PasswordChar = '*';
             this.Password.Size = new System.Drawing.Size(286, 30);
-            this.Password.TabIndex = 3;
+            this.Password.TabIndex = 2;
             // 
             // lName
             // 
