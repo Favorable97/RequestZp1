@@ -42,8 +42,8 @@
             this.UserName = new System.Windows.Forms.Label();
             this.SignOut = new System.Windows.Forms.Button();
             this.AddUsers = new System.Windows.Forms.Button();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.registration1 = new RequestZp1.Registration();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -225,25 +225,27 @@
             this.AddUsers.UseVisualStyleBackColor = true;
             this.AddUsers.Click += new System.EventHandler(this.AddUsers_Click);
             // 
+            // registration1
+            // 
+            this.registration1.Location = new System.Drawing.Point(-2, -3);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(929, 552);
+            this.registration1.TabIndex = 9;
+            // 
             // signInProfile1
             // 
-            this.signInProfile1.Location = new System.Drawing.Point(-3, -2);
+            this.signInProfile1.Location = new System.Drawing.Point(-2, -3);
             this.signInProfile1.Name = "signInProfile1";
             this.signInProfile1.Size = new System.Drawing.Size(921, 542);
             this.signInProfile1.TabIndex = 7;
-            // 
-            // registration1
-            // 
-            this.registration1.Location = new System.Drawing.Point(-3, -2);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(929, 542);
-            this.registration1.TabIndex = 9;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(918, 531);
+            this.Controls.Add(this.signInProfile1);
+            this.Controls.Add(this.registration1);
             this.Controls.Add(this.SignOut);
             this.Controls.Add(this.UserName);
             this.Controls.Add(this.RequestTable);
@@ -260,8 +262,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.AddUsers);
-            this.Controls.Add(this.registration1);
-            this.Controls.Add(this.signInProfile1);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).EndInit();
