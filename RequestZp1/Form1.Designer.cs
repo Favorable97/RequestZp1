@@ -42,8 +42,8 @@
             this.UserName = new System.Windows.Forms.Label();
             this.SignOut = new System.Windows.Forms.Button();
             this.AddUsers = new System.Windows.Forms.Button();
-            this.registration1 = new RequestZp1.Registration();
             this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.registration1 = new RequestZp1.Registration();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -225,19 +225,19 @@
             this.AddUsers.UseVisualStyleBackColor = true;
             this.AddUsers.Click += new System.EventHandler(this.AddUsers_Click);
             // 
-            // registration1
-            // 
-            this.registration1.Location = new System.Drawing.Point(-2, -3);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(929, 552);
-            this.registration1.TabIndex = 9;
-            // 
             // signInProfile1
             // 
-            this.signInProfile1.Location = new System.Drawing.Point(-2, -3);
+            this.signInProfile1.Location = new System.Drawing.Point(-2, 1);
             this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(921, 542);
+            this.signInProfile1.Size = new System.Drawing.Size(921, 538);
             this.signInProfile1.TabIndex = 7;
+            // 
+            // registration1
+            // 
+            this.registration1.Location = new System.Drawing.Point(-2, 1);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(929, 548);
+            this.registration1.TabIndex = 9;
             // 
             // Form1
             // 
@@ -263,7 +263,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.AddUsers);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "RequestZp1";
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
