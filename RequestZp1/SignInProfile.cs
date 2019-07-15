@@ -41,58 +41,65 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Name", NameP.Text);
                 com.Parameters.AddWithValue("@Password", encPassword);
                 int count = (int)com.ExecuteScalar();
-                if (count == 0) {
-                    MessageBox.Show("Введеные неверные данные");
-                    NameP.Clear();
-                    Password.Clear();
-                } else {
-                    MessageBox.Show("Вход выполнен");
-                    com = new SqlCommand("Select Rights From Users Where Name = @Name and Password = @Password", con);
-                    com.Parameters.AddWithValue("@Name", NameP.Text);
-                    com.Parameters.AddWithValue("@Password", encPassword);
-                    SqlDataReader reader = com.ExecuteReader();
-                    reader.Read();
-
-                    object rights = reader.GetString(0);
-                    stream = new FileStream("date.txt", FileMode.Truncate);
-                    write = new StreamWriter(stream, System.Text.Encoding.Default);
-                    this.Hide();
-                    (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
-                    (Application.OpenForms[0] as Form1).VisibleProfile();
-
-                    (Application.OpenForms[0] as Form1).rights = (string) rights;
-                    (Application.OpenForms[0] as Form1).IsAdmin();
-                    /*Form1 form1.nameUser = NameP.Text;
-                    form1.VisibleProfile();*/
-                    if (!RememberMe.Checked) {
-                        write.Write("");
+                byte countTry = 0;
+                do {
+                    if (count == 0) {
+                        MessageBox.Show("Введеные неверные данные");
                         NameP.Clear();
                         Password.Clear();
+                        countTry++;
                     } else {
-                        byte[] nameByte = System.Text.Encoding.Default.GetBytes(NameP.Text);
-                        string strName = "";
-                        for (int i = 0; i < nameByte.Length; i++) {
-                            if (i == nameByte.Length - 1)
-                                strName += nameByte[i].ToString();
-                            else
-                                strName += nameByte[i].ToString() + ",";
-                        }
+                        MessageBox.Show("Вход выполнен");
+                        com = new SqlCommand("Select Rights From Users Where Name = @Name and Password = @Password", con);
+                        com.Parameters.AddWithValue("@Name", NameP.Text);
+                        com.Parameters.AddWithValue("@Password", encPassword);
+                        SqlDataReader reader = com.ExecuteReader();
+                        reader.Read();
 
-                        byte[] pasByte = System.Text.Encoding.Default.GetBytes(Password.Text);
-                        string strPas = "";
-                        for (int i = 0; i < pasByte.Length; i++) {
-                            if (i == pasByte.Length - 1)
-                                strPas += pasByte[i].ToString();
-                            else
-                                strPas += pasByte[i].ToString() + ",";
-                        }
+                        object rights = reader.GetString(0);
+                        stream = new FileStream("date.txt", FileMode.Truncate);
+                        write = new StreamWriter(stream, System.Text.Encoding.Default);
+                        this.Hide();
+                        (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
+                        (Application.OpenForms[0] as Form1).VisibleProfile();
 
-                        write.WriteLine(strName);
-                        write.WriteLine(strPas);
+                        (Application.OpenForms[0] as Form1).rights = (string)rights;
+                        (Application.OpenForms[0] as Form1).IsAdmin();
+                        /*Form1 form1.nameUser = NameP.Text;
+                        form1.VisibleProfile();*/
+                        if (!RememberMe.Checked) {
+                            write.Write("");
+                            NameP.Clear();
+                            Password.Clear();
+                        } else {
+                            byte[] nameByte = System.Text.Encoding.Default.GetBytes(NameP.Text);
+                            string strName = "";
+                            for (int i = 0; i < nameByte.Length; i++) {
+                                if (i == nameByte.Length - 1)
+                                    strName += nameByte[i].ToString();
+                                else
+                                    strName += nameByte[i].ToString() + ",";
+                            }
+
+                            byte[] pasByte = System.Text.Encoding.Default.GetBytes(Password.Text);
+                            string strPas = "";
+                            for (int i = 0; i < pasByte.Length; i++) {
+                                if (i == pasByte.Length - 1)
+                                    strPas += pasByte[i].ToString();
+                                else
+                                    strPas += pasByte[i].ToString() + ",";
+                            }
+
+                            write.WriteLine(strName);
+                            write.WriteLine(strPas);
+                        }
+                        write.Close();
                     }
-                    write.Close();
+                } while (countTry != 3);
+                if (countTry == 3) {
+                    MessageBox.Show("Мсье, вы не знаете пароля");
+                    Application.Exit();
                 }
-
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); stream.Close(); }
