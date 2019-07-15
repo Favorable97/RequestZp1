@@ -19,8 +19,7 @@ namespace RequestZp1 {
 
         private void SignUp_Click(object sender, EventArgs e) {
             SqlConnection con = null;
-            FileStream stream = null;
-            StreamWriter write = null;
+            
             try {
                 string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
 
@@ -36,6 +35,19 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Rights", Rights.Text);
                 com.Parameters.AddWithValue("@Password", encPassword);
                 com.ExecuteNonQuery();
+                ToWriteFile();
+
+            } catch (Exception ex) { MessageBox.Show(ex.Message); }
+            finally { con.Close(); }
+
+            this.Hide();
+        }
+
+        private void ToWriteFile() {
+            FileStream stream = null;
+            StreamWriter write = null;
+
+            try {
                 stream = new FileStream("date.txt", FileMode.Truncate);
                 write = new StreamWriter(stream, System.Text.Encoding.Default);
 
@@ -59,15 +71,14 @@ namespace RequestZp1 {
 
                 (Application.OpenForms[0] as Form1).nameUser = NameR.Text;
                 (Application.OpenForms[0] as Form1).VisibleProfile();
+                (Application.OpenForms[0] as Form1).rights = Rights.Text;
+                (Application.OpenForms[0] as Form1).IsAdmin();
 
                 write.WriteLine(strName);
                 write.WriteLine(strPas);
-                write.Close();
-
-            } catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close(); stream.Close(); }
-
-            this.Hide();
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
+            finally { write.Close(); stream.Close(); }
         }
 
         private string GetEncodingPassword(string password) {

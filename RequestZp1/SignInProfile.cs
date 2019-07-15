@@ -29,9 +29,6 @@ namespace RequestZp1 {
         private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
-            FileStream stream = null;
-            StreamWriter write = null;
-
             string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
             try {
                 con = new SqlConnection(connectionString);
@@ -57,43 +54,7 @@ namespace RequestZp1 {
                         reader.Read();
 
                         object rights = reader.GetString(0);
-                        stream = new FileStream("date.txt", FileMode.Truncate);
-                        write = new StreamWriter(stream, System.Text.Encoding.Default);
-                        this.Hide();
-                        (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
-                        (Application.OpenForms[0] as Form1).VisibleProfile();
-
-                        (Application.OpenForms[0] as Form1).rights = (string)rights;
-                        (Application.OpenForms[0] as Form1).IsAdmin();
-                        /*Form1 form1.nameUser = NameP.Text;
-                        form1.VisibleProfile();*/
-                        if (!RememberMe.Checked) {
-                            write.Write("");
-                            NameP.Clear();
-                            Password.Clear();
-                        } else {
-                            byte[] nameByte = System.Text.Encoding.Default.GetBytes(NameP.Text);
-                            string strName = "";
-                            for (int i = 0; i < nameByte.Length; i++) {
-                                if (i == nameByte.Length - 1)
-                                    strName += nameByte[i].ToString();
-                                else
-                                    strName += nameByte[i].ToString() + ",";
-                            }
-
-                            byte[] pasByte = System.Text.Encoding.Default.GetBytes(Password.Text);
-                            string strPas = "";
-                            for (int i = 0; i < pasByte.Length; i++) {
-                                if (i == pasByte.Length - 1)
-                                    strPas += pasByte[i].ToString();
-                                else
-                                    strPas += pasByte[i].ToString() + ",";
-                            }
-
-                            write.WriteLine(strName);
-                            write.WriteLine(strPas);
-                        }
-                        write.Close();
+                        ToWriteFile(rights);
                     }
                 } while (countTry != 3);
                 if (countTry == 3) {
@@ -102,7 +63,50 @@ namespace RequestZp1 {
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close(); stream.Close(); }
+            finally { con.Close();  }
+        }
+
+        private void ToWriteFile(object rights) {
+            FileStream stream = null;
+            StreamWriter write = null;
+            try {
+                stream = new FileStream("date.txt", FileMode.Truncate);
+                write = new StreamWriter(stream, System.Text.Encoding.Default);
+                this.Hide();
+                (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
+                (Application.OpenForms[0] as Form1).VisibleProfile();
+
+                (Application.OpenForms[0] as Form1).rights = (string)rights;
+                (Application.OpenForms[0] as Form1).IsAdmin();
+                if (!RememberMe.Checked) {
+                    write.Write("");
+                    NameP.Clear();
+                    Password.Clear();
+                } else {
+                    byte[] nameByte = System.Text.Encoding.Default.GetBytes(NameP.Text);
+                    string strName = "";
+                    for (int i = 0; i < nameByte.Length; i++) {
+                        if (i == nameByte.Length - 1)
+                            strName += nameByte[i].ToString();
+                        else
+                            strName += nameByte[i].ToString() + ",";
+                    }
+
+                    byte[] pasByte = System.Text.Encoding.Default.GetBytes(Password.Text);
+                    string strPas = "";
+                    for (int i = 0; i < pasByte.Length; i++) {
+                        if (i == pasByte.Length - 1)
+                            strPas += pasByte[i].ToString();
+                        else
+                            strPas += pasByte[i].ToString() + ",";
+                    }
+
+                    write.WriteLine(strName);
+                    write.WriteLine(strPas);
+                }
+                
+            } catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+            finally { write.Close(); stream.Close(); }
         }
 
 
