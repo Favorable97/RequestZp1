@@ -25,11 +25,13 @@ namespace RequestZp1 {
             NameP.Clear();
             Password.Clear();
             RememberMe.Checked = false;
-        }        
+        }
+        
+        string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
-            string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+            
             try {
                 con = new SqlConnection(connectionString);
                 string encPassword = GetEncodingPassword(Password.Text);
@@ -55,9 +57,11 @@ namespace RequestZp1 {
 
                         object rights = reader.GetString(0);
                         ToWriteFile(rights);
+                        ToWriteDataBaseSuccessful(countTry);
                     }
                 } while (countTry != 3);
                 if (countTry == 3) {
+                    ToWriteDataBaseNotSuccessful(countTry);
                     MessageBox.Show("Мсье, вы не знаете пароля");
                     Application.Exit();
                 }
@@ -109,6 +113,41 @@ namespace RequestZp1 {
             finally { write.Close(); stream.Close(); }
         }
 
+
+        #region ListLogIn
+        private void ToWriteDataBaseSuccessful(byte countTry) {
+            SqlConnection con = null;
+            SqlCommand com = null;
+
+            try {
+                con = new SqlConnection(connectionString);
+                com = new SqlCommand("INSERT ListLogIn(IP, DateTimeLogIn, IsLogIn, Try) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try)", con);
+                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
+                com.Parameters.AddWithValue("@IsLogIn", "Да");
+                com.Parameters.AddWithValue("@Try", countTry);
+
+            } catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+            finally { con.Close(); }
+        }
+        
+        private void ToWriteDataBaseNotSuccessful(byte countTry) {
+            SqlConnection con = null;
+            SqlCommand com = null;
+
+            try {
+                con = new SqlConnection(connectionString);
+                com = new SqlCommand("INSERT ListLogIn(IP, DateTimeLogIn, IsLogIn, Try) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try)", con);
+                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
+                com.Parameters.AddWithValue("@IsLogIn", "Нет");
+                com.Parameters.AddWithValue("@Try", countTry);
+
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+            finally { con.Close(); }
+        }
+        #endregion
 
         private string GetEncodingPassword(string password) {
             // переводим строку в байт-массив
