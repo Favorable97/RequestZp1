@@ -31,7 +31,9 @@ namespace RequestZp1 {
         private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
-            
+            SqlDataReader reader = null;
+
+
             try {
                 con = new SqlConnection(connectionString);
                 string encPassword = GetEncodingPassword(Password.Text);
@@ -52,7 +54,7 @@ namespace RequestZp1 {
                         com = new SqlCommand("Select Rights From Users Where Name = @Name and Password = @Password", con);
                         com.Parameters.AddWithValue("@Name", NameP.Text);
                         com.Parameters.AddWithValue("@Password", encPassword);
-                        SqlDataReader reader = com.ExecuteReader();
+                        reader = com.ExecuteReader();
                         reader.Read();
 
                         object rights = reader.GetString(0);
@@ -67,7 +69,7 @@ namespace RequestZp1 {
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close();  }
+            finally { reader.Close(); con.Close();  }
         }
 
         private void ToWriteFile(object rights) {
@@ -121,12 +123,13 @@ namespace RequestZp1 {
 
             try {
                 con = new SqlConnection(connectionString);
-                com = new SqlCommand("INSERT ListLogIn(IP, DateTimeLogIn, IsLogIn, Try) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try)", con);
+                com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTimeLogIn, IsLogIn, Try) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try)", con);
+                con.Open();
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
                 com.Parameters.AddWithValue("@IsLogIn", "Да");
                 com.Parameters.AddWithValue("@Try", countTry);
-
+                com.ExecuteNonQuery();
             } catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
             finally { con.Close(); }
         }
@@ -137,12 +140,13 @@ namespace RequestZp1 {
 
             try {
                 con = new SqlConnection(connectionString);
-                com = new SqlCommand("INSERT ListLogIn(IP, DateTimeLogIn, IsLogIn, Try) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try)", con);
+                com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTimeLogIn, IsLogIn, Try) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try)", con);
+                con.Open();
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
                 com.Parameters.AddWithValue("@IsLogIn", "Нет");
                 com.Parameters.AddWithValue("@Try", countTry);
-
+                com.ExecuteNonQuery();
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
             finally { con.Close(); }

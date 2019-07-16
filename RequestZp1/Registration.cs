@@ -26,7 +26,7 @@ namespace RequestZp1 {
                 string encPassword = GetEncodingPassword(Password.Text);
 
                 con = new SqlConnection(connectionString);
-                SqlCommand com = new SqlCommand("INSERT Users(Surname, Name, FatherName, Department, Rights, Password) VALUES (@Surname, @Name, @FatherName, @Department, @Rights, @Password)", con);
+                SqlCommand com = new SqlCommand("INSERT INTO Users(Surname, Name, FatherName, Department, Rights, Password) VALUES (@Surname, @Name, @FatherName, @Department, @Rights, @Password)", con);
                 con.Open();
                 com.Parameters.AddWithValue("@Surname", Surname.Text);
                 com.Parameters.AddWithValue("@Name", NameR.Text);
@@ -70,6 +70,7 @@ namespace RequestZp1 {
                 }
 
                 (Application.OpenForms[0] as Form1).nameUser = NameR.Text;
+                (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
                 (Application.OpenForms[0] as Form1).VisibleProfile();
                 (Application.OpenForms[0] as Form1).rights = Rights.Text;
                 (Application.OpenForms[0] as Form1).IsAdmin();
