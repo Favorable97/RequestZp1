@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RequestZp1 {
     class UprmesClass {
-        private string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+        private readonly string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
         private DataGridView RequestTable { get; set; }
 
@@ -203,7 +203,7 @@ namespace RequestZp1 {
                 qbp_zp1.Add(msh, qpd);
                 upprmes.Add(qbp_zp1);
                 strWithDate += msh7.Value.ToString() + cx1.Value.ToString() + cx5.Value.ToString() + msh10.Value.ToString() + fn1.Value.ToString() +
-                    xpn2.Value.ToString() + xpn3.Value.ToString() + qpd7.Value.ToString() + qpd8.Value.ToString();
+                xpn2.Value.ToString() + xpn3.Value.ToString() + qpd7.Value.ToString() + qpd8.Value.ToString();
             }
             #endregion
 

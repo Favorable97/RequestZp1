@@ -26,8 +26,8 @@ namespace RequestZp1 {
             Password.Clear();
             RememberMe.Checked = false;
         }
-        
-        string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+
+        readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
@@ -42,26 +42,26 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Name", NameP.Text);
                 com.Parameters.AddWithValue("@Password", encPassword);
                 int count = (int)com.ExecuteScalar();
-                byte countTry = 0;
-                do {
-                    if (count == 0) {
-                        MessageBox.Show("Введеные неверные данные");
-                        NameP.Clear();
-                        Password.Clear();
-                        countTry++;
-                    } else {
-                        MessageBox.Show("Вход выполнен");
-                        com = new SqlCommand("Select Rights From Users Where Name = @Name and Password = @Password", con);
-                        com.Parameters.AddWithValue("@Name", NameP.Text);
-                        com.Parameters.AddWithValue("@Password", encPassword);
-                        reader = com.ExecuteReader();
-                        reader.Read();
+                byte countTry = 1;
+                
+                if (count == 0) {
+                    MessageBox.Show("Введеные неверные данные");
+                    NameP.Clear();
+                    Password.Clear();
+                    countTry++;
+                } else {
+                    MessageBox.Show("Вход выполнен");
+                    com = new SqlCommand("Select Rights From Users Where Name = @Name and Password = @Password", con);
+                    com.Parameters.AddWithValue("@Name", NameP.Text);
+                    com.Parameters.AddWithValue("@Password", encPassword);
+                    reader = com.ExecuteReader();
+                    reader.Read();
 
-                        object rights = reader.GetString(0);
-                        ToWriteFile(rights);
-                        ToWriteDataBaseSuccessful(countTry);
-                    }
-                } while (countTry != 3);
+                    object rights = reader.GetString(0);
+                    ToWriteFile(rights);
+                    ToWriteDataBaseSuccessful(countTry);
+                }
+                
                 if (countTry == 3) {
                     ToWriteDataBaseNotSuccessful(countTry);
                     MessageBox.Show("Мсье, вы не знаете пароля");
@@ -119,7 +119,7 @@ namespace RequestZp1 {
         #region ListLogIn
         private void ToWriteDataBaseSuccessful(byte countTry) {
             SqlConnection con = null;
-            SqlCommand com = null;
+            SqlCommand com;
 
             try {
                 con = new SqlConnection(connectionString);
@@ -136,7 +136,7 @@ namespace RequestZp1 {
         
         private void ToWriteDataBaseNotSuccessful(byte countTry) {
             SqlConnection con = null;
-            SqlCommand com = null;
+            SqlCommand com;
 
             try {
                 con = new SqlConnection(connectionString);

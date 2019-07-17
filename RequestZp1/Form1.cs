@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.IO;
+using System.Data;
 using System.Windows.Forms;
 
 namespace RequestZp1 {
@@ -8,21 +9,26 @@ namespace RequestZp1 {
         public string nameUser, rights, encPas, surnames = "";
         public Form1() {
             InitializeComponent();
+            registration1.Location = this.Location;
+            signInProfile1.Location = this.Location;
+            panelWithHistory.Location = new System.Drawing.Point(0, 31);
             registration1.Hide();
         }
-        private string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         public void VisibleProfile() {
-            UserName.Text = nameUser;
+            namePerson2.Text = nameUser;
         }
 
         private void AddPeople_Click(object sender, EventArgs e) {
             DataGridViewRow newRow = new DataGridViewRow();
 
-            DataGridViewCell FIO = new DataGridViewTextBoxCell();
-            FIO.Value = tSurname.Text + " " + tName.Text + " " + tFatherName.Text;
+            DataGridViewCell FIO = new DataGridViewTextBoxCell {
+                Value = tSurname.Text + " " + tName.Text + " " + tFatherName.Text
+            };
 
-            DataGridViewCell Birthday = new DataGridViewTextBoxCell();
-            Birthday.Value = tBirthday.Text;
+            DataGridViewCell Birthday = new DataGridViewTextBoxCell {
+                Value = tBirthday.Text
+            };
 
             newRow.Cells.Add(FIO);
             newRow.Cells.Add(Birthday);
@@ -38,16 +44,6 @@ namespace RequestZp1 {
         private void CreateXmlFile_Click(object sender, EventArgs e) {
             UprmesClass uprmesFile = new UprmesClass(RequestTable);
             uprmesFile.CreateXmlFile();
-        }
-
-        private void SignOut_Click(object sender, EventArgs e) {
-            signInProfile1.Show();
-            signInProfile1.ClearTextBox();
-            using (FileStream stream = new FileStream("date.txt", FileMode.Truncate)) {
-                StreamWriter write = new StreamWriter(stream);
-                write.Write("");
-                write.Close();
-            }
         }
 
         // Request
@@ -76,6 +72,65 @@ namespace RequestZp1 {
             return 0;
         }
 
+        private void AddPersonMenuItem_Click(object sender, EventArgs e) {
+            signInProfile1.Hide();
+            registration1.Show();
+        }
+
+        private void MyHistoryMenuItem_Click(object sender, EventArgs e) {
+            panelWithHistory.Visible = true;
+            HistoryTable.Rows.Clear();
+            
+            SqlDataAdapter adapter;
+            DataSet ds;
+
+            try {
+                HistoryTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                HistoryTable.AllowUserToAddRows = false;
+
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    con.Open();
+                    adapter = new SqlDataAdapter("Select * From Request Where id = " + GetID(), con);
+                    ds = new DataSet();
+                    adapter.Fill(ds);
+                    HistoryTable.DataSource = ds.Tables[0];
+                }
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+        }
+
+        private void AllHistoryMenuItem_Click(object sender, EventArgs e) {
+            panelWithHistory.Visible = true;
+            HistoryTable.Rows.Clear();
+
+            SqlDataAdapter adapter;
+            DataSet ds;
+
+            try {
+                HistoryTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                HistoryTable.AllowUserToAddRows = false;
+
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    con.Open();
+                    adapter = new SqlDataAdapter("Select * From Request", con);
+                    ds = new DataSet();
+                    adapter.Fill(ds);
+                    HistoryTable.DataSource = ds.Tables[0];
+                }
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e) {
+            signInProfile1.Show();
+            signInProfile1.ClearTextBox();
+            using (FileStream stream = new FileStream("date.txt", FileMode.Truncate)) {
+                StreamWriter write = new StreamWriter(stream);
+                write.Write("");
+                write.Close();
+            }
+        }
+
         private void RecordDataBase(object id) {
             SqlConnection con = null;
             SqlCommand com;
@@ -92,12 +147,9 @@ namespace RequestZp1 {
 
         public void IsAdmin() {
             if (rights != "admin")
-                AddUsers.Enabled = false;
+                addPersonMenuItem.Enabled = false;
         }
 
-        private void AddUsers_Click(object sender, EventArgs e) {
-            signInProfile1.Hide();
-            registration1.Show();
-        }
+        
     }
 }
