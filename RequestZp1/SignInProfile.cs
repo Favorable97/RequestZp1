@@ -26,7 +26,7 @@ namespace RequestZp1 {
             Password.Clear();
             RememberMe.Checked = false;
         }
-        private int id;
+        private object id;
         readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         private void ToSignIn() {
             SqlConnection con = null;
@@ -49,6 +49,7 @@ namespace RequestZp1 {
                     NameP.Clear();
                     Password.Clear();
                     countTry++;
+                    return;
                 } else {
                     MessageBox.Show("Вход выполнен");
                     com = new SqlCommand("Select ID, Rights From Users Where Name = @Name and Password = @Password", con);
@@ -57,8 +58,8 @@ namespace RequestZp1 {
                     reader = com.ExecuteReader();
                     reader.Read();
 
-                    object rights = reader.GetString(0);
-                    id = reader.GetInt16(1);
+                    object rights = reader.GetString(1);
+                    id = reader.GetValue(0);
                     ToWriteFile(rights);
                     ToWriteDataBaseSuccessful(countTry);
                 }
@@ -82,7 +83,7 @@ namespace RequestZp1 {
                 this.Hide();
                 (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
                 (Application.OpenForms[0] as Form1).VisibleProfile();
-
+                (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
                 (Application.OpenForms[0] as Form1).rights = (string)rights;
                 (Application.OpenForms[0] as Form1).IsAdmin();
                 if (!RememberMe.Checked) {

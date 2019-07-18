@@ -16,13 +16,11 @@ namespace RequestZp1 {
         public Registration() {
             InitializeComponent();
         }
-
+        string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         private void SignUp_Click(object sender, EventArgs e) {
             SqlConnection con = null;
             
             try {
-                string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
-
                 string encPassword = GetEncodingPassword(Password.Text);
 
                 con = new SqlConnection(connectionString);
@@ -80,6 +78,24 @@ namespace RequestZp1 {
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
             finally { write.Close(); stream.Close(); }
+        }
+
+        private void RecordListLogInAddUser() {
+            SqlConnection con = null;
+            SqlCommand com;
+
+            try {
+                con = new SqlConnection(connectionString);
+                com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, ID, Operation) VALUES (@IP, @DateTimeLogIn, @ID, @Operation)", con);
+                con.Open();
+                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
+                com.Parameters.AddWithValue("@ID", (Application.OpenForms[0] as Form1).GetID());
+                com.Parameters.AddWithValue("@Operation", "Добавление пользователя");
+                com.ExecuteNonQuery();
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+            finally { con.Close(); }
         }
 
         private string GetEncodingPassword(string password) {

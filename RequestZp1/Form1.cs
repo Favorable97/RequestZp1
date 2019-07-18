@@ -3,6 +3,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Data;
 using System.Windows.Forms;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace RequestZp1 {
     public partial class Form1 : Form {
@@ -122,13 +124,14 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday) VALUES (@Surname, @Name, @FatherName, @DateBirthday", con);
+                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday) VALUES (@Surname, @Name, @FatherName, @DateBirthday)", con);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
                 com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(RefBirthday(tBirthday.Text), "yyyyMdd", null));
+                com.ExecuteNonQuery();
             }
-            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
         }
 
@@ -138,18 +141,19 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson", con); // что за IDPerson???
+                SqlCommand com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con); // что за IDPerson???
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
                 com.Parameters.AddWithValue("@ID", GetID());
                 com.Parameters.AddWithValue("@Operation", "Добавление данных");
                 com.Parameters.AddWithValue("@IDPerson", GetIDPeople());
+                com.ExecuteNonQuery();
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
             finally { con.Close(); }
         }
 
-        private object GetID() {
+        public object GetID() {
             SqlConnection con = null;
             SqlCommand com;
             try {
@@ -160,11 +164,11 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Password", encPas);
                 SqlDataReader reader = com.ExecuteReader();
                 reader.Read();
-                object id = reader.GetInt32(0);
+                object id = reader.GetValue(0);
                 reader.Close();
                 return id;
             }
-            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
             return 0;
         }
@@ -175,18 +179,18 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                com = new SqlCommand("Select ID From Peoples Where Name = @Name and Surname = @Surname and FatherName = @FatherName and Birthday = @Birthday", con);
+                com = new SqlCommand("Select ID From Peoples Where Name = @Name and Surname = @Surname and FatherName = @FatherName and DateBirthday = @DateBirthday", con);
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
-                com.Parameters.AddWithValue("@Birthday", tBirthday.Text);
+                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(RefBirthday(tBirthday.Text), "yyyyMdd", null));
                 SqlDataReader reader = com.ExecuteReader();
                 reader.Read();
-                object id = reader.GetInt32(0);
+                object id = reader.GetValue(0);
                 reader.Close();
                 return id;
             }
-            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
             return 0;
         }

@@ -42,12 +42,12 @@
             this.signInProfile1 = new RequestZp1.SignInProfile();
             this.registration1 = new RequestZp1.Registration();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.namePerson2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addPersonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.namePerson2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addPersonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelWithHistory = new System.Windows.Forms.Panel();
             this.HistoryTable = new System.Windows.Forms.DataGridView();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -96,7 +96,7 @@
             this.label4.Location = new System.Drawing.Point(42, 327);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(157, 22);
-            this.label4.TabIndex = 0;
+            this.label4.TabIndex = 10;
             this.label4.Text = "Дата рождения";
             // 
             // tSurname
@@ -121,7 +121,7 @@
             this.label5.Location = new System.Drawing.Point(73, 241);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 22);
-            this.label5.TabIndex = 0;
+            this.label5.TabIndex = 11;
             this.label5.Text = "Отчество";
             // 
             // tName
@@ -235,29 +235,6 @@
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // namePerson2
-            // 
-            this.namePerson2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addPersonMenuItem,
-            this.exitMenuItem});
-            this.namePerson2.Name = "namePerson2";
-            this.namePerson2.Size = new System.Drawing.Size(62, 24);
-            this.namePerson2.Text = "name";
-            // 
-            // addPersonMenuItem
-            // 
-            this.addPersonMenuItem.Name = "addPersonMenuItem";
-            this.addPersonMenuItem.Size = new System.Drawing.Size(225, 24);
-            this.addPersonMenuItem.Text = "Добавить человека";
-            this.addPersonMenuItem.Click += new System.EventHandler(this.AddPersonMenuItem_Click);
-            // 
-            // exitMenuItem
-            // 
-            this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(225, 24);
-            this.exitMenuItem.Text = "Выход";
-            this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
-            // 
             // historyMenuItem
             // 
             this.historyMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -280,6 +257,29 @@
             this.allHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
             this.allHistoryMenuItem.Text = "Вся история";
             this.allHistoryMenuItem.Click += new System.EventHandler(this.AllHistoryMenuItem_Click);
+            // 
+            // namePerson2
+            // 
+            this.namePerson2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addPersonMenuItem,
+            this.exitMenuItem});
+            this.namePerson2.Name = "namePerson2";
+            this.namePerson2.Size = new System.Drawing.Size(62, 24);
+            this.namePerson2.Text = "name";
+            // 
+            // addPersonMenuItem
+            // 
+            this.addPersonMenuItem.Name = "addPersonMenuItem";
+            this.addPersonMenuItem.Size = new System.Drawing.Size(225, 24);
+            this.addPersonMenuItem.Text = "Добавить человека";
+            this.addPersonMenuItem.Click += new System.EventHandler(this.AddPersonMenuItem_Click);
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(225, 24);
+            this.exitMenuItem.Text = "Выход";
+            this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // panelWithHistory
             // 
