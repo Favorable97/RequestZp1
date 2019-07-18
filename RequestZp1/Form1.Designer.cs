@@ -150,7 +150,7 @@
             // 
             // AddPeople
             // 
-            this.AddPeople.BackColor = System.Drawing.Color.PeachPuff;
+            this.AddPeople.BackColor = System.Drawing.Color.LightGray;
             this.AddPeople.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddPeople.Location = new System.Drawing.Point(57, 408);
             this.AddPeople.Name = "AddPeople";
@@ -329,8 +329,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
             this.ClientSize = new System.Drawing.Size(918, 531);
-            this.Controls.Add(this.signInProfile1);
             this.Controls.Add(this.panelWithHistory);
+            this.Controls.Add(this.signInProfile1);
+            this.Controls.Add(this.registration1);
             this.Controls.Add(this.RequestTable);
             this.Controls.Add(this.CreateXmlFile);
             this.Controls.Add(this.AddPeople);
@@ -345,7 +346,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.registration1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "RequestZp1";

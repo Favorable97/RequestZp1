@@ -69,11 +69,11 @@ namespace RequestZp1 {
                         strPas += pasByte[i].ToString() + ",";
                 }
 
-                (Application.OpenForms[0] as Form1).nameUser = NameR.Text;
+                /*(Application.OpenForms[0] as Form1).nameUser = NameR.Text;
                 (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
                 (Application.OpenForms[0] as Form1).VisibleProfile();
                 (Application.OpenForms[0] as Form1).rights = Rights.Text;
-                (Application.OpenForms[0] as Form1).IsAdmin();
+                (Application.OpenForms[0] as Form1).IsAdmin();*/
 
                 write.WriteLine(strName);
                 write.WriteLine(strPas);

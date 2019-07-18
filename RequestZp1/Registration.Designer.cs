@@ -30,18 +30,18 @@
             this.SignUpPanel = new System.Windows.Forms.Panel();
             this.SignUp = new System.Windows.Forms.Button();
             this.lSignUp = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lName = new System.Windows.Forms.Label();
             this.Password = new System.Windows.Forms.TextBox();
             this.lPassword = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.Surname = new System.Windows.Forms.TextBox();
-            this.lName = new System.Windows.Forms.Label();
-            this.NameR = new System.Windows.Forms.TextBox();
-            this.Department = new System.Windows.Forms.TextBox();
             this.FatherName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.Surname = new System.Windows.Forms.TextBox();
             this.Rights = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.Department = new System.Windows.Forms.TextBox();
+            this.NameR = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SignUpPanel.SuspendLayout();
@@ -81,6 +81,7 @@
             // 
             // SignUpPanel
             // 
+            this.SignUpPanel.BackColor = System.Drawing.Color.White;
             this.SignUpPanel.Controls.Add(this.SignUp);
             this.SignUpPanel.Controls.Add(this.lSignUp);
             this.SignUpPanel.Controls.Add(this.label3);
@@ -123,6 +124,56 @@
             this.lSignUp.TabIndex = 1;
             this.lSignUp.Text = "Регистрация";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(21, 205);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(95, 22);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Отчество";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(21, 73);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 22);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Фамилия";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(21, 338);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(71, 22);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Права";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(21, 273);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 22);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Отдел";
+            // 
+            // lName
+            // 
+            this.lName.AutoSize = true;
+            this.lName.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lName.Location = new System.Drawing.Point(21, 143);
+            this.lName.Name = "lName";
+            this.lName.Size = new System.Drawing.Size(54, 22);
+            this.lName.TabIndex = 2;
+            this.lName.Text = "Имя:";
+            // 
             // Password
             // 
             this.Password.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -142,15 +193,13 @@
             this.lPassword.TabIndex = 2;
             this.lPassword.Text = "Пароль:";
             // 
-            // label1
+            // FatherName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(21, 73);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 22);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Фамилия";
+            this.FatherName.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FatherName.Location = new System.Drawing.Point(21, 234);
+            this.FatherName.Name = "FatherName";
+            this.FatherName.Size = new System.Drawing.Size(286, 30);
+            this.FatherName.TabIndex = 3;
             // 
             // Surname
             // 
@@ -160,23 +209,13 @@
             this.Surname.Size = new System.Drawing.Size(286, 30);
             this.Surname.TabIndex = 1;
             // 
-            // lName
+            // Rights
             // 
-            this.lName.AutoSize = true;
-            this.lName.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lName.Location = new System.Drawing.Point(21, 143);
-            this.lName.Name = "lName";
-            this.lName.Size = new System.Drawing.Size(54, 22);
-            this.lName.TabIndex = 2;
-            this.lName.Text = "Имя:";
-            // 
-            // NameR
-            // 
-            this.NameR.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NameR.Location = new System.Drawing.Point(21, 168);
-            this.NameR.Name = "NameR";
-            this.NameR.Size = new System.Drawing.Size(286, 30);
-            this.NameR.TabIndex = 2;
+            this.Rights.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Rights.Location = new System.Drawing.Point(21, 368);
+            this.Rights.Name = "Rights";
+            this.Rights.Size = new System.Drawing.Size(286, 30);
+            this.Rights.TabIndex = 5;
             // 
             // Department
             // 
@@ -186,51 +225,13 @@
             this.Department.Size = new System.Drawing.Size(286, 30);
             this.Department.TabIndex = 4;
             // 
-            // FatherName
+            // NameR
             // 
-            this.FatherName.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FatherName.Location = new System.Drawing.Point(21, 234);
-            this.FatherName.Name = "FatherName";
-            this.FatherName.Size = new System.Drawing.Size(286, 30);
-            this.FatherName.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(21, 273);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 22);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Отдел";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(21, 205);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 22);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Отчество";
-            // 
-            // Rights
-            // 
-            this.Rights.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Rights.Location = new System.Drawing.Point(21, 368);
-            this.Rights.Name = "Rights";
-            this.Rights.Size = new System.Drawing.Size(286, 30);
-            this.Rights.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(21, 338);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 22);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Права";
+            this.NameR.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.NameR.Location = new System.Drawing.Point(21, 168);
+            this.NameR.Name = "NameR";
+            this.NameR.Size = new System.Drawing.Size(286, 30);
+            this.NameR.TabIndex = 2;
             // 
             // Registration
             // 
