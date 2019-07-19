@@ -7,13 +7,17 @@ using System.Xml.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace RequestZp1 {
     class UprmesClass {
         private readonly string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
         private DataGridView RequestTable { get; set; }
+        public string FileName { get; set; }
 
+        private string name, surname, fatherName;
+        string date;
         public UprmesClass(DataGridView table) {
             RequestTable = table;
         }
@@ -21,20 +25,14 @@ namespace RequestZp1 {
         public void CreateXmlFile() {
             Random rnd = new Random();
             int rndNumb = rnd.Next(0, 33);
-
+            string hash = "q" + GetHash(alphabet[rndNumb].ToString()).ToString();
+            hash = hash.Replace("=", "");
+            hash = hash.Replace("+", "");
+            FileName = ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString();
+            RecordFileXML();
+            
             #region Комментарий
-            /*XDocument xdoc = new XDocument(
-                new XElement("QPD_ZP1",
-                    new XElement("QPD",
-                        new XElement("QPD.6",
-                            new XElement("XPN.1",
-                                new XElement("FN.1", Surname.Text)),
-                            new XElement("XPN.2", Name_.Text),
-                            new XElement("XPN.3", FatherName.Text)),
-                        new XElement("QPD.7", BirthdadyPeople.Text)
-                        )
-                    )
-                );*/
+
             #endregion
 
             #region XML
@@ -83,9 +81,7 @@ namespace RequestZp1 {
             DateTime time1 = DateTime.Now;
             string strTime = time1.ToString("s") + "Z+03:00";
             XElement bhs7 = new XElement(xNamespace + "BHS.7", strTime);
-            string hash = "q" + GetHash(alphabet[rndNumb].ToString()).ToString();
-            hash = hash.Replace("=", "");
-            hash = hash.Replace("+", "");
+            
             XElement bhs11 = new XElement(xNamespace + "BHS.11", hash.ToString().Replace(@"/", ""));
 
             bhs.Add(bhs1, bhs2, bhs3, bhs4, bhs5, bhs6, bhs7, bhs11);
@@ -150,71 +146,75 @@ namespace RequestZp1 {
             upprmes.Add(bhs);
 
             for (int i = 0; i < RequestTable.Rows.Count; i++) {
-                XElement qbp_zp1 = new XElement(xNamespace + "QBP_ZP1");
-                XElement qpd = new XElement(xNamespace + "QPD");
-                XElement msh = new XElement(xNamespace + "MSH");
-                #region MSH
-                DateTime time = DateTime.Now;
-                string timeStr = time.ToString("s") + "Z+03:00";
-                XElement msh7 = new XElement(xNamespace + "MSH.7", timeStr);
-                XElement msh10;
-                int j = 0;
-                XElement qpd5 = new XElement(xNamespace + "QPD.5");
-                XElement cx1 = new XElement(xNamespace + "CX.1", "9017 N 237198");
-                XElement cx5 = new XElement(xNamespace + "CX.5", "14");
-                qpd5.Add(cx1, cx5);
-                if (i < 33) {
-                    string tempStr = alphabet[i].ToString();
-                    tempStr = GetHash(tempStr).ToString().Replace("=", "");
-                    tempStr = tempStr.Replace(@"/", "");
-                    tempStr = tempStr.Replace("+", "");
-                    msh10 = new XElement(xNamespace + "MSH.10", tempStr);
+                if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
+                    surname = RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[0];
+                    name = RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[1];
+                    fatherName = RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[2];
+                    date = GetBirthday(RequestTable.Rows[i].Cells[2].Value.ToString());
+                    RecordDataBaseRec();
+                    UpdatePeople();
+                    XElement qbp_zp1 = new XElement(xNamespace + "QBP_ZP1");
+                    XElement qpd = new XElement(xNamespace + "QPD");
+                    XElement msh = new XElement(xNamespace + "MSH");
+                    #region MSH
+                    DateTime time = DateTime.Now;
+                    string timeStr = time.ToString("s") + "Z+03:00";
+                    XElement msh7 = new XElement(xNamespace + "MSH.7", timeStr);
+                    XElement msh10;
+                    int j = 0;
+                    XElement qpd5 = new XElement(xNamespace + "QPD.5");
+                    XElement cx1 = new XElement(xNamespace + "CX.1", "9017 N 237198");
+                    XElement cx5 = new XElement(xNamespace + "CX.5", "14");
+                    qpd5.Add(cx1, cx5);
+                    if (i < 33) {
+                        string tempStr = alphabet[i].ToString();
+                        tempStr = GetHash(tempStr).ToString().Replace("=", "");
+                        tempStr = tempStr.Replace(@"/", "");
+                        tempStr = tempStr.Replace("+", "");
+                        msh10 = new XElement(xNamespace + "MSH.10", tempStr);
 
-                } else {
-                    string tempStr = (alphabet[i] + alphabet[j]).ToString();
-                    tempStr = GetHash(tempStr).ToString().Replace("=", "");
-                    tempStr = tempStr.Replace(@"/", "");
-                    tempStr = tempStr.Replace("+", "");
-                    msh10 = new XElement(xNamespace + "MSH.10", tempStr);
-                    j++;
+                    } else {
+                        string tempStr = (alphabet[i] + alphabet[j]).ToString();
+                        tempStr = GetHash(tempStr).ToString().Replace("=", "");
+                        tempStr = tempStr.Replace(@"/", "");
+                        tempStr = tempStr.Replace("+", "");
+                        msh10 = new XElement(xNamespace + "MSH.10", tempStr);
+                        j++;
+                    }
+                    #endregion
+
+                    XElement qpd6 = new XElement(xNamespace + "QPD.6");
+                    XElement xpn1 = new XElement(xNamespace + "XPN.1");
+                    XElement fn1 = new XElement(xNamespace + "FN.1", surname);
+                    XElement xpn2 = new XElement(xNamespace + "XPN.2", name);
+                    XElement xpn3 = new XElement(xNamespace + "XPN.3", fatherName);
+                    XElement qpd7 = new XElement(xNamespace + "QPD.7", date);
+                    XElement qpd8;
+                    
+                    int index = fatherName.Length - 1;
+
+                    if (fatherName[index] == 'ч') {
+                        qpd8 = new XElement(xNamespace + "QPD.8", "1");
+                    } else {
+                        qpd8 = new XElement(xNamespace + "QPD.8", "2");
+                    }
+                    xpn1.Add(fn1);
+                    qpd6.Add(xpn1, xpn2, xpn3);
+
+                    qpd.Add(qpd1, qpd3, qpd5, qpd6, qpd7, qpd8);
+                    msh.Add(msh1, msh2, msh3, msh4, msh5, msh6, msh7, msh9, msh10, msh11, msh12, msh15, msh16);
+                    qbp_zp1.Add(msh, qpd);
+                    upprmes.Add(qbp_zp1);
+                    strWithDate += msh7.Value.ToString() + cx1.Value.ToString() + cx5.Value.ToString() + msh10.Value.ToString() + fn1.Value.ToString() +
+                    xpn2.Value.ToString() + xpn3.Value.ToString() + qpd7.Value.ToString() + qpd8.Value.ToString();
                 }
                 #endregion
-
-                XElement qpd6 = new XElement(xNamespace + "QPD.6");
-                XElement xpn1 = new XElement(xNamespace + "XPN.1");
-                XElement fn1 = new XElement(xNamespace + "FN.1", RequestTable.Rows[i].Cells[0].Value.ToString().Split(' ')[0]);
-                XElement xpn2 = new XElement(xNamespace + "XPN.2", RequestTable.Rows[i].Cells[0].Value.ToString().Split(' ')[1]);
-                XElement xpn3 = new XElement(xNamespace + "XPN.3", RequestTable.Rows[i].Cells[0].Value.ToString().Split(' ')[2]);
-                XElement qpd7 = new XElement(xNamespace + "QPD.7", GetBirthday(RequestTable.Rows[i].Cells[1].Value.ToString()));
-                XElement qpd8;
-                string fatherName = RequestTable.Rows[i].Cells[0].Value.ToString().Split(' ')[2];
-                int index = fatherName.Length - 1;
-
-                if (fatherName[index] == 'ч') {
-                    qpd8 = new XElement(xNamespace + "QPD.8", "1");
-                } else {
-                    qpd8 = new XElement(xNamespace + "QPD.8", "2");
-                }
-                xpn1.Add(fn1);
-                qpd6.Add(xpn1, xpn2, xpn3);
-
-                qpd.Add(qpd1, qpd3, qpd5, qpd6, qpd7, qpd8);
-                msh.Add(msh1, msh2, msh3, msh4, msh5, msh6, msh7, msh9, msh10, msh11, msh12, msh15, msh16);
-                qbp_zp1.Add(msh, qpd);
-                upprmes.Add(qbp_zp1);
-                strWithDate += msh7.Value.ToString() + cx1.Value.ToString() + cx5.Value.ToString() + msh10.Value.ToString() + fn1.Value.ToString() +
-                xpn2.Value.ToString() + xpn3.Value.ToString() + qpd7.Value.ToString() + qpd8.Value.ToString();
             }
-            #endregion
-
             #region BTS
             XElement bts = new XElement(xNamespace + "BTS");
             XElement bts1 = new XElement(xNamespace + "BTS.1", RequestTable.Rows.Count);
-            //Crc32 crc = new Crc32();
 
-            //XElement bts3 = new XElement(xNamespace + "BTS.3", crc.GetRandomCode(rndNumb));
             Crc32 crc32 = new Crc32();
-            //XElement bts3 = new XElement(xNamespace + "BTS.3", crc32.GetRandomCode(rndNumb));
             var arrayOfBytes = Encoding.ASCII.GetBytes(strWithDate);
             XElement bts3 = new XElement(xNamespace + "BTS.3", crc32.Get(arrayOfBytes).ToString("X"));
             bts.Add(bts1, bts3);
@@ -223,14 +223,90 @@ namespace RequestZp1 {
             upprmes.Add(bts);
             xdoc.Add(upprmes);
             xdoc.Save(("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString());
+            
             #endregion
         }
+
+        private void UpdatePeople() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("UPDATE Peoples SET Status = @Status WHERE Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con);
+                con.Open();
+                com.Parameters.AddWithValue("@Status", "Archive");
+                com.Parameters.AddWithValue("@Surname", surname);
+                com.Parameters.AddWithValue("@Name", name);
+                com.Parameters.AddWithValue("@FatherName", fatherName);
+                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(RefBirthday(date), "yyyyMdd", null));
+                com.ExecuteNonQuery();
+            }
+        }
+
+        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+
+        private void RecordFileXML() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("INSERT INTO FileXML(FileName, DateCreate) VALUES (@FileName, @DateCreate)", con);
+                con.Open();
+                com.Parameters.AddWithValue("@FileName", FileName);
+                com.Parameters.AddWithValue("@DateCreate", DateTime.Now.ToString("s"));
+                com.ExecuteNonQuery();
+            }
+        }
+
+        private void RecordDataBaseRec() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("INSERT INTO RecordsXMLFile(IDFile, IDPerson, DateAdd) VALUES (@IDFile, @IDPerson, @DateAdd)", con);
+                con.Open();
+                com.Parameters.AddWithValue("@IDFile", SelectIDFile());
+                com.Parameters.AddWithValue("@IDPerson", SelectIDPerson());
+                com.Parameters.AddWithValue("@DateAdd", DateTime.Now.ToString("s"));
+                com.ExecuteNonQuery();
+            }
+        }
+
+        private int SelectIDPerson() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("Select ID From Peoples WHERE Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con);
+                con.Open();
+                com.Parameters.AddWithValue("@Surname", surname);
+                com.Parameters.AddWithValue("@Name", name);
+                com.Parameters.AddWithValue("@FatherName", fatherName);
+                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(RefBirthday(date), "yyyyMdd", null));
+                SqlDataReader reader = com.ExecuteReader();
+                reader.Read();
+                int id = Convert.ToInt32(reader.GetValue(0));
+                reader.Close();
+                return id;
+            }
+        }
+
+        private int SelectIDFile() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("Select ID From FileXML WHERE FileName = @FileName", con);
+                con.Open();
+                com.Parameters.AddWithValue("@FileName", FileName);
+                SqlDataReader reader = com.ExecuteReader();
+                reader.Read();
+                int id = Convert.ToInt32(reader.GetValue(0));
+                reader.Close();
+                return id;
+            }
+        }
+
+
 
         private string GetBirthday(string birthday) {
             string year = birthday.Split('.')[2];
             string month = birthday.Split('.')[1];
             string day = birthday.Split('.')[0];
             string date = year + '-' + month + '-' + day;
+            return date;
+        }
+
+        private string RefBirthday(string birthday) {
+            string year = birthday.Split('-')[0];
+            string month = birthday.Split('-')[1];
+            string day = birthday.Split('-')[2];
+            string date = year + month + day;
             return date;
         }
 

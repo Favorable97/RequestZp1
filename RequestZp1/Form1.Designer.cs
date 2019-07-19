@@ -36,11 +36,6 @@
             this.AddPeople = new System.Windows.Forms.Button();
             this.CreateXmlFile = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
-            this.registration1 = new RequestZp1.Registration();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.historyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +48,12 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.registration1 = new RequestZp1.Registration();
+            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
@@ -155,7 +156,7 @@
             this.AddPeople.Location = new System.Drawing.Point(57, 408);
             this.AddPeople.Name = "AddPeople";
             this.AddPeople.Size = new System.Drawing.Size(129, 51);
-            this.AddPeople.TabIndex = 2;
+            this.AddPeople.TabIndex = 5;
             this.AddPeople.Text = "Добавить";
             this.AddPeople.UseVisualStyleBackColor = false;
             this.AddPeople.Click += new System.EventHandler(this.AddPeople_Click);
@@ -163,12 +164,13 @@
             // CreateXmlFile
             // 
             this.CreateXmlFile.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.CreateXmlFile.Enabled = false;
             this.CreateXmlFile.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CreateXmlFile.Location = new System.Drawing.Point(618, 399);
+            this.CreateXmlFile.Location = new System.Drawing.Point(650, 115);
             this.CreateXmlFile.Name = "CreateXmlFile";
             this.CreateXmlFile.Size = new System.Drawing.Size(141, 60);
-            this.CreateXmlFile.TabIndex = 3;
-            this.CreateXmlFile.Text = "Создать XML файл";
+            this.CreateXmlFile.TabIndex = 7;
+            this.CreateXmlFile.Text = "Проверить в ЦС";
             this.CreateXmlFile.UseVisualStyleBackColor = false;
             this.CreateXmlFile.Click += new System.EventHandler(this.CreateXmlFile_Click);
             // 
@@ -180,46 +182,16 @@
             this.RequestTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RequestTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.RequestTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column7,
             this.Column1,
             this.Column2,
             this.Column3});
             this.RequestTable.Location = new System.Drawing.Point(253, 115);
             this.RequestTable.Name = "RequestTable";
             this.RequestTable.RowHeadersVisible = false;
-            this.RequestTable.Size = new System.Drawing.Size(506, 279);
-            this.RequestTable.TabIndex = 4;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "ФИО";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 200;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Дата рождения";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 150;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Кто добавил";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 150;
-            // 
-            // signInProfile1
-            // 
-            this.signInProfile1.Location = new System.Drawing.Point(-2, 530);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(921, 540);
-            this.signInProfile1.TabIndex = 7;
-            // 
-            // registration1
-            // 
-            this.registration1.Location = new System.Drawing.Point(-2, 518);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(929, 550);
-            this.registration1.TabIndex = 9;
+            this.RequestTable.Size = new System.Drawing.Size(391, 279);
+            this.RequestTable.TabIndex = 6;
+            this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             // 
             // menuStrip1
             // 
@@ -247,14 +219,14 @@
             // myHistoryMenuItem
             // 
             this.myHistoryMenuItem.Name = "myHistoryMenuItem";
-            this.myHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.myHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
             this.myHistoryMenuItem.Text = "Моя история";
             this.myHistoryMenuItem.Click += new System.EventHandler(this.MyHistoryMenuItem_Click);
             // 
             // allHistoryMenuItem
             // 
             this.allHistoryMenuItem.Name = "allHistoryMenuItem";
-            this.allHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.allHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
             this.allHistoryMenuItem.Text = "Вся история";
             this.allHistoryMenuItem.Click += new System.EventHandler(this.AllHistoryMenuItem_Click);
             // 
@@ -323,15 +295,53 @@
             this.Column6.Name = "Column6";
             this.Column6.Width = 150;
             // 
+            // signInProfile1
+            // 
+            this.signInProfile1.Location = new System.Drawing.Point(0, 503);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(921, 540);
+            this.signInProfile1.TabIndex = 7;
+            // 
+            // registration1
+            // 
+            this.registration1.Location = new System.Drawing.Point(0, 514);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(929, 550);
+            this.registration1.TabIndex = 9;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "";
+            this.Column7.Name = "Column7";
+            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column7.Width = 30;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ФИО";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 150;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Дата рождения";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Статус";
+            this.Column3.Name = "Column3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
             this.ClientSize = new System.Drawing.Size(918, 531);
-            this.Controls.Add(this.panelWithHistory);
             this.Controls.Add(this.signInProfile1);
             this.Controls.Add(this.registration1);
+            this.Controls.Add(this.panelWithHistory);
             this.Controls.Add(this.RequestTable);
             this.Controls.Add(this.CreateXmlFile);
             this.Controls.Add(this.AddPeople);
@@ -374,9 +384,6 @@
         private System.Windows.Forms.Button AddPeople;
         private System.Windows.Forms.Button CreateXmlFile;
         private System.Windows.Forms.DataGridView RequestTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private SignInProfile signInProfile1;
         private Registration registration1;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -391,6 +398,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }
 

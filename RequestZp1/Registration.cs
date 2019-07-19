@@ -18,8 +18,15 @@ namespace RequestZp1 {
         }
         string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         private void SignUp_Click(object sender, EventArgs e) {
+            AddUsers();
+            RecordListOperationAddUser();
+
+            this.Hide();
+        }
+
+        private void AddUsers() {
             SqlConnection con = null;
-            
+
             try {
                 string encPassword = GetEncodingPassword(Password.Text);
 
@@ -33,12 +40,10 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Rights", Rights.Text);
                 com.Parameters.AddWithValue("@Password", encPassword);
                 com.ExecuteNonQuery();
-                ToWriteFile();
-
-            } catch (Exception ex) { MessageBox.Show(ex.Message); }
+                RecordListOperationAddUser();
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
-
-            this.Hide();
         }
 
         private void ToWriteFile() {
@@ -80,13 +85,13 @@ namespace RequestZp1 {
             finally { write.Close(); stream.Close(); }
         }
 
-        private void RecordListLogInAddUser() {
+        private void RecordListOperationAddUser() {
             SqlConnection con = null;
             SqlCommand com;
 
             try {
                 con = new SqlConnection(connectionString);
-                com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, ID, Operation) VALUES (@IP, @DateTimeLogIn, @ID, @Operation)", con);
+                com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation) VALUES (@IP, @DateTimeLogIn, @ID, @Operation)", con);
                 con.Open();
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));

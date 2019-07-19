@@ -11,8 +11,9 @@ namespace RequestZp1 {
         public string nameUser, rights, encPas, surnames = "";
         public Form1() {
             InitializeComponent();
-            registration1.Location = this.Location;
             signInProfile1.Location = this.Location;
+            registration1.Location = this.Location;
+            
             panelWithHistory.Location = new System.Drawing.Point(0, 31);
             registration1.Hide();
         }
@@ -24,6 +25,9 @@ namespace RequestZp1 {
         private void AddPeople_Click(object sender, EventArgs e) {
             DataGridViewRow newRow = new DataGridViewRow();
 
+            DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
+                Value = 0
+            };
             DataGridViewCell FIO = new DataGridViewTextBoxCell {
                 Value = tSurname.Text + " " + tName.Text + " " + tFatherName.Text
             };
@@ -31,7 +35,7 @@ namespace RequestZp1 {
             DataGridViewCell Birthday = new DataGridViewTextBoxCell {
                 Value = tBirthday.Text
             };
-
+            newRow.Cells.Add(checkoxCell);
             newRow.Cells.Add(FIO);
             newRow.Cells.Add(Birthday);
 
@@ -45,18 +49,55 @@ namespace RequestZp1 {
             tFatherName.Clear();
             tBirthday.Clear();
         }
-
+        UprmesClass uprmesFile;
         private void CreateXmlFile_Click(object sender, EventArgs e) {
-            UprmesClass uprmesFile = new UprmesClass(RequestTable);
-            uprmesFile.CreateXmlFile();
-            RecordListLogInCreateFile();
+            if (RequestTable.Rows.Count > 0) {
+                uprmesFile = new UprmesClass(RequestTable);
+                uprmesFile.CreateXmlFile();
+                RecordListOperationCreateFile();
+            } else MessageBox.Show("Таблица пуста");
+                
+        }
+
+        public void ToFillTable() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("SELECT Surname, Name, FatherName, DateBirthday, Status FROM Peoples WHERE Status = @Status", con);
+                con.Open();
+                com.Parameters.AddWithValue("@Status", "Active");
+                SqlDataReader reader = com.ExecuteReader();
+
+                while (reader.Read()) {
+                    DataGridViewRow newRow = new DataGridViewRow();
+
+                    DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
+                        Value = 0
+                    };
+                    DataGridViewCell FIO = new DataGridViewTextBoxCell {
+                        Value = reader.GetString(0) + " " + reader.GetString(1) + " " + reader.GetString(2)
+                    };
+
+                    DataGridViewCell Birthday = new DataGridViewTextBoxCell {
+                        Value = reader.GetDateTime(3)
+                    };
+
+                    DataGridViewCell Status = new DataGridViewTextBoxCell {
+                        Value = reader.GetString(4)
+                    };
+
+                    newRow.Cells.Add(checkoxCell);
+                    newRow.Cells.Add(FIO);
+                    newRow.Cells.Add(Birthday);
+                    newRow.Cells.Add(Status);
+
+                    RequestTable.Rows.Add(newRow);
+                }
+            }
         }
 
         // Request
         private void OperationWithPerson() {
-            object id = GetID();
             RecordDataBasePeoples();
-            RecordDataBaseListLogInAddPeoples();
+            RecordDataBaseListOperationAddPeoples();
         }
 
         private void AddPersonMenuItem_Click(object sender, EventArgs e) {
@@ -77,7 +118,7 @@ namespace RequestZp1 {
 
                 using (SqlConnection con = new SqlConnection(connectionString)) {
                     con.Open();
-                    adapter = new SqlDataAdapter("Select * From Request Where id = " + GetID(), con);
+                    adapter = new SqlDataAdapter("Select * From Peoples Where id = " + GetID(), con);
                     ds = new DataSet();
                     adapter.Fill(ds);
                     HistoryTable.DataSource = ds.Tables[0];
@@ -124,24 +165,25 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday) VALUES (@Surname, @Name, @FatherName, @DateBirthday)", con);
+                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday, Status) VALUES (@Surname, @Name, @FatherName, @DateBirthday, @Status)", con);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
-                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(RefBirthday(tBirthday.Text), "yyyyMdd", null));
+                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
+                com.Parameters.AddWithValue("@Status", "Active");
                 com.ExecuteNonQuery();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
         }
 
-        private void RecordDataBaseListLogInAddPeoples() {
+        private void RecordDataBaseListOperationAddPeoples() {
             SqlConnection con = null;
 
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con); // что за IDPerson???
+                SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con); // что за IDPerson???
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
                 com.Parameters.AddWithValue("@ID", GetID());
@@ -183,7 +225,7 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
-                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(RefBirthday(tBirthday.Text), "yyyyMdd", null));
+                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
                 SqlDataReader reader = com.ExecuteReader();
                 reader.Read();
                 object id = reader.GetValue(0);
@@ -195,13 +237,13 @@ namespace RequestZp1 {
             return 0;
         }
 
-        private void RecordListLogInCreateFile() {
+        private void RecordListOperationCreateFile() {
             SqlConnection con = null;
 
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, ID, Operation) VALUES (@IP, @DateTime, @ID, @Operation", con); // что за IDPerson???
+                SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation) VALUES (@IP, @DateTime, @ID, @Operation)", con); // что за IDPerson???
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
                 com.Parameters.AddWithValue("@ID", GetID());
@@ -211,15 +253,33 @@ namespace RequestZp1 {
             finally { con.Close(); }
         }
 
-        private string GetBirthday(string birthday) {
-            string year = birthday.Split('.')[2];
-            string month = birthday.Split('.')[1];
-            string day = birthday.Split('.')[0];
-            string date = year + '-' + month + '-' + day;
-            return date;
+        int k;
+        private void RequestTable_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
+            if (Convert.ToInt16(RequestTable.SelectedCells[0].ColumnIndex) != 0)
+                return;
+            k = 0;
+            RequestTable.EndEdit();
+            if (k == 1)
+                return;
+            else {
+                k++;
+                bool flag = false;
+                for (int i = 0; i < RequestTable.Rows.Count; i++) {
+                    if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value) == true) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag)
+                    CreateXmlFile.Enabled = true;
+                else
+                    CreateXmlFile.Enabled = false;
+                return;
+            }
         }
 
-        private string RefBirthday(string birthday) {
+        private string GetBirthday(string birthday) {
             string year = birthday.Split('.')[2];
             string month = birthday.Split('.')[1];
             string day = birthday.Split('.')[0];

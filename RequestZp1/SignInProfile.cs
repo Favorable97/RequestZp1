@@ -62,6 +62,7 @@ namespace RequestZp1 {
                     id = reader.GetValue(0);
                     ToWriteFile(rights);
                     ToWriteDataBaseSuccessful(countTry);
+                    reader.Close();
                 }
                 
                 if (countTry == 3) {
@@ -71,7 +72,7 @@ namespace RequestZp1 {
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { reader.Close(); con.Close();  }
+            finally {  con.Close();  }
         }
 
         private void ToWriteFile(object rights) {
@@ -86,6 +87,7 @@ namespace RequestZp1 {
                 (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
                 (Application.OpenForms[0] as Form1).rights = (string)rights;
                 (Application.OpenForms[0] as Form1).IsAdmin();
+                (Application.OpenForms[0] as Form1).ToFillTable();
                 if (!RememberMe.Checked) {
                     write.Write("");
                     NameP.Clear();
@@ -113,19 +115,19 @@ namespace RequestZp1 {
                     write.WriteLine(strPas);
                 }
                 
-            } catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+            } catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { write.Close(); stream.Close(); }
         }
 
 
-        #region ListLogIn
+        #region ListOperation
         private void ToWriteDataBaseSuccessful(byte countTry) {
             SqlConnection con = null;
             SqlCommand com;
 
             try {
                 con = new SqlConnection(connectionString);
-                com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, IsLogIn, Try, ID, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @ID, @Operation)", con);
+                com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, IsLogIn, Try, ID, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @ID, @Operation)", con);
                 con.Open();
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
@@ -144,7 +146,7 @@ namespace RequestZp1 {
 
             try {
                 con = new SqlConnection(connectionString);
-                com = new SqlCommand("INSERT INTO ListLogIn(IP, DateTime, IsLogIn, Try, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @Operation)", con);
+                com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, IsLogIn, Try, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @Operation)", con);
                 con.Open();
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));

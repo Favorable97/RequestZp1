@@ -81,7 +81,7 @@
             // 
             // SignUpPanel
             // 
-            this.SignUpPanel.BackColor = System.Drawing.Color.White;
+            this.SignUpPanel.BackColor = System.Drawing.Color.PaleTurquoise;
             this.SignUpPanel.Controls.Add(this.SignUp);
             this.SignUpPanel.Controls.Add(this.lSignUp);
             this.SignUpPanel.Controls.Add(this.label3);
