@@ -88,6 +88,7 @@ namespace RequestZp1 {
                 (Application.OpenForms[0] as Form1).rights = (string)rights;
                 (Application.OpenForms[0] as Form1).IsAdmin();
                 (Application.OpenForms[0] as Form1).ToFillTable();
+                (Application.OpenForms[0] as Form1).ToFillDropDownList();
                 if (!RememberMe.Checked) {
                     write.Write("");
                     NameP.Clear();

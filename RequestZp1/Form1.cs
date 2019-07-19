@@ -13,13 +13,15 @@ namespace RequestZp1 {
             InitializeComponent();
             signInProfile1.Location = this.Location;
             registration1.Location = this.Location;
-            
+            this.Size = signInProfile1.Size;
             panelWithHistory.Location = new System.Drawing.Point(0, 31);
             registration1.Hide();
         }
         private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         public void VisibleProfile() {
+            menuStrip1.Visible = true;
             namePerson2.Text = nameUser;
+            this.Size = new System.Drawing.Size(1148, 570);
         }
 
         private void AddPeople_Click(object sender, EventArgs e) {
@@ -34,6 +36,10 @@ namespace RequestZp1 {
 
             DataGridViewCell Birthday = new DataGridViewTextBoxCell {
                 Value = tBirthday.Text
+            };
+
+            DataGridViewCell Status = new DataGridViewTextBoxCell {
+                Value = "Active"
             };
             newRow.Cells.Add(checkoxCell);
             newRow.Cells.Add(FIO);
@@ -91,7 +97,21 @@ namespace RequestZp1 {
 
                     RequestTable.Rows.Add(newRow);
                 }
+                reader.Close();
             }
+        }
+
+        public void ToFillDropDownList() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                SqlCommand com = new SqlCommand("SELECT DocumentName FROM DocumentsType", con);
+                con.Open();
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read()) {
+                    comboBox1.Items.Add(reader.GetString(0));
+                }
+                reader.Close();
+            }
+            
         }
 
         // Request
@@ -165,12 +185,13 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday, Status) VALUES (@Surname, @Name, @FatherName, @DateBirthday, @Status)", con);
+                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday, Status, IDUser) VALUES (@Surname, @Name, @FatherName, @DateBirthday, @Status, @IDUser)", con);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
                 com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
                 com.Parameters.AddWithValue("@Status", "Active");
+                com.Parameters.AddWithValue("@IDUser", GetIDPeople());
                 com.ExecuteNonQuery();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }

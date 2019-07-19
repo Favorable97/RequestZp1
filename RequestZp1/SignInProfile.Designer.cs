@@ -75,7 +75,7 @@
             // NameP
             // 
             this.NameP.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NameP.Location = new System.Drawing.Point(21, 117);
+            this.NameP.Location = new System.Drawing.Point(8, 108);
             this.NameP.Name = "NameP";
             this.NameP.Size = new System.Drawing.Size(286, 30);
             this.NameP.TabIndex = 1;
@@ -84,7 +84,7 @@
             // 
             this.lPassword.AutoSize = true;
             this.lPassword.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lPassword.Location = new System.Drawing.Point(21, 170);
+            this.lPassword.Location = new System.Drawing.Point(8, 161);
             this.lPassword.Name = "lPassword";
             this.lPassword.Size = new System.Drawing.Size(85, 22);
             this.lPassword.TabIndex = 2;
@@ -93,7 +93,7 @@
             // Password
             // 
             this.Password.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Password.Location = new System.Drawing.Point(21, 205);
+            this.Password.Location = new System.Drawing.Point(8, 196);
             this.Password.Name = "Password";
             this.Password.PasswordChar = '*';
             this.Password.Size = new System.Drawing.Size(286, 30);
@@ -103,7 +103,7 @@
             // 
             this.lName.AutoSize = true;
             this.lName.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lName.Location = new System.Drawing.Point(21, 82);
+            this.lName.Location = new System.Drawing.Point(8, 73);
             this.lName.Name = "lName";
             this.lName.Size = new System.Drawing.Size(54, 22);
             this.lName.TabIndex = 2;
@@ -113,7 +113,7 @@
             // 
             this.lSignIn.AutoSize = true;
             this.lSignIn.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lSignIn.Location = new System.Drawing.Point(15, 30);
+            this.lSignIn.Location = new System.Drawing.Point(2, 21);
             this.lSignIn.Name = "lSignIn";
             this.lSignIn.Size = new System.Drawing.Size(83, 36);
             this.lSignIn.TabIndex = 1;
@@ -123,11 +123,11 @@
             // 
             this.SignInPanel.Controls.Add(this.SignIn);
             this.SignInPanel.Controls.Add(this.lSignIn);
-            this.SignInPanel.Controls.Add(this.lName);
-            this.SignInPanel.Controls.Add(this.Password);
-            this.SignInPanel.Controls.Add(this.lPassword);
             this.SignInPanel.Controls.Add(this.NameP);
+            this.SignInPanel.Controls.Add(this.lPassword);
+            this.SignInPanel.Controls.Add(this.lName);
             this.SignInPanel.Controls.Add(this.RememberMe);
+            this.SignInPanel.Controls.Add(this.Password);
             this.SignInPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.SignInPanel.Location = new System.Drawing.Point(427, 0);
             this.SignInPanel.Name = "SignInPanel";
@@ -138,7 +138,7 @@
             // 
             this.SignIn.BackColor = System.Drawing.Color.LightSteelBlue;
             this.SignIn.Font = new System.Drawing.Font("Century", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SignIn.Location = new System.Drawing.Point(21, 288);
+            this.SignIn.Location = new System.Drawing.Point(8, 279);
             this.SignIn.Name = "SignIn";
             this.SignIn.Size = new System.Drawing.Size(146, 42);
             this.SignIn.TabIndex = 7;
@@ -151,7 +151,7 @@
             this.RememberMe.AutoSize = true;
             this.RememberMe.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RememberMe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.RememberMe.Location = new System.Drawing.Point(21, 254);
+            this.RememberMe.Location = new System.Drawing.Point(8, 245);
             this.RememberMe.Name = "RememberMe";
             this.RememberMe.Size = new System.Drawing.Size(169, 24);
             this.RememberMe.TabIndex = 11;

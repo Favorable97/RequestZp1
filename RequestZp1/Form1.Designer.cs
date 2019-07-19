@@ -36,6 +36,10 @@
             this.AddPeople = new System.Windows.Forms.Button();
             this.CreateXmlFile = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
+            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.historyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,14 +54,17 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.signInProfile1 = new RequestZp1.SignInProfile();
             this.registration1 = new RequestZp1.Registration();
-            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -153,7 +160,7 @@
             // 
             this.AddPeople.BackColor = System.Drawing.Color.LightGray;
             this.AddPeople.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddPeople.Location = new System.Drawing.Point(57, 408);
+            this.AddPeople.Location = new System.Drawing.Point(523, 364);
             this.AddPeople.Name = "AddPeople";
             this.AddPeople.Size = new System.Drawing.Size(129, 51);
             this.AddPeople.TabIndex = 5;
@@ -166,7 +173,7 @@
             this.CreateXmlFile.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CreateXmlFile.Enabled = false;
             this.CreateXmlFile.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CreateXmlFile.Location = new System.Drawing.Point(650, 115);
+            this.CreateXmlFile.Location = new System.Drawing.Point(934, 404);
             this.CreateXmlFile.Name = "CreateXmlFile";
             this.CreateXmlFile.Size = new System.Drawing.Size(141, 60);
             this.CreateXmlFile.TabIndex = 7;
@@ -186,12 +193,36 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            this.RequestTable.Location = new System.Drawing.Point(253, 115);
+            this.RequestTable.Location = new System.Drawing.Point(674, 115);
             this.RequestTable.Name = "RequestTable";
             this.RequestTable.RowHeadersVisible = false;
-            this.RequestTable.Size = new System.Drawing.Size(391, 279);
+            this.RequestTable.Size = new System.Drawing.Size(401, 279);
             this.RequestTable.TabIndex = 6;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "";
+            this.Column7.Name = "Column7";
+            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column7.Width = 30;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ФИО";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 150;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Дата рождения";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Статус";
+            this.Column3.Name = "Column3";
             // 
             // menuStrip1
             // 
@@ -203,9 +234,10 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.menuStrip1.Size = new System.Drawing.Size(918, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1104, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Visible = false;
             // 
             // historyMenuItem
             // 
@@ -219,14 +251,14 @@
             // myHistoryMenuItem
             // 
             this.myHistoryMenuItem.Name = "myHistoryMenuItem";
-            this.myHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.myHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
             this.myHistoryMenuItem.Text = "Моя история";
             this.myHistoryMenuItem.Click += new System.EventHandler(this.MyHistoryMenuItem_Click);
             // 
             // allHistoryMenuItem
             // 
             this.allHistoryMenuItem.Name = "allHistoryMenuItem";
-            this.allHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.allHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
             this.allHistoryMenuItem.Text = "Вся история";
             this.allHistoryMenuItem.Click += new System.EventHandler(this.AllHistoryMenuItem_Click);
             // 
@@ -256,7 +288,7 @@
             // panelWithHistory
             // 
             this.panelWithHistory.Controls.Add(this.HistoryTable);
-            this.panelWithHistory.Location = new System.Drawing.Point(0, 508);
+            this.panelWithHistory.Location = new System.Drawing.Point(26, 545);
             this.panelWithHistory.Name = "panelWithHistory";
             this.panelWithHistory.Size = new System.Drawing.Size(918, 488);
             this.panelWithHistory.TabIndex = 11;
@@ -297,51 +329,84 @@
             // 
             // signInProfile1
             // 
-            this.signInProfile1.Location = new System.Drawing.Point(0, 503);
+            this.signInProfile1.Location = new System.Drawing.Point(7, 508);
             this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(921, 540);
+            this.signInProfile1.Size = new System.Drawing.Size(997, 540);
             this.signInProfile1.TabIndex = 7;
             // 
             // registration1
             // 
-            this.registration1.Location = new System.Drawing.Point(0, 514);
+            this.registration1.Location = new System.Drawing.Point(12, 508);
             this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(929, 550);
+            this.registration1.Size = new System.Drawing.Size(1000, 535);
             this.registration1.TabIndex = 9;
             // 
-            // Column7
+            // groupBox1
             // 
-            this.Column7.HeaderText = "";
-            this.Column7.Name = "Column7";
-            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column7.Width = 30;
+            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox1.Location = new System.Drawing.Point(240, 115);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(428, 240);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Выберите тип документа и введите необходимые данные";
             // 
-            // Column1
+            // comboBox1
             // 
-            this.Column1.HeaderText = "ФИО";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 150;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(6, 59);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(385, 28);
+            this.comboBox1.TabIndex = 0;
+            this.comboBox1.Text = "Тип документа";
             // 
-            // Column2
+            // label6
             // 
-            this.Column2.HeaderText = "Дата рождения";
-            this.Column2.Name = "Column2";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 118);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(61, 20);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Серия:";
             // 
-            // Column3
+            // label7
             // 
-            this.Column3.HeaderText = "Статус";
-            this.Column3.Name = "Column3";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 166);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(62, 20);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Номер:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(85, 111);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(116, 27);
+            this.textBox1.TabIndex = 3;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(85, 159);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(116, 27);
+            this.textBox3.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.ClientSize = new System.Drawing.Size(918, 531);
+            this.ClientSize = new System.Drawing.Size(1104, 539);
             this.Controls.Add(this.signInProfile1);
             this.Controls.Add(this.registration1);
             this.Controls.Add(this.panelWithHistory);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.RequestTable);
             this.Controls.Add(this.CreateXmlFile);
             this.Controls.Add(this.AddPeople);
@@ -364,6 +429,8 @@
             this.menuStrip1.PerformLayout();
             this.panelWithHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -402,6 +469,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }
 
