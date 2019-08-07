@@ -16,7 +16,7 @@ namespace RequestZp1 {
         public Registration() {
             InitializeComponent();
         }
-        string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+        readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=ident;Persist Security Info=True;User ID=user;Password=гыук";
         private void SignUp_Click(object sender, EventArgs e) {
             AddUsers();
             RecordListOperationAddUser();
@@ -46,44 +46,6 @@ namespace RequestZp1 {
             finally { con.Close(); }
         }
 
-        private void ToWriteFile() {
-            FileStream stream = null;
-            StreamWriter write = null;
-
-            try {
-                stream = new FileStream("date.txt", FileMode.Truncate);
-                write = new StreamWriter(stream, System.Text.Encoding.Default);
-
-                byte[] nameByte = System.Text.Encoding.Default.GetBytes(NameR.Text);
-                string strName = "";
-                for (int i = 0; i < nameByte.Length; i++) {
-                    if (i == nameByte.Length - 1)
-                        strName += nameByte[i].ToString();
-                    else
-                        strName += nameByte[i].ToString() + ",";
-                }
-
-                byte[] pasByte = System.Text.Encoding.Default.GetBytes(Password.Text);
-                string strPas = "";
-                for (int i = 0; i < pasByte.Length; i++) {
-                    if (i == pasByte.Length - 1)
-                        strPas += pasByte[i].ToString();
-                    else
-                        strPas += pasByte[i].ToString() + ",";
-                }
-
-                /*(Application.OpenForms[0] as Form1).nameUser = NameR.Text;
-                (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
-                (Application.OpenForms[0] as Form1).VisibleProfile();
-                (Application.OpenForms[0] as Form1).rights = Rights.Text;
-                (Application.OpenForms[0] as Form1).IsAdmin();*/
-
-                write.WriteLine(strName);
-                write.WriteLine(strPas);
-            }
-            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
-            finally { write.Close(); stream.Close(); }
-        }
 
         private void RecordListOperationAddUser() {
             SqlConnection con = null;

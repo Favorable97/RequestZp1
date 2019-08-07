@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.IO;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace RequestZp1 {
     public partial class SignInProfile : UserControl {
@@ -20,7 +20,6 @@ namespace RequestZp1 {
         private void SignIn_Click(object sender, EventArgs e) {
             ToSignIn();
         }
-
         public void ClearTextBox() {
             NameP.Clear();
             Password.Clear();
@@ -28,6 +27,7 @@ namespace RequestZp1 {
         }
         private object id;
         readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+
         private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
@@ -43,7 +43,7 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Password", encPassword);
                 int count = (int)com.ExecuteScalar();
                 byte countTry = 1;
-                
+
                 if (count == 0) {
                     MessageBox.Show("Введеные неверные данные");
                     NameP.Clear();
@@ -64,7 +64,7 @@ namespace RequestZp1 {
                     ToWriteDataBaseSuccessful(countTry);
                     reader.Close();
                 }
-                
+
                 if (countTry == 3) {
                     ToWriteDataBaseNotSuccessful(countTry);
                     MessageBox.Show("Мсье, вы не знаете пароля");
@@ -72,7 +72,7 @@ namespace RequestZp1 {
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally {  con.Close();  }
+            finally { con.Close(); }
         }
 
         private void ToWriteFile(object rights) {
@@ -82,6 +82,7 @@ namespace RequestZp1 {
                 stream = new FileStream("date.txt", FileMode.Truncate);
                 write = new StreamWriter(stream, System.Text.Encoding.Default);
                 this.Hide();
+                (Application.OpenForms[0] as Form1).AutoSize = true;
                 (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
                 (Application.OpenForms[0] as Form1).VisibleProfile();
                 (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
@@ -115,11 +116,11 @@ namespace RequestZp1 {
                     write.WriteLine(strName);
                     write.WriteLine(strPas);
                 }
-                
-            } catch (Exception ex) { MessageBox.Show(ex.Message); }
+
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { write.Close(); stream.Close(); }
         }
-
 
         #region ListOperation
         private void ToWriteDataBaseSuccessful(byte countTry) {
@@ -137,10 +138,11 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@ID", id);
                 com.Parameters.AddWithValue("@Operation", "Выполнен вход");
                 com.ExecuteNonQuery();
-            } catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
             finally { con.Close(); }
         }
-        
+
         private void ToWriteDataBaseNotSuccessful(byte countTry) {
             SqlConnection con = null;
             SqlCommand com;
@@ -183,9 +185,9 @@ namespace RequestZp1 {
 
         }
 
-        private void Registration_Load(object sender, EventArgs e) {
+        private void SignInProfile_Load(object sender, EventArgs e) {
             string text = "";
-            using (FileStream stream = new FileStream("date.txt", FileMode.Open)) {
+            using (FileStream stream = new FileStream(@"C:\Projects\RequestZp1\RequestZp1\bin\Debug\date.txt", FileMode.OpenOrCreate)) {
                 StreamReader reader = new StreamReader(stream);
                 string txt = "";
                 while ((txt = reader.ReadLine()) != null)
@@ -209,8 +211,6 @@ namespace RequestZp1 {
                 Password.Text = Encoding.Default.GetString(bytePassword);
                 RememberMe.Checked = true;
             }
-
-
 
         }
     }
