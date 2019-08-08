@@ -187,12 +187,14 @@ namespace RequestZp1 {
 
         private void SignInProfile_Load(object sender, EventArgs e) {
             string text = "";
-            using (FileStream stream = new FileStream(@"C:\Projects\RequestZp1\RequestZp1\bin\Debug\date.txt", FileMode.OpenOrCreate)) {
-                StreamReader reader = new StreamReader(stream);
+            string str = AppDomain.CurrentDomain.BaseDirectory;
+            //using (FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "date.txt", FileMode.OpenOrCreate)) {
+
+            using (var reader = new System.IO.StreamReader("date.txt")) {
                 string txt = "";
                 while ((txt = reader.ReadLine()) != null)
                     text += txt + '\n';
-                reader.Close();
+                //reader.Close();
             }
             if (text != null && text != "") {
                 string[] masStr = text.Split('\n');
