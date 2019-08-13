@@ -63,8 +63,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.DownLoadFileCSV = new System.Windows.Forms.Button();
-            this.registration1 = new RequestZp1.Registration();
+            this.UpdateStatus = new System.Windows.Forms.Button();
             this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.registration1 = new RequestZp1.Registration();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
@@ -165,7 +166,7 @@
             // 
             this.AddPeople.BackColor = System.Drawing.Color.LightGray;
             this.AddPeople.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddPeople.Location = new System.Drawing.Point(523, 324);
+            this.AddPeople.Location = new System.Drawing.Point(539, 324);
             this.AddPeople.Name = "AddPeople";
             this.AddPeople.Size = new System.Drawing.Size(129, 51);
             this.AddPeople.TabIndex = 5;
@@ -178,7 +179,7 @@
             this.CreateXmlFile.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CreateXmlFile.Enabled = false;
             this.CreateXmlFile.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CreateXmlFile.Location = new System.Drawing.Point(1048, 324);
+            this.CreateXmlFile.Location = new System.Drawing.Point(1104, 324);
             this.CreateXmlFile.Name = "CreateXmlFile";
             this.CreateXmlFile.Size = new System.Drawing.Size(141, 60);
             this.CreateXmlFile.TabIndex = 7;
@@ -190,7 +191,7 @@
             // 
             this.RequestTable.AllowUserToAddRows = false;
             this.RequestTable.AllowUserToDeleteRows = false;
-            this.RequestTable.BackgroundColor = System.Drawing.Color.PaleTurquoise;
+            this.RequestTable.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.RequestTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RequestTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.RequestTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -204,8 +205,7 @@
             this.Column11});
             this.RequestTable.Location = new System.Drawing.Point(678, 75);
             this.RequestTable.Name = "RequestTable";
-            this.RequestTable.RowHeadersVisible = false;
-            this.RequestTable.Size = new System.Drawing.Size(524, 240);
+            this.RequestTable.Size = new System.Drawing.Size(576, 240);
             this.RequestTable.TabIndex = 6;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             // 
@@ -423,13 +423,34 @@
             // 
             this.DownLoadFileCSV.BackColor = System.Drawing.Color.LightGray;
             this.DownLoadFileCSV.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DownLoadFileCSV.Location = new System.Drawing.Point(246, 324);
+            this.DownLoadFileCSV.Location = new System.Drawing.Point(240, 324);
             this.DownLoadFileCSV.Name = "DownLoadFileCSV";
             this.DownLoadFileCSV.Size = new System.Drawing.Size(199, 51);
             this.DownLoadFileCSV.TabIndex = 5;
             this.DownLoadFileCSV.Text = "Загрузить файл";
             this.DownLoadFileCSV.UseVisualStyleBackColor = false;
             this.DownLoadFileCSV.Click += new System.EventHandler(this.DownLoadFileCSV_Click);
+            // 
+            // UpdateStatus
+            // 
+            this.UpdateStatus.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.UpdateStatus.Enabled = false;
+            this.UpdateStatus.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.UpdateStatus.Location = new System.Drawing.Point(800, 324);
+            this.UpdateStatus.Name = "UpdateStatus";
+            this.UpdateStatus.Size = new System.Drawing.Size(152, 51);
+            this.UpdateStatus.TabIndex = 15;
+            this.UpdateStatus.Text = "Удалить";
+            this.UpdateStatus.UseVisualStyleBackColor = false;
+            this.UpdateStatus.Click += new System.EventHandler(this.UpdateStatus_Click);
+            // 
+            // signInProfile1
+            // 
+            this.signInProfile1.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.signInProfile1.Location = new System.Drawing.Point(-1, 476);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(1306, 538);
+            this.signInProfile1.TabIndex = 14;
             // 
             // registration1
             // 
@@ -438,18 +459,11 @@
             this.registration1.Size = new System.Drawing.Size(1314, 546);
             this.registration1.TabIndex = 13;
             // 
-            // signInProfile1
-            // 
-            this.signInProfile1.Location = new System.Drawing.Point(-1, 476);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(1306, 538);
-            this.signInProfile1.TabIndex = 14;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(1312, 539);
             this.Controls.Add(this.signInProfile1);
             this.Controls.Add(this.registration1);
@@ -470,6 +484,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.UpdateStatus);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "RequestZp1";
@@ -529,6 +544,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private Registration registration1;
         private SignInProfile signInProfile1;
+        private System.Windows.Forms.Button UpdateStatus;
         //private Registration registration1;
     }
 }

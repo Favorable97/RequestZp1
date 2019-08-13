@@ -62,6 +62,9 @@ namespace RequestZp1 {
             tName.Clear();
             tFatherName.Clear();
             tBirthday.Clear();
+            comboBox1.SelectedItem = -1;
+            tSeries.Clear();
+            tNumber.Clear();
         }
 
         UprmesClass uprmesFile;
@@ -88,11 +91,11 @@ namespace RequestZp1 {
 
         // Ожидание *.uprak1 файла
         private void WaitUpkak1() {
-            watcher1 = new FileSystemWatcher();
-            //watcher1.Path = Path.GetDirectoryName(@"\\192.168.2.205\Ident");
-            watcher1.Path = @"\\192.168.2.205\Ident";
-            watcher1.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
-            watcher1.Filter = uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak1";
+            watcher1 = new FileSystemWatcher {
+                Path = @"\\192.168.2.205\Ident",
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
+                Filter = uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak1"
+            };
             watcher1.Created += Watcher1_Created;
             watcher1.EnableRaisingEvents = true;
             
@@ -100,10 +103,11 @@ namespace RequestZp1 {
         
         // ожидание *.uprak2 файла
         private void WaitUprak2() {
-            watcher2 = new FileSystemWatcher();
-            watcher2.Path = @"\\192.168.2.205\Ident";
-            watcher2.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
-            watcher2.Filter = uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak2";
+            watcher2 = new FileSystemWatcher {
+                Path = @"\\192.168.2.205\Ident",
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
+                Filter = uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak2"
+            };
             watcher2.Created += Watcher2_Created;
             watcher2.EnableRaisingEvents = true;
             
@@ -201,7 +205,6 @@ namespace RequestZp1 {
         private bool CheckPeople() {
             SqlConnection con = null;
             SqlCommand com;
-            SqlDataReader reader = null;
 
             try {
                 con = new SqlConnection(connectionString);
@@ -483,6 +486,25 @@ namespace RequestZp1 {
             
         }
 
+        // удаление человека из таблицы и изменение его статуса в БД
+        private void UpdateStatus_Click(object sender, EventArgs e) {
+            int indexRow = RequestTable.CurrentRow.Index;
+            // Изменение статуса в таблице БД
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("UPDATE Peoples SET Status = @Status WHERE Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@Status", "Archive");
+                    com.Parameters.AddWithValue("@Surname", RequestTable.Rows[indexRow].Cells[1].Value.ToString().Split(' ')[0]);
+                    com.Parameters.AddWithValue("@Name", RequestTable.Rows[indexRow].Cells[1].Value.ToString().Split(' ')[1]);
+                    com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[indexRow].Cells[1].Value.ToString().Split(' ')[2]);
+                    com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(RequestTable.Rows[indexRow].Cells[2].Value.ToString()), "yyyyMdd", null));
+                    com.ExecuteNonQuery();
+                }
+            }
+            // удаление из DataGridView
+            RequestTable.Rows.Remove(RequestTable.Rows[indexRow]);
+        }
+
         private void RequestTable_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
             if (Convert.ToInt16(RequestTable.SelectedCells[0].ColumnIndex) != 0)
                 return;
@@ -500,10 +522,13 @@ namespace RequestZp1 {
                     }
                 }
 
-                if (flag)
+                if (flag) {
                     CreateXmlFile.Enabled = true;
-                else
+                    UpdateStatus.Enabled = true;
+                } else {
                     CreateXmlFile.Enabled = false;
+                    UpdateStatus.Enabled = false;
+                }
                 return;
             }
         }

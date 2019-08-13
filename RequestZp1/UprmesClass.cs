@@ -13,6 +13,8 @@ namespace RequestZp1 {
     class UprmesClass {
         private readonly string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
+        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+
         private DataGridView RequestTable { get; set; }
         public string FileName { get; set; }
 
@@ -305,7 +307,7 @@ namespace RequestZp1 {
             }
         }
 
-        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+        
 
         private void RecordFileXML() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
