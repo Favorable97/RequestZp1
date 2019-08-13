@@ -34,16 +34,8 @@
             this.tFatherName = new System.Windows.Forms.TextBox();
             this.tBirthday = new System.Windows.Forms.TextBox();
             this.AddPeople = new System.Windows.Forms.Button();
-            this.CreateXmlFile = new System.Windows.Forms.Button();
+            this.CheckCS = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
-            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.historyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,8 +56,18 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.DownLoadFileCSV = new System.Windows.Forms.Button();
             this.UpdateStatus = new System.Windows.Forms.Button();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.registration1 = new RequestZp1.Registration();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
@@ -174,18 +176,18 @@
             this.AddPeople.UseVisualStyleBackColor = false;
             this.AddPeople.Click += new System.EventHandler(this.AddPeople_Click);
             // 
-            // CreateXmlFile
+            // CheckCS
             // 
-            this.CreateXmlFile.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.CreateXmlFile.Enabled = false;
-            this.CreateXmlFile.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CreateXmlFile.Location = new System.Drawing.Point(1104, 324);
-            this.CreateXmlFile.Name = "CreateXmlFile";
-            this.CreateXmlFile.Size = new System.Drawing.Size(141, 60);
-            this.CreateXmlFile.TabIndex = 7;
-            this.CreateXmlFile.Text = "Проверить в ЦС";
-            this.CreateXmlFile.UseVisualStyleBackColor = false;
-            this.CreateXmlFile.Click += new System.EventHandler(this.CreateXmlFile_Click);
+            this.CheckCS.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.CheckCS.Enabled = false;
+            this.CheckCS.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CheckCS.Location = new System.Drawing.Point(1104, 324);
+            this.CheckCS.Name = "CheckCS";
+            this.CheckCS.Size = new System.Drawing.Size(141, 60);
+            this.CheckCS.TabIndex = 7;
+            this.CheckCS.Text = "Проверить в ЦС";
+            this.CheckCS.UseVisualStyleBackColor = false;
+            this.CheckCS.Click += new System.EventHandler(this.CheckCS_Click);
             // 
             // RequestTable
             // 
@@ -199,65 +201,17 @@
             this.Column1,
             this.Column2,
             this.Column3,
+            this.Column12,
+            this.Column13,
             this.Column8,
             this.Column9,
             this.Column10,
             this.Column11});
             this.RequestTable.Location = new System.Drawing.Point(678, 75);
             this.RequestTable.Name = "RequestTable";
-            this.RequestTable.Size = new System.Drawing.Size(576, 240);
+            this.RequestTable.Size = new System.Drawing.Size(707, 240);
             this.RequestTable.TabIndex = 6;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "";
-            this.Column7.Name = "Column7";
-            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column7.Width = 30;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "ФИО";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 110;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Дата рождения";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 80;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Статус";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 70;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Поиск в РС";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 60;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Отправка запроса в ЦС";
-            this.Column9.Name = "Column9";
-            this.Column9.Width = 70;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Ответ1 (ЦС)";
-            this.Column10.Name = "Column10";
-            this.Column10.Width = 50;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Ответ2 (ЦС)";
-            this.Column11.Name = "Column11";
-            this.Column11.Width = 50;
             // 
             // menuStrip1
             // 
@@ -269,7 +223,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.menuStrip1.Size = new System.Drawing.Size(1312, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1391, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.Visible = false;
@@ -444,32 +398,95 @@
             this.UpdateStatus.UseVisualStyleBackColor = false;
             this.UpdateStatus.Click += new System.EventHandler(this.UpdateStatus_Click);
             // 
-            // signInProfile1
-            // 
-            this.signInProfile1.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.signInProfile1.Location = new System.Drawing.Point(-1, 476);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(1306, 538);
-            this.signInProfile1.TabIndex = 14;
-            // 
             // registration1
             // 
-            this.registration1.Location = new System.Drawing.Point(-1, 483);
+            this.registration1.Location = new System.Drawing.Point(10, 460);
             this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(1314, 546);
-            this.registration1.TabIndex = 13;
+            this.registration1.Size = new System.Drawing.Size(1260, 570);
+            this.registration1.TabIndex = 16;
+            // 
+            // signInProfile1
+            // 
+            this.signInProfile1.Location = new System.Drawing.Point(7, 423);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
+            this.signInProfile1.TabIndex = 17;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "";
+            this.Column7.Name = "Column7";
+            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column7.Width = 30;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ФИО";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 110;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Дата рождения";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 80;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Код документа";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 70;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Серия";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            this.Column12.Width = 70;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Номер";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            this.Column13.Width = 70;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Поиск в РС";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 60;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Отправка запроса в ЦС";
+            this.Column9.Name = "Column9";
+            this.Column9.Width = 70;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Ответ1 (ЦС)";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 50;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Ответ2 (ЦС)";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 50;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.ClientSize = new System.Drawing.Size(1312, 539);
+            this.ClientSize = new System.Drawing.Size(1391, 539);
             this.Controls.Add(this.signInProfile1);
             this.Controls.Add(this.registration1);
             this.Controls.Add(this.panelWithHistory);
             this.Controls.Add(this.RequestTable);
-            this.Controls.Add(this.CreateXmlFile);
+            this.Controls.Add(this.CheckCS);
             this.Controls.Add(this.DownLoadFileCSV);
             this.Controls.Add(this.AddPeople);
             this.Controls.Add(this.tBirthday);
@@ -486,6 +503,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.UpdateStatus);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "RequestZp1";
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).EndInit();
@@ -513,7 +531,7 @@
         private System.Windows.Forms.TextBox tFatherName;
         private System.Windows.Forms.TextBox tBirthday;
         private System.Windows.Forms.Button AddPeople;
-        private System.Windows.Forms.Button CreateXmlFile;
+        private System.Windows.Forms.Button CheckCS;
         private System.Windows.Forms.DataGridView RequestTable;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem namePerson2;
@@ -534,18 +552,19 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button DownLoadFileCSV;
+        private System.Windows.Forms.Button UpdateStatus;
+        private Registration registration1;
+        private SignInProfile signInProfile1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private Registration registration1;
-        private SignInProfile signInProfile1;
-        private System.Windows.Forms.Button UpdateStatus;
-        //private Registration registration1;
     }
 }
 

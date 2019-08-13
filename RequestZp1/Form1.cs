@@ -18,7 +18,8 @@ namespace RequestZp1 {
             InitializeComponent();
             signInProfile1.Location = this.Location;
             registration1.Location = this.Location;
-            //this.Size = signInProfile1.Size;
+            menuStrip1.Visible = false;
+            this.Size = signInProfile1.Size;
             //panelWithHistory.Location = new System.Drawing.Point(0, 31);
             registration1.Hide();
         }
@@ -27,7 +28,7 @@ namespace RequestZp1 {
         public void VisibleProfile() {
             menuStrip1.Visible = true;
             namePerson2.Text = nameUser;
-            this.Size = new System.Drawing.Size(1148, 570);
+            menuStrip1.Visible = true;
         }
 
         // кнопка для добавления людей
@@ -66,86 +67,16 @@ namespace RequestZp1 {
             tSeries.Clear();
             tNumber.Clear();
         }
-
-        UprmesClass uprmesFile;
-        FileSystemWatcher watcher1;
-        FileSystemWatcher watcher2;
-        Thread thread;
         // Кнопка отправки в ЦС
-        private void CreateXmlFile_Click(object sender, EventArgs e) {
-            this.Enabled = false;
-            thread = new Thread(new ThreadStart(SplashScreen));
-            thread.Start();
-            uprmesFile = new UprmesClass(RequestTable);
-            uprmesFile.CreateXmlFile();
+        private void CheckCS_Click(object sender, EventArgs e) {
             RecordListOperationCreateFile();
-            WaitUpkak1();
-            WaitUprak2();
-            
-        }
-
-        public void SplashScreen() {
-            Application.Run(new SplashScreen());
-        }
-
-
-        // Ожидание *.uprak1 файла
-        private void WaitUpkak1() {
-            watcher1 = new FileSystemWatcher {
-                Path = @"\\192.168.2.205\Ident",
-                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
-                Filter = uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak1"
-            };
-            watcher1.Created += Watcher1_Created;
-            watcher1.EnableRaisingEvents = true;
-            
-        }
-        
-        // ожидание *.uprak2 файла
-        private void WaitUprak2() {
-            watcher2 = new FileSystemWatcher {
-                Path = @"\\192.168.2.205\Ident",
-                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
-                Filter = uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak2"
-            };
-            watcher2.Created += Watcher2_Created;
-            watcher2.EnableRaisingEvents = true;
-            
-        }
-
-        // Парсинг *.uprak1 файла
-        private void Watcher1_Created(object sender, FileSystemEventArgs e) {
-            Thread.Sleep(100);
-            string filePath = @"\\192.168.2.205\Ident\" + uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak1";
-            XDocument uprak1 = XDocument.Load(filePath);
-            XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
-            uprak1.Declaration = new XDeclaration("1.0", "Windows-1251", null);
-            //XElement upprmes = new XElement(xNamespace + "UPRMessageBatch");
-            string code = uprak1.Element(xNamespace + "UPRMessageBatch").Element(xNamespace + "RSP_ZK1").Element(xNamespace + "MSA").Element(xNamespace + "MSA.1").Value;
-            watcher1.EnableRaisingEvents = false;
-        }
-
-        // парсинг *.uprak2 файла
-        private void Watcher2_Created(object sender, FileSystemEventArgs e) {
-            Thread.Sleep(100);
-            string filePath = @"\\192.168.2.205\Ident\" + uprmesFile.FileName.Remove(uprmesFile.FileName.Length - 6, 6) + "uprak2";
-            XDocument uprak2 = XDocument.Load(filePath);
-            XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
-            uprak2.Declaration = new XDeclaration("1.0", "Windows-1251", null);
-            string code = uprak2.Element(xNamespace + "UPRMessageBatch").Element(xNamespace + "RSP_ZK1").Element(xNamespace + "MSA").Element(xNamespace + "MSA.1").Value;
-
-            watcher2.EnableRaisingEvents = false;
-            thread.Abort();
-            if (InvokeRequired)
-                this.Invoke(new Action(() => this.Enabled = true));
-            else
-                this.Enabled = true;
+            RecordTempDB();
         }
 
         // заполнение таблицы
         public void ToFillTable() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                SqlCommand com = new SqlCommand("SELECT Surname, Name, FatherName, DateBirthday, Status FROM Peoples WHERE Status = @Status", con);
+                SqlCommand com = new SqlCommand("SELECT Surname, Name, FatherName, DateBirthday, CodeDocument, SeriesDoc, NumbDoc FROM Peoples WHERE Status = @Status", con);
                 con.Open();
                 com.Parameters.AddWithValue("@Status", "Active");
                 SqlDataReader reader = com.ExecuteReader();
@@ -164,14 +95,24 @@ namespace RequestZp1 {
                         Value = reader.GetDateTime(3)
                     };
 
-                    DataGridViewCell Status = new DataGridViewTextBoxCell {
-                        Value = reader.GetString(4)
+                    DataGridViewCell CodeDocument = new DataGridViewTextBoxCell {
+                        Value = reader.GetInt32(4)
+                    };
+
+                    DataGridViewCell SeriesDoc = new DataGridViewTextBoxCell {
+                        Value = reader.GetString(5)
+                    };
+
+                    DataGridViewCell NumbDoc = new DataGridViewTextBoxCell {
+                        Value = reader.GetString(6)
                     };
 
                     newRow.Cells.Add(checkoxCell);
                     newRow.Cells.Add(FIO);
                     newRow.Cells.Add(Birthday);
-                    newRow.Cells.Add(Status);
+                    newRow.Cells.Add(CodeDocument);
+                    newRow.Cells.Add(SeriesDoc);
+                    newRow.Cells.Add(NumbDoc);
 
                     RequestTable.Rows.Add(newRow);
                 }
@@ -282,6 +223,7 @@ namespace RequestZp1 {
 
         private void ExitMenuItem_Click(object sender, EventArgs e) {
             signInProfile1.Show();
+            this.AutoSize = false;
             this.Size = signInProfile1.Size;
             signInProfile1.ClearTextBox();
             using (FileStream stream = new FileStream("date.txt", FileMode.Truncate)) {
@@ -386,12 +328,33 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
                 com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
                 com.Parameters.AddWithValue("@ID", GetID());
-                com.Parameters.AddWithValue("@Operation", "Создание документа");
+                com.Parameters.AddWithValue("@Operation", "Поиск в ЦС");
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
             finally { con.Close(); }
         }
 
+        // запись в третью БД
+        private void RecordTempDB() {
+            for (int i = 0; i < RequestTable.Rows.Count; i++) {
+                if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
+                    using (SqlConnection con = new SqlConnection(connectionString)) {
+                        using (SqlCommand com = new SqlCommand("INSERT INTO Temp(Surname, Name, FatherName, DateBirthday, CodeDocument, Series, Number) VALUES" +
+                            "(@Surname, @Name, @FatherName, @DateBirhday, @CodeDocument, @Series, @Number)", con)) {
+                            con.Open();
+                            com.Parameters.AddWithValue("@Surname", RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[0]);
+                            com.Parameters.AddWithValue("@Name", RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[1]);
+                            com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[2]);
+                            com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(RequestTable.Rows[i].Cells[2].Value.ToString()), "yyyyMdd", null));
+                            com.Parameters.AddWithValue("@CodeDocument", RequestTable.Rows[i].Cells[3].Value);
+                            com.Parameters.AddWithValue("@Series", RequestTable.Rows[i].Cells[4].Value.ToString());
+                            com.Parameters.AddWithValue("@Number", RequestTable.Rows[i].Cells[5].Value.ToString());
+                        }
+                    }
+                    
+                }
+            }
+        }
         int k;
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) {
             string selectedState = comboBox1.SelectedItem.ToString();
@@ -523,10 +486,10 @@ namespace RequestZp1 {
                 }
 
                 if (flag) {
-                    CreateXmlFile.Enabled = true;
+                    CheckCS.Enabled = true;
                     UpdateStatus.Enabled = true;
                 } else {
-                    CreateXmlFile.Enabled = false;
+                    CheckCS.Enabled = false;
                     UpdateStatus.Enabled = false;
                 }
                 return;

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
 using System.Web;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 
-namespace RequestZp1 {
+namespace CreateRequest {
     class UprmesClass {
         private readonly string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
@@ -20,7 +19,7 @@ namespace RequestZp1 {
 
         private string name, surname, fatherName;
         string date;
-        public UprmesClass(DataGridView table) {
+        public RecordDB(DataGridView table) {
             RequestTable = table;
         }
 
@@ -145,7 +144,7 @@ namespace RequestZp1 {
                 msg1.Value.ToString() + msg2.Value.ToString() + msg3.Value.ToString() + pt1.Value.ToString() + vid1.Value.ToString() + msh15.Value.ToString() +
                 msh16.Value.ToString() + cwe1.Value.ToString() + cwe3.Value.ToString() + qpd3.Value.ToString() + qpd4.Value.ToString();
 
-            
+
 
             upprmes.Add(bhs);
             int count = 0;
@@ -307,7 +306,7 @@ namespace RequestZp1 {
             }
         }
 
-        
+
 
         private void RecordFileXML() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
@@ -382,4 +381,5 @@ namespace RequestZp1 {
             return Convert.ToBase64String(hash);
         }
     }
+}
 }
