@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParsingXMLFileAndRecordDataToDB.cs" />
+    <Compile Include="RecordDBResultFileSearch.cs" />
     <Compile Include="Crc32.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

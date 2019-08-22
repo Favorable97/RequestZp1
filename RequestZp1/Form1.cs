@@ -12,8 +12,8 @@ using System.Threading;
 
 namespace RequestZp1 {
     public partial class Form1 : Form {
-        public string nameUser, rights, encPas, surnames = "";
-
+        public string nameUser, rights, encPas;
+        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=ident;Persist Security Info=True;User ID=user;Password=гыук";
         public Form1() {
             InitializeComponent();
             signInProfile1.Location = this.Location;
@@ -23,8 +23,7 @@ namespace RequestZp1 {
             //panelWithHistory.Location = new System.Drawing.Point(0, 31);
             registration1.Hide();
         }
-        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=ident;Persist Security Info=True;User ID=user;Password=гыук";
-
+        
         public void VisibleProfile() {
             menuStrip1.Visible = true;
             namePerson2.Text = nameUser;
@@ -33,52 +32,26 @@ namespace RequestZp1 {
 
         // кнопка для добавления людей
         private void AddPeople_Click(object sender, EventArgs e) {
-            DataGridViewRow newRow = new DataGridViewRow();
-
-            DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
-                Value = 0
-            };
-            DataGridViewCell FIO = new DataGridViewTextBoxCell {
-                Value = tSurname.Text + " " + tName.Text + " " + tFatherName.Text
-            };
-
-            DataGridViewCell Birthday = new DataGridViewTextBoxCell {
-                Value = tBirthday.Text
-            };
-
-            DataGridViewCell Status = new DataGridViewTextBoxCell {
-                Value = "Active"
-            };
-            newRow.Cells.Add(checkoxCell);
-            newRow.Cells.Add(FIO);
-            newRow.Cells.Add(Birthday);
-            newRow.Cells.Add(Status);
-
-            RequestTable.Rows.Add(newRow);
-            surnames += tSurname;
-
-            OperationWithPerson();
-
-            tSurname.Clear();
-            tName.Clear();
-            tFatherName.Clear();
-            tBirthday.Clear();
-            comboBox1.SelectedItem = -1;
-            tSeries.Clear();
-            tNumber.Clear();
+            if (tName.Text == "" || tSurname.Text == "" || tFatherName.Text == "" || tBirthday.Text == "" || tBirthday.Text == "" || tSeries.Text == "" || tNumber.Text == "") {
+                MessageBox.Show("Введены не все данные");
+            } else OperationWithPerson();
         }
         // Кнопка отправки в ЦС
         private void CheckCS_Click(object sender, EventArgs e) {
+            
             RecordListOperationCreateFile();
             RecordTempDB();
+                        
         }
 
         // заполнение таблицы
         public void ToFillTable() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                SqlCommand com = new SqlCommand("SELECT Surname, Name, FatherName, DateBirthday, CodeDocument, SeriesDoc, NumbDoc FROM Peoples WHERE Status = @Status", con);
+                SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc " +
+                    "FROM Users join ListOperator on Users.ID = " + GetID() + " join Peoples on ListOperator.IDPeople = Peoples.ID", con);
                 con.Open();
-                com.Parameters.AddWithValue("@Status", "Active");
+                //com.Parameters.AddWithValue("@ListOperator.IDUser", GetID());
+                
                 SqlDataReader reader = com.ExecuteReader();
 
                 while (reader.Read()) {
@@ -92,7 +65,7 @@ namespace RequestZp1 {
                     };
 
                     DataGridViewCell Birthday = new DataGridViewTextBoxCell {
-                        Value = reader.GetDateTime(3)
+                        Value = reader.GetDateTime(3).ToShortDateString()
                     };
 
                     DataGridViewCell CodeDocument = new DataGridViewTextBoxCell {
@@ -137,16 +110,116 @@ namespace RequestZp1 {
         private void OperationWithPerson() {
             if (CheckPeople()) {
                 RecordDataBasePeoples();
+                RecordDBListOperator();
                 RecordDataBaseListOperationAddPeoples();
+                AddPeopleTable();
+            } else {
+                RecordDBListOperator();
+                RecordDataBaseListOperationAddPeoples();
+                AddPeopleTable();
             }
            
+        }
+
+        // добавление человека
+        private void AddPeopleTable() {
+            DataGridViewRow newRow = new DataGridViewRow();
+
+            DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
+                Value = 0
+            };
+            DataGridViewCell FIO = new DataGridViewTextBoxCell {
+                Value = tSurname.Text + " " + tName.Text + " " + tFatherName.Text
+            };
+
+            DataGridViewCell Birthday = new DataGridViewTextBoxCell {
+                Value = tBirthday.Text
+            };
+
+            DataGridViewCell CodeDoc = new DataGridViewTextBoxCell {
+                Value = code
+            };
+
+            DataGridViewCell SeriesDoc = new DataGridViewTextBoxCell {
+                Value = tSeries.Text
+            };
+
+            DataGridViewCell NumbDoc = new DataGridViewTextBoxCell {
+                Value = tNumber.Text
+            };
+            newRow.Cells.Add(checkoxCell);
+            newRow.Cells.Add(FIO);
+            newRow.Cells.Add(Birthday);
+            newRow.Cells.Add(CodeDoc);
+            newRow.Cells.Add(SeriesDoc);
+            newRow.Cells.Add(NumbDoc);
+
+            RequestTable.Rows.Add(newRow);
+
+            tSurname.Clear();
+            tName.Clear();
+            tFatherName.Clear();
+            tBirthday.Clear();
+            comboBox1.SelectedItem = -1;
+            tSeries.Clear();
+            tNumber.Clear();
+        }
+
+        // запись в таблицу Peoples добавленных людей
+        private void RecordDataBasePeoples() {
+            SqlConnection con = null;
+            try {
+                con = new SqlConnection(connectionString);
+                con.Open();
+                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday, CodeDocument, SeriesDoc, NumbDoc) VALUES (@Surname, @Name, @FatherName, @DateBirthday, @CodeDocument, @SeriesDoc, @NumbDoc)", con);
+                com.Parameters.AddWithValue("@Surname", tSurname.Text);
+                com.Parameters.AddWithValue("@Name", tName.Text);
+                com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
+                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
+                com.Parameters.AddWithValue("@CodeDocument", GetCode());
+                com.Parameters.AddWithValue("@SeriesDoc", tSeries.Text);
+                com.Parameters.AddWithValue("@NumbDoc", tNumber.Text);
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            finally { con.Close(); }
+        }
+
+        // запись в таблицу ListOperator
+
+        private void RecordDBListOperator() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("INSERT INTO ListOperator(IDUser, IDPeople) VALUES(@IDUser, @IDPeople)", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@IDUser", GetID());
+                    com.Parameters.AddWithValue("@IDPeople", GetIDPeople());
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // запись в таблицу ListOperation информации о том, что был добавлен человек
+        private void RecordDataBaseListOperationAddPeoples() {
+            SqlConnection con = null;
+            try {
+                con = new SqlConnection(connectionString);
+                con.Open();
+                SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con); // что за IDPerson???
+                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
+                com.Parameters.AddWithValue("@ID", GetID());
+                com.Parameters.AddWithValue("@Operation", "Добавление данных");
+                com.Parameters.AddWithValue("@IDPerson", GetIDPeople());
+                com.ExecuteNonQuery();
+            }
+            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
+            finally { con.Close(); }
         }
 
         // проверка людей на наличие уже существующего человека
         private bool CheckPeople() {
             SqlConnection con = null;
             SqlCommand com;
-
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
@@ -157,15 +230,8 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
                 int count = (int)com.ExecuteScalar();
 
-                if (count > 0) {
-                    MessageBox.Show("Данный человек уже имеется в БД!");
-                    tName.Clear();
-                    tSurname.Clear();
-                    tFatherName.Clear();
-                    tBirthday.Clear();
+                if (count > 0) 
                     return false;
-                }
-
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
@@ -232,47 +298,6 @@ namespace RequestZp1 {
                 write.Close();
             }
         }
-
-        // запись в таблицу Peoples добавленных людей
-        private void RecordDataBasePeoples() {
-            SqlConnection con = null;
-            try {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO Peoples(Surname, Name, FatherName, DateBirthday, Status, IDUser, CodeDocument, SeriesDoc, NumbDoc) VALUES (@Surname, @Name, @FatherName, @DateBirthday, @Status, @IDUser, @CodeDocument, @SeriesDoc, @NumbDoc)", con);
-                com.Parameters.AddWithValue("@Surname", tSurname.Text);
-                com.Parameters.AddWithValue("@Name", tName.Text);
-                com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
-                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
-                com.Parameters.AddWithValue("@Status", "Active");
-                com.Parameters.AddWithValue("@IDUser", GetID ());
-                com.Parameters.AddWithValue("@CodeDocument", GetCode());
-                com.Parameters.AddWithValue("@SeriesDoc", tSeries.Text);
-                com.Parameters.AddWithValue("@NumbDoc", tNumber.Text);
-                com.ExecuteNonQuery();
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close(); }
-        }
-
-        // запись в таблицу ListOperation информации о том, что был добавлен человек
-        private void RecordDataBaseListOperationAddPeoples() {
-            SqlConnection con = null;
-            try {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con); // что за IDPerson???
-                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
-                com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
-                com.Parameters.AddWithValue("@ID", GetID());
-                com.Parameters.AddWithValue("@Operation", "Добавление данных");
-                com.Parameters.AddWithValue("@IDPerson", GetIDPeople());
-                com.ExecuteNonQuery();
-            }
-            catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
-            finally { con.Close(); }
-        }
-
         // получение ID пользователя
         public object GetID() {
             SqlConnection con = null;
@@ -317,6 +342,23 @@ namespace RequestZp1 {
             return 0;
         }
 
+        private object GetIDPeople(string name, string surname, string fatherName, string birthday) {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("Select ID From Peoples Where Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@Surname", surname);
+                    com.Parameters.AddWithValue("@Name", name);
+                    com.Parameters.AddWithValue("@FatherName", fatherName);
+                    com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(birthday), "yyyyMdd", null));
+                    SqlDataReader reader = com.ExecuteReader();
+                    reader.Read();
+                    object id = reader.GetValue(0);
+                    reader.Close();
+                    return id;
+                }
+            }
+        }
+
         // запись в таблицу ListOperation информации о том, что был создан файл
         private void RecordListOperationCreateFile() {
             SqlConnection con = null;
@@ -340,8 +382,9 @@ namespace RequestZp1 {
                 if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
                     using (SqlConnection con = new SqlConnection(connectionString)) {
                         using (SqlCommand com = new SqlCommand("INSERT INTO Temp(Surname, Name, FatherName, DateBirthday, CodeDocument, Series, Number) VALUES" +
-                            "(@Surname, @Name, @FatherName, @DateBirhday, @CodeDocument, @Series, @Number)", con)) {
+                            "(@Surname, @Name, @FatherName, @DateBirthday, @CodeDocument, @Series, @Number)", con)) {
                             con.Open();
+                            string str = GetBirthday(RequestTable.Rows[i].Cells[2].Value.ToString());
                             com.Parameters.AddWithValue("@Surname", RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[0]);
                             com.Parameters.AddWithValue("@Name", RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[1]);
                             com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[2]);
@@ -349,6 +392,7 @@ namespace RequestZp1 {
                             com.Parameters.AddWithValue("@CodeDocument", RequestTable.Rows[i].Cells[3].Value);
                             com.Parameters.AddWithValue("@Series", RequestTable.Rows[i].Cells[4].Value.ToString());
                             com.Parameters.AddWithValue("@Number", RequestTable.Rows[i].Cells[5].Value.ToString());
+                            com.ExecuteNonQuery();
                         }
                     }
                     
@@ -356,14 +400,18 @@ namespace RequestZp1 {
             }
         }
         int k;
+        int code;
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) {
             string selectedState = comboBox1.SelectedItem.ToString();
             if (selectedState.Equals("Свидетельство о рождении")) {
+                
                 tSeries.Text = GetSeriesSB();
                 tNumber.Text = GetNumberSB();
+                code = 3;
             } else {
                 tSeries.Text = GetSeriesP();
                 tNumber.Text = GetNumberP();
+                code = 14;
             }
         }
       
@@ -449,23 +497,64 @@ namespace RequestZp1 {
             
         }
 
-        // удаление человека из таблицы и изменение его статуса в БД
-        private void UpdateStatus_Click(object sender, EventArgs e) {
-            int indexRow = RequestTable.CurrentRow.Index;
-            // Изменение статуса в таблице БД
-            using (SqlConnection con = new SqlConnection(connectionString)) {
-                using (SqlCommand com = new SqlCommand("UPDATE Peoples SET Status = @Status WHERE Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con)) {
-                    con.Open();
-                    com.Parameters.AddWithValue("@Status", "Archive");
-                    com.Parameters.AddWithValue("@Surname", RequestTable.Rows[indexRow].Cells[1].Value.ToString().Split(' ')[0]);
-                    com.Parameters.AddWithValue("@Name", RequestTable.Rows[indexRow].Cells[1].Value.ToString().Split(' ')[1]);
-                    com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[indexRow].Cells[1].Value.ToString().Split(' ')[2]);
-                    com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(RequestTable.Rows[indexRow].Cells[2].Value.ToString()), "yyyyMdd", null));
-                    com.ExecuteNonQuery();
+        // удаление человека из таблицы и БД
+        private void DeletePeople_Click(object sender, EventArgs e) {
+            for (int i = 0; i < RequestTable.Rows.Count; i++) {
+                if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
+                    using (SqlConnection con = new SqlConnection(connectionString)) {
+                        using (SqlCommand com = new SqlCommand("Delete From ListOperator Where IDUser = @IDUser and IDPeople = @IDPeople", con)) {
+                            con.Open();
+                            com.Parameters.AddWithValue("@IDUser", GetID());
+                            string surname = RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[0];
+                            string name = RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[1];
+                            string fatherName = RequestTable.Rows[i].Cells[1].Value.ToString().Split(' ')[2];
+                            string datebirthday = RequestTable.Rows[i].Cells[2].Value.ToString();
+                            com.Parameters.AddWithValue("@IDPeople", GetIDPeople(name, surname, fatherName, datebirthday));
+                            com.ExecuteNonQuery();
+                        }
+                    }
+                    RequestTable.Rows.Remove(RequestTable.Rows[i]);
                 }
-            }
-            // удаление из DataGridView
-            RequestTable.Rows.Remove(RequestTable.Rows[indexRow]);
+            }   
+        }
+
+        private void TSurname_KeyPress(object sender, KeyPressEventArgs e) {
+            if ((!Char.IsDigit(e.KeyChar)) && 
+                (e.KeyChar >= 'А' && e.KeyChar <= 'Я' || e.KeyChar >= 'а' 
+                    && e.KeyChar <= 'я' || (e.KeyChar == (char)Keys.Back) || (e.KeyChar == '-')) 
+                ) return;
+            e.Handled = true;
+            return;
+        }
+
+        private void TName_KeyPress(object sender, KeyPressEventArgs e) {
+            if ((!Char.IsDigit(e.KeyChar)) &&
+                (e.KeyChar >= 'А' && e.KeyChar <= 'Я' || e.KeyChar >= 'а'
+                    && e.KeyChar <= 'я' || (e.KeyChar == (char)Keys.Back) || (e.KeyChar == '-'))
+                ) return;
+            e.Handled = true;
+            return;
+        }
+
+        private void TFatherName_KeyPress(object sender, KeyPressEventArgs e) {
+            if ((!Char.IsDigit(e.KeyChar)) &&
+                (e.KeyChar >= 'А' && e.KeyChar <= 'Я' || e.KeyChar >= 'а'
+                    && e.KeyChar <= 'я' || (e.KeyChar == (char)Keys.Back) || (e.KeyChar == '-'))
+                ) return;
+            e.Handled = true;
+            return;
+        }
+
+        private void TSurname_Click(object sender, EventArgs e) {
+            //InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
+        }
+
+        private void TName_Click(object sender, EventArgs e) {
+            //InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
+        }
+
+        private void TFatherName_Click(object sender, EventArgs e) {
+            //InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
         }
 
         private void RequestTable_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
@@ -487,10 +576,10 @@ namespace RequestZp1 {
 
                 if (flag) {
                     CheckCS.Enabled = true;
-                    UpdateStatus.Enabled = true;
+                    DeletePeople.Enabled = true;
                 } else {
                     CheckCS.Enabled = false;
-                    UpdateStatus.Enabled = false;
+                    DeletePeople.Enabled = false;
                 }
                 return;
             }

@@ -32,10 +32,19 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tName = new System.Windows.Forms.TextBox();
             this.tFatherName = new System.Windows.Forms.TextBox();
-            this.tBirthday = new System.Windows.Forms.TextBox();
             this.AddPeople = new System.Windows.Forms.Button();
             this.CheckCS = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
+            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.historyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,24 +59,15 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tNumber = new System.Windows.Forms.TextBox();
-            this.tSeries = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.DownLoadFileCSV = new System.Windows.Forms.Button();
-            this.UpdateStatus = new System.Windows.Forms.Button();
-            this.registration1 = new RequestZp1.Registration();
+            this.DeletePeople = new System.Windows.Forms.Button();
+            this.tBirthday = new System.Windows.Forms.MaskedTextBox();
             this.signInProfile1 = new RequestZp1.SignInProfile();
-            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.registration1 = new RequestZp1.Registration();
+            this.tSeries = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
@@ -89,7 +89,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(96, 125);
+            this.label2.Location = new System.Drawing.Point(96, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 22);
             this.label2.TabIndex = 0;
@@ -99,7 +99,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(73, 198);
+            this.label3.Location = new System.Drawing.Point(73, 195);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 22);
             this.label3.TabIndex = 0;
@@ -109,7 +109,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(42, 287);
+            this.label4.Location = new System.Drawing.Point(42, 284);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(157, 22);
             this.label4.TabIndex = 10;
@@ -122,10 +122,12 @@
             this.tSurname.Name = "tSurname";
             this.tSurname.Size = new System.Drawing.Size(227, 30);
             this.tSurname.TabIndex = 1;
+            this.tSurname.Click += new System.EventHandler(this.TSurname_Click);
+            this.tSurname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TSurname_KeyPress);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(70, 157);
+            this.textBox2.Location = new System.Drawing.Point(70, 154);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 1;
@@ -134,7 +136,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(73, 201);
+            this.label5.Location = new System.Drawing.Point(73, 198);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 22);
             this.label5.TabIndex = 11;
@@ -143,26 +145,22 @@
             // tName
             // 
             this.tName.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tName.Location = new System.Drawing.Point(7, 157);
+            this.tName.Location = new System.Drawing.Point(7, 154);
             this.tName.Name = "tName";
             this.tName.Size = new System.Drawing.Size(227, 30);
             this.tName.TabIndex = 2;
+            this.tName.Click += new System.EventHandler(this.TName_Click);
+            this.tName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TName_KeyPress);
             // 
             // tFatherName
             // 
             this.tFatherName.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tFatherName.Location = new System.Drawing.Point(7, 239);
+            this.tFatherName.Location = new System.Drawing.Point(7, 236);
             this.tFatherName.Name = "tFatherName";
             this.tFatherName.Size = new System.Drawing.Size(227, 30);
             this.tFatherName.TabIndex = 3;
-            // 
-            // tBirthday
-            // 
-            this.tBirthday.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tBirthday.Location = new System.Drawing.Point(7, 324);
-            this.tBirthday.Name = "tBirthday";
-            this.tBirthday.Size = new System.Drawing.Size(227, 30);
-            this.tBirthday.TabIndex = 4;
+            this.tFatherName.Click += new System.EventHandler(this.TFatherName_Click);
+            this.tFatherName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TFatherName_KeyPress);
             // 
             // AddPeople
             // 
@@ -212,6 +210,70 @@
             this.RequestTable.Size = new System.Drawing.Size(707, 240);
             this.RequestTable.TabIndex = 6;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "";
+            this.Column7.Name = "Column7";
+            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column7.Width = 30;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ФИО";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 110;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Дата рождения";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 80;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Код документа";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 70;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Серия";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            this.Column12.Width = 70;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Номер";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            this.Column13.Width = 70;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Поиск в РС";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 60;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Отправка запроса в ЦС";
+            this.Column9.Name = "Column9";
+            this.Column9.Width = 70;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Ответ1 (ЦС)";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 50;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Ответ2 (ЦС)";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 50;
             // 
             // menuStrip1
             // 
@@ -319,10 +381,10 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tNumber);
-            this.groupBox1.Controls.Add(this.tSeries);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.tSeries);
             this.groupBox1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox1.Location = new System.Drawing.Point(240, 75);
             this.groupBox1.Name = "groupBox1";
@@ -334,16 +396,10 @@
             // tNumber
             // 
             this.tNumber.Location = new System.Drawing.Point(85, 159);
+            this.tNumber.MaxLength = 6;
             this.tNumber.Name = "tNumber";
             this.tNumber.Size = new System.Drawing.Size(116, 27);
-            this.tNumber.TabIndex = 4;
-            // 
-            // tSeries
-            // 
-            this.tSeries.Location = new System.Drawing.Point(85, 111);
-            this.tSeries.Name = "tSeries";
-            this.tSeries.Size = new System.Drawing.Size(116, 27);
-            this.tSeries.TabIndex = 3;
+            this.tNumber.TabIndex = 6;
             // 
             // label7
             // 
@@ -385,25 +441,29 @@
             this.DownLoadFileCSV.UseVisualStyleBackColor = false;
             this.DownLoadFileCSV.Click += new System.EventHandler(this.DownLoadFileCSV_Click);
             // 
-            // UpdateStatus
+            // DeletePeople
             // 
-            this.UpdateStatus.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.UpdateStatus.Enabled = false;
-            this.UpdateStatus.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.UpdateStatus.Location = new System.Drawing.Point(800, 324);
-            this.UpdateStatus.Name = "UpdateStatus";
-            this.UpdateStatus.Size = new System.Drawing.Size(152, 51);
-            this.UpdateStatus.TabIndex = 15;
-            this.UpdateStatus.Text = "Удалить";
-            this.UpdateStatus.UseVisualStyleBackColor = false;
-            this.UpdateStatus.Click += new System.EventHandler(this.UpdateStatus_Click);
+            this.DeletePeople.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.DeletePeople.Enabled = false;
+            this.DeletePeople.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.DeletePeople.Location = new System.Drawing.Point(800, 324);
+            this.DeletePeople.Name = "DeletePeople";
+            this.DeletePeople.Size = new System.Drawing.Size(152, 51);
+            this.DeletePeople.TabIndex = 15;
+            this.DeletePeople.Text = "Удалить";
+            this.DeletePeople.UseVisualStyleBackColor = false;
+            this.DeletePeople.Click += new System.EventHandler(this.DeletePeople_Click);
             // 
-            // registration1
+            // tBirthday
             // 
-            this.registration1.Location = new System.Drawing.Point(10, 460);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(1260, 570);
-            this.registration1.TabIndex = 16;
+            this.tBirthday.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tBirthday.Font = new System.Drawing.Font("Century", 14.25F);
+            this.tBirthday.Location = new System.Drawing.Point(7, 324);
+            this.tBirthday.Mask = "00/00/0000";
+            this.tBirthday.Name = "tBirthday";
+            this.tBirthday.Size = new System.Drawing.Size(227, 30);
+            this.tBirthday.TabIndex = 4;
+            this.tBirthday.ValidatingType = typeof(System.DateTime);
             // 
             // signInProfile1
             // 
@@ -412,69 +472,19 @@
             this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
             this.signInProfile1.TabIndex = 17;
             // 
-            // Column7
+            // registration1
             // 
-            this.Column7.HeaderText = "";
-            this.Column7.Name = "Column7";
-            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column7.Width = 30;
+            this.registration1.Location = new System.Drawing.Point(10, 460);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(1260, 570);
+            this.registration1.TabIndex = 16;
             // 
-            // Column1
+            // tSeries
             // 
-            this.Column1.HeaderText = "ФИО";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 110;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Дата рождения";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 80;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Код документа";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 70;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "Серия";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Width = 70;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "Номер";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            this.Column13.Width = 70;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Поиск в РС";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 60;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Отправка запроса в ЦС";
-            this.Column9.Name = "Column9";
-            this.Column9.Width = 70;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Ответ1 (ЦС)";
-            this.Column10.Name = "Column10";
-            this.Column10.Width = 50;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Ответ2 (ЦС)";
-            this.Column11.Name = "Column11";
-            this.Column11.Width = 50;
+            this.tSeries.Location = new System.Drawing.Point(85, 111);
+            this.tSeries.Name = "tSeries";
+            this.tSeries.Size = new System.Drawing.Size(116, 27);
+            this.tSeries.TabIndex = 5;
             // 
             // Form1
             // 
@@ -489,7 +499,6 @@
             this.Controls.Add(this.CheckCS);
             this.Controls.Add(this.DownLoadFileCSV);
             this.Controls.Add(this.AddPeople);
-            this.Controls.Add(this.tBirthday);
             this.Controls.Add(this.tFatherName);
             this.Controls.Add(this.tName);
             this.Controls.Add(this.textBox2);
@@ -501,7 +510,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.UpdateStatus);
+            this.Controls.Add(this.DeletePeople);
+            this.Controls.Add(this.tBirthday);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -529,7 +539,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tName;
         private System.Windows.Forms.TextBox tFatherName;
-        private System.Windows.Forms.TextBox tBirthday;
         private System.Windows.Forms.Button AddPeople;
         private System.Windows.Forms.Button CheckCS;
         private System.Windows.Forms.DataGridView RequestTable;
@@ -548,11 +557,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox tNumber;
-        private System.Windows.Forms.TextBox tSeries;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button DownLoadFileCSV;
-        private System.Windows.Forms.Button UpdateStatus;
+        private System.Windows.Forms.Button DeletePeople;
         private Registration registration1;
         private SignInProfile signInProfile1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
@@ -565,6 +573,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.MaskedTextBox tBirthday;
+        private System.Windows.Forms.MaskedTextBox tSeries;
     }
 }
 

@@ -78,12 +78,6 @@
     <Compile Include="SignInProfile.Designer.cs">
       <DependentUpon>SignInProfile.cs</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SplashScreen.Designer.cs">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,9 +95,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SignInProfile.resx">
       <DependentUpon>SignInProfile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="IdentDataSet.xsc">
       <DependentUpon>IdentDataSet.xsd</DependentUpon>
