@@ -13,6 +13,7 @@ using System.Threading;
 namespace RequestZp1 {
     public partial class Form1 : Form {
         public string nameUser, rights, encPas;
+        public bool flag = false;
         private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=ident;Persist Security Info=True;User ID=user;Password=гыук";
         public Form1() {
             InitializeComponent();
@@ -28,6 +29,7 @@ namespace RequestZp1 {
             menuStrip1.Visible = true;
             namePerson2.Text = nameUser;
             menuStrip1.Visible = true;
+            splitContainer1.Visible = true;
         }
 
         // кнопка для добавления людей
@@ -38,7 +40,6 @@ namespace RequestZp1 {
         }
         // Кнопка отправки в ЦС
         private void CheckCS_Click(object sender, EventArgs e) {
-            
             RecordListOperationCreateFile();
             RecordTempDB();
                         
@@ -47,7 +48,7 @@ namespace RequestZp1 {
         // заполнение таблицы
         public void ToFillTable() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc " +
+                SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2 " +
                     "FROM Users join ListOperator on Users.ID = " + GetID() + " join Peoples on ListOperator.IDPeople = Peoples.ID", con);
                 con.Open();
                 //com.Parameters.AddWithValue("@ListOperator.IDUser", GetID());
@@ -80,16 +81,37 @@ namespace RequestZp1 {
                         Value = reader.GetString(6)
                     };
 
+                    DataGridViewCell RS = new DataGridViewTextBoxCell {
+                        Value = "NULL"
+                    };
+
+                    DataGridViewCell CS = new DataGridViewTextBoxCell {
+                        Value = "NULL"
+                    };
+
+                    DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
+                        Value = reader.IsDBNull(7) ? "NULL" : reader.GetDateTime(7).ToShortDateString()
+                    };
+
+                    DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
+                        Value = reader.IsDBNull(8) ? "NULL" : reader.GetDateTime(8).ToShortDateString()
+                    };
+
                     newRow.Cells.Add(checkoxCell);
                     newRow.Cells.Add(FIO);
                     newRow.Cells.Add(Birthday);
                     newRow.Cells.Add(CodeDocument);
                     newRow.Cells.Add(SeriesDoc);
                     newRow.Cells.Add(NumbDoc);
+                    newRow.Cells.Add(RS);
+                    newRow.Cells.Add(CS);
+                    newRow.Cells.Add(Uprak1);
+                    newRow.Cells.Add(Uprak2);
 
                     RequestTable.Rows.Add(newRow);
                 }
                 reader.Close();
+                flag = true;
             }
         }
 
@@ -380,6 +402,7 @@ namespace RequestZp1 {
         private void RecordTempDB() {
             for (int i = 0; i < RequestTable.Rows.Count; i++) {
                 if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
+                    RequestTable.Rows[i].Cells[7].Value = "OK";
                     using (SqlConnection con = new SqlConnection(connectionString)) {
                         using (SqlCommand com = new SqlCommand("INSERT INTO Temp(Surname, Name, FatherName, DateBirthday, CodeDocument, Series, Number) VALUES" +
                             "(@Surname, @Name, @FatherName, @DateBirthday, @CodeDocument, @Series, @Number)", con)) {
@@ -585,6 +608,83 @@ namespace RequestZp1 {
             }
         }
 
+        private void RequestTable_SelectionChanged(object sender, EventArgs e) {
+            if (!flag) return;
+            if (Convert.ToInt16(RequestTable.SelectedCells[0].ColumnIndex) == 0)
+                return;
+            //RequestTable.EndEdit();
+            TableWithInformation.Rows.Clear();
+            int index = RequestTable.CurrentRow.Index;
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("Select ID From Peoples " +
+                            "Where Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@Surname", RequestTable.Rows[index].Cells[1].Value.ToString().Split(' ')[0]);
+                    com.Parameters.AddWithValue("@Name", RequestTable.Rows[index].Cells[1].Value.ToString().Split(' ')[1]);
+                    com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[index].Cells[1].Value.ToString().Split(' ')[2]);
+                    com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(RequestTable.Rows[index].Cells[2].Value.ToString()), "yyyyMdd", null));
+                    SqlDataReader reader = com.ExecuteReader();
+                    reader.Read();
+                    if (reader.HasRows) {
+                        GetInformationCS(Convert.ToInt32(reader.GetInt32(0)));
+                    }
+                    reader.Close();
+                }
+            }
+        }
+        // выдача информации о выделенном человеке
+        private void GetInformationCS(int id) {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("Select * From Results Where PID = @ID", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@ID", id);
+                    SqlDataReader reader = com.ExecuteReader();
+                    reader.Read();
+                    if (reader.HasRows) {
+                        AddInformation(reader);
+                    }
+                    reader.Close();
+                }
+            }
+        }
+
+        private void AddInformation(SqlDataReader reader) {
+            TableWithInformation.Rows[0].Cells[0].Value = reader.IsDBNull(0) ? "NULL" : Convert.ToInt32(reader.GetInt32(0)).ToString();
+            TableWithInformation.Rows[0].Cells[1].Value = reader.IsDBNull(1) ? "NULL" : Convert.ToInt32(reader.GetInt32(1)).ToString();
+            TableWithInformation.Rows[0].Cells[2].Value = reader.IsDBNull(2) ? "NULL" : reader.GetString(2);
+            TableWithInformation.Rows[0].Cells[3].Value = reader.IsDBNull(3) ? "NULL" : reader.GetDateTime(3).ToShortDateString();
+            TableWithInformation.Rows[0].Cells[4].Value = reader.IsDBNull(4) ? "NULL" : reader.GetDateTime(4).ToShortDateString();
+            TableWithInformation.Rows[0].Cells[5].Value = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
+            TableWithInformation.Rows[0].Cells[6].Value = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
+            TableWithInformation.Rows[0].Cells[7].Value = reader.IsDBNull(7) ? "NULL" : reader.GetString(7);
+            TableWithInformation.Rows[0].Cells[8].Value = reader.IsDBNull(8) ? false : reader.GetBoolean(8);
+            TableWithInformation.Rows[0].Cells[9].Value = reader.IsDBNull(9) ? "NULL" : reader.GetString(9);
+            TableWithInformation.Rows[0].Cells[10].Value = reader.IsDBNull(10) ? "NULL" : reader.GetString(10);
+            TableWithInformation.Rows[0].Cells[11].Value = reader.IsDBNull(11) ? "NULL" : Convert.ToInt32(reader.GetInt32(11)).ToString();
+            TableWithInformation.Rows[0].Cells[12].Value = reader.IsDBNull(12) ? "NULL" : reader.GetString(12);
+            TableWithInformation.Rows[0].Cells[13].Value = reader.IsDBNull(13) ? "NULL" : Convert.ToInt32(reader.GetInt32(13)).ToString();
+            TableWithInformation.Rows[0].Cells[14].Value = reader.IsDBNull(14) ? "NULL" : reader.GetDateTime(14).ToShortDateString();
+            TableWithInformation.Rows[0].Cells[15].Value = reader.IsDBNull(15) ? "NULL" : Convert.ToInt32(reader.GetInt32(15)).ToString();
+            TableWithInformation.Rows[0].Cells[16].Value = reader.IsDBNull(16) ? "NULL" : reader.GetString(16);
+           
+        }
+
+        private void TakeOff_Click(object sender, EventArgs e) {
+            for (int i = 0; i < RequestTable.Rows.Count; i++)
+                RequestTable.Rows[i].Cells[0].Value = 0;
+        }
+
+        private void Highlight_Click(object sender, EventArgs e) {
+            for (int i = 0; i < RequestTable.Rows.Count; i++)
+                RequestTable.Rows[i].Cells[0].Value = 1;
+        }
+
+        private void Refresh_Click(object sender, EventArgs e) {
+            flag = false;
+            RequestTable.Rows.Clear();
+            ToFillTable();
+        }
+
         // получение отредактированного дня рождения
         private string GetBirthday(string birthday) {
             string year = birthday.Split('.')[2];
@@ -598,8 +698,6 @@ namespace RequestZp1 {
             if (rights != "admin")
                 addPersonMenuItem.Enabled = false;
         }
-
-        
     }
 
     public class Peoples {

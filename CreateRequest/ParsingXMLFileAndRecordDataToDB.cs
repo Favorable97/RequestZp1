@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 /*
  * ParsingXMLFileAndRecordDataToDB
@@ -15,7 +16,7 @@ using System.Data.SqlClient;
 
 namespace CreateRequest {
     class ParsingXMLFileAndRecordDataToDB {
-        private readonly static string path = @"\\192.168.2.205\Ident";
+        private readonly static string path = @"\\192.168.2.205\Ident\tfoms";
 
         private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         
@@ -23,6 +24,7 @@ namespace CreateRequest {
         int serialNumber = 0;
         // Имя файла передаётся в конструкторе
         private string FileName { get; set; }
+        XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
         public ParsingXMLFileAndRecordDataToDB(string fileName) {
             FileName = fileName;
         }
@@ -37,28 +39,141 @@ namespace CreateRequest {
             foreach (XElement rsp in uprak2.Element(xNamespace + "UPRMessageBatch").Elements(xNamespace + "RSP_ZK1")) {
                 serialNumber++;
                 if (rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE") != null) {
-                    int a = GetPID();
-                    string b = GetENP(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string d = GetDBEG(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string c = GetDEND(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string e = GetOkato(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string f = GetOPDOC(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string g = GetQOGRN(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string u = GetPOLIS(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string y = GetDUP(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string k = GetMainENP(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    int s = GetDS(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string dr = GetDR(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    int w = GetW(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-                    string pol = GetPOLVID(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
-
+                    RecordDBInformation(rsp.Element(xNamespace + "RSP_ZK1.QUERY_RESPONSE"));
                 } else {
-                    // гововорим о том, что информации нет
+                    RecordDBInformation();
                 }
             }
         }
-        XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
-        
+
+        // Записываем информацию в случае наличия информации в ЦС
+        private void RecordDBInformation(XElement element) {
+            if (IsExistPeople()) {
+                RecordResult(element);
+            } else {
+                DeletePerson();
+                RecordResult(element);
+            }
+            
+        }
+
+        // Проверка, проверялся ли этот человек
+        private bool IsExistPeople() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("Select Count(*) From Results Where PID = @PID", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@PID", GetPID());
+                    int count = (int)com.ExecuteScalar();
+                    if (count > 0)
+                        return false;
+                    else
+                        return true;
+                }
+            }
+        }
+
+        // запись в таблицу Results данных о человеке
+        private void RecordResult(XElement element) {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP, DBEG, DEND, OKATO, OPDOC, QOGRN, MAIN, POLIS, DUP, NR, MAINENP, DS, DR, W, POLVID) " +
+                    "VALUES(@PID, @ENP, @DBEG, @DEND, @OKATO, @OPDOC, @QOGRN, @MAIN, @POLIS, @DUP, @NR, @MAINENP, @DS, @DR, @W, @POLVID)", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@PID", GetPID());
+                    if (GetENP(element) != "")
+                        com.Parameters.AddWithValue("@ENP", GetENP(element));
+                    else {
+                        com.Parameters.AddWithValue("@ENP", DBNull.Value);
+                    }
+                    if (GetDBEG(element) != "")
+                        com.Parameters.AddWithValue("@DBEG", DateTime.ParseExact(GetDBEG(element), "yyyy-MM-dd", null));
+                    else {
+                        com.Parameters.AddWithValue("@DBEG", DBNull.Value);
+                    }
+                    if (GetDEND(element) != "")
+                        com.Parameters.AddWithValue("@DEND", DateTime.ParseExact(GetDEND(element), "yyyy-MM-dd", null));
+                    else {
+                        com.Parameters.AddWithValue("@DEND", DBNull.Value);
+                    }
+                    if (GetOkato(element) != "")
+                        com.Parameters.AddWithValue("@OKATO", GetOkato(element));
+                    else {
+                        com.Parameters.AddWithValue("@OKATO", DBNull.Value);
+                    }
+                    if (GetOPDOC(element) != "")
+                        com.Parameters.AddWithValue("@OPDOC", GetOPDOC(element));
+                    else {
+                        com.Parameters.AddWithValue("@OPDOC", DBNull.Value);
+                    }
+                    if (GetQOGRN(element) != "")
+                        com.Parameters.AddWithValue("@QOGRN", GetQOGRN(element));
+                    else {
+                        com.Parameters.AddWithValue("@QOGRN", DBNull.Value);
+                    }
+                    com.Parameters.AddWithValue("@MAIN", 1);
+                    if (GetPOLIS(element) != "")
+                        com.Parameters.AddWithValue("@POLIS", GetPOLIS(element));
+                    else {
+                        com.Parameters.AddWithValue("@POLIS", DBNull.Value);
+                    }
+                    if (GetDUP(element) != "")
+                        com.Parameters.AddWithValue("@DUP", GetDUP(element));
+                    else {
+                        com.Parameters.AddWithValue("@DUP", DBNull.Value);
+                    }
+                    com.Parameters.AddWithValue("@NR", 1);
+                    if (GetMainENP(element) != "")
+                        com.Parameters.AddWithValue("@MAINENP", GetMainENP(element));
+                    else {
+                        com.Parameters.AddWithValue("@MAINENP", DBNull.Value);
+                    }
+                    if (GetDS(element) != -1)
+                        com.Parameters.AddWithValue("@DS", GetDS(element));
+                    else {
+                        com.Parameters.AddWithValue("@DS", DBNull.Value);
+                    }
+                    if (GetDR(element) != "")
+                        com.Parameters.AddWithValue("@DR", DateTime.ParseExact(GetDR(element), "yyyy-MM-dd", null));
+                    else {
+                        com.Parameters.AddWithValue("@DR", DBNull.Value);
+                    }
+                    if (GetW(element) != 0)
+                        com.Parameters.AddWithValue("@W", GetW(element));
+                    else {
+                        com.Parameters.AddWithValue("@W", DBNull.Value);
+                    }
+                    if (GetPOLVID(element) != "")
+                        com.Parameters.AddWithValue("@POLVID", GetPOLVID(element));
+                    else {
+                        com.Parameters.AddWithValue("@POLVID", DBNull.Value);
+                    }
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // удаление данных о человеке в таблице Results
+        private void DeletePerson() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com  = new SqlCommand("Delete From Results Where PID = @PID", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@PID", GetPID());
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // Записываем информацию в случае отсутсвия информации в ЦС
+        private void RecordDBInformation() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP) VALUES(@PID, @ENP)", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@PID", GetPID());
+                    com.Parameters.AddWithValue("@ENP", "Нет страхования в ЦС");
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
+
         // ID человека
         #region PID
         // Выясняем ID человека

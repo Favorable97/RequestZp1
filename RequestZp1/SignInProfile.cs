@@ -52,6 +52,8 @@ namespace RequestZp1 {
                     return;
                 } else {
                     MessageBox.Show("Вход выполнен");
+                    ToWriteFile();
+                    
                     com = new SqlCommand("Select ID, Rights From Users Where Name = @Name and Password = @Password", con);
                     com.Parameters.AddWithValue("@Name", NameP.Text);
                     com.Parameters.AddWithValue("@Password", encPassword);
@@ -60,7 +62,7 @@ namespace RequestZp1 {
 
                     object rights = reader.GetString(1);
                     id = reader.GetValue(0);
-                    ToWriteFile(rights);
+                    EditForm(rights);
                     ToWriteDataBaseSuccessful(countTry);
                     reader.Close();
                 }
@@ -75,21 +77,26 @@ namespace RequestZp1 {
             finally { con.Close(); }
         }
 
-        private void ToWriteFile(object rights) {
+        private void EditForm(object rights) {
+            this.Hide();
+            (Application.OpenForms[0] as Form1).AutoSize = true;
+            (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
+            (Application.OpenForms[0] as Form1).VisibleProfile();
+            (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
+            (Application.OpenForms[0] as Form1).rights = (string)rights;
+            (Application.OpenForms[0] as Form1).IsAdmin();
+            (Application.OpenForms[0] as Form1).ToFillTable();
+            (Application.OpenForms[0] as Form1).ToFillDropDownList();
+            (Application.OpenForms[0] as Form1).flag = true;
+        }
+
+        private void ToWriteFile() {
             FileStream stream = null;
             StreamWriter write = null;
             try {
                 stream = new FileStream("date.txt", FileMode.Truncate);
                 write = new StreamWriter(stream, System.Text.Encoding.Default);
-                this.Hide();
-                (Application.OpenForms[0] as Form1).AutoSize = true;
-                (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
-                (Application.OpenForms[0] as Form1).VisibleProfile();
-                (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
-                (Application.OpenForms[0] as Form1).rights = (string)rights;
-                (Application.OpenForms[0] as Form1).IsAdmin();
-                (Application.OpenForms[0] as Form1).ToFillTable();
-                (Application.OpenForms[0] as Form1).ToFillDropDownList();
+                
                 if (!RememberMe.Checked) {
                     write.Write("");
                     NameP.Clear();
