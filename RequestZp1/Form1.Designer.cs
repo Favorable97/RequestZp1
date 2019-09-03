@@ -36,11 +36,24 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.CreateFileAnwer = new System.Windows.Forms.Button();
+            this.TableWithFilesCSV = new System.Windows.Forms.DataGridView();
+            this.Column34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column35 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Column36 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.label8 = new System.Windows.Forms.Label();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.Refresh = new System.Windows.Forms.Button();
+            this.Highlight = new System.Windows.Forms.Button();
             this.TakeOff = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
             this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,6 +81,7 @@
             this.tSeries = new System.Windows.Forms.MaskedTextBox();
             this.DeletePeople = new System.Windows.Forms.Button();
             this.tBirthday = new System.Windows.Forms.MaskedTextBox();
+            this.RefreshInfo = new System.Windows.Forms.Button();
             this.TableWithInformation = new System.Windows.Forms.DataGridView();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -86,10 +100,9 @@
             this.Column28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.registration1 = new RequestZp1.Registration();
-            this.Highlight = new System.Windows.Forms.Button();
-            this.Refresh = new System.Windows.Forms.Button();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -97,6 +110,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TableWithFilesCSV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TableWithInformation)).BeginInit();
@@ -112,7 +126,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.menuStrip1.Size = new System.Drawing.Size(1465, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1680, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.Visible = false;
@@ -166,7 +180,7 @@
             // panelWithHistory
             // 
             this.panelWithHistory.Controls.Add(this.HistoryTable);
-            this.panelWithHistory.Location = new System.Drawing.Point(12, 695);
+            this.panelWithHistory.Location = new System.Drawing.Point(12, 754);
             this.panelWithHistory.Name = "panelWithHistory";
             this.panelWithHistory.Size = new System.Drawing.Size(918, 488);
             this.panelWithHistory.TabIndex = 11;
@@ -209,13 +223,17 @@
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(3, 39);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.CreateFileAnwer);
+            this.splitContainer1.Panel1.Controls.Add(this.TableWithFilesCSV);
+            this.splitContainer1.Panel1.Controls.Add(this.label8);
+            this.splitContainer1.Panel1.Controls.Add(this.radioButton2);
+            this.splitContainer1.Panel1.Controls.Add(this.radioButton1);
             this.splitContainer1.Panel1.Controls.Add(this.Refresh);
             this.splitContainer1.Panel1.Controls.Add(this.Highlight);
             this.splitContainer1.Panel1.Controls.Add(this.TakeOff);
@@ -238,20 +256,134 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.RefreshInfo);
             this.splitContainer1.Panel2.Controls.Add(this.TableWithInformation);
-            this.splitContainer1.Size = new System.Drawing.Size(1401, 583);
-            this.splitContainer1.SplitterDistance = 362;
+            this.splitContainer1.Size = new System.Drawing.Size(1672, 680);
+            this.splitContainer1.SplitterDistance = 475;
             this.splitContainer1.TabIndex = 19;
             this.splitContainer1.Visible = false;
+            // 
+            // CreateFileAnwer
+            // 
+            this.CreateFileAnwer.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.CreateFileAnwer.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.CreateFileAnwer.Location = new System.Drawing.Point(1356, 301);
+            this.CreateFileAnwer.Name = "CreateFileAnwer";
+            this.CreateFileAnwer.Size = new System.Drawing.Size(156, 60);
+            this.CreateFileAnwer.TabIndex = 39;
+            this.CreateFileAnwer.Text = "Сформировать документ";
+            this.CreateFileAnwer.UseVisualStyleBackColor = false;
+            this.CreateFileAnwer.Click += new System.EventHandler(this.CreateFileAnswer_Click);
+            // 
+            // TableWithFilesCSV
+            // 
+            this.TableWithFilesCSV.AllowUserToAddRows = false;
+            this.TableWithFilesCSV.AllowUserToDeleteRows = false;
+            this.TableWithFilesCSV.BackgroundColor = System.Drawing.Color.AliceBlue;
+            this.TableWithFilesCSV.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TableWithFilesCSV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TableWithFilesCSV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column34,
+            this.Column35,
+            this.Column36});
+            this.TableWithFilesCSV.Location = new System.Drawing.Point(256, 311);
+            this.TableWithFilesCSV.Name = "TableWithFilesCSV";
+            this.TableWithFilesCSV.RowHeadersVisible = false;
+            this.TableWithFilesCSV.Size = new System.Drawing.Size(328, 142);
+            this.TableWithFilesCSV.TabIndex = 38;
+            this.TableWithFilesCSV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TableWithFilesCSV_CellContentClick);
+            // 
+            // Column34
+            // 
+            this.Column34.HeaderText = "Имя файла";
+            this.Column34.Name = "Column34";
+            this.Column34.ReadOnly = true;
+            this.Column34.Width = 120;
+            // 
+            // Column35
+            // 
+            this.Column35.HeaderText = "Выбор";
+            this.Column35.Name = "Column35";
+            this.Column35.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column35.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column35.Text = "Выбрать";
+            this.Column35.UseColumnTextForButtonValue = true;
+            // 
+            // Column36
+            // 
+            this.Column36.HeaderText = "Редактирование";
+            this.Column36.Name = "Column36";
+            this.Column36.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column36.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column36.Text = "Удалить";
+            this.Column36.UseColumnTextForButtonValue = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(252, 222);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(50, 22);
+            this.label8.TabIndex = 37;
+            this.label8.Text = "Пол:";
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.radioButton2.Location = new System.Drawing.Point(382, 220);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(65, 24);
+            this.radioButton2.TabIndex = 36;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Жен.";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.radioButton1.Location = new System.Drawing.Point(308, 220);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(68, 24);
+            this.radioButton1.TabIndex = 35;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Муж.";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // Refresh
+            // 
+            this.Refresh.BackColor = System.Drawing.Color.LightGray;
+            this.Refresh.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Refresh.Location = new System.Drawing.Point(923, 9);
+            this.Refresh.Name = "Refresh";
+            this.Refresh.Size = new System.Drawing.Size(94, 51);
+            this.Refresh.TabIndex = 34;
+            this.Refresh.Text = "Обновить";
+            this.Refresh.UseVisualStyleBackColor = false;
+            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            // 
+            // Highlight
+            // 
+            this.Highlight.BackColor = System.Drawing.Color.LightGray;
+            this.Highlight.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Highlight.Location = new System.Drawing.Point(813, 9);
+            this.Highlight.Name = "Highlight";
+            this.Highlight.Size = new System.Drawing.Size(95, 51);
+            this.Highlight.TabIndex = 33;
+            this.Highlight.Text = "Выделить всё";
+            this.Highlight.UseVisualStyleBackColor = false;
+            this.Highlight.Click += new System.EventHandler(this.Highlight_Click);
             // 
             // TakeOff
             // 
             this.TakeOff.BackColor = System.Drawing.Color.LightGray;
             this.TakeOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.TakeOff.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.TakeOff.Location = new System.Drawing.Point(695, 3);
+            this.TakeOff.Location = new System.Drawing.Point(695, 9);
             this.TakeOff.Name = "TakeOff";
-            this.TakeOff.Size = new System.Drawing.Size(122, 51);
+            this.TakeOff.Size = new System.Drawing.Size(104, 51);
             this.TakeOff.TabIndex = 32;
             this.TakeOff.Text = "Снять выделение";
             this.TakeOff.UseVisualStyleBackColor = false;
@@ -267,7 +399,10 @@
             this.RequestTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column7,
             this.Column1,
+            this.Column32,
+            this.Column33,
             this.Column2,
+            this.Column31,
             this.Column3,
             this.Column12,
             this.Column13,
@@ -275,9 +410,9 @@
             this.Column9,
             this.Column10,
             this.Column11});
-            this.RequestTable.Location = new System.Drawing.Point(684, 60);
+            this.RequestTable.Location = new System.Drawing.Point(684, 66);
             this.RequestTable.Name = "RequestTable";
-            this.RequestTable.Size = new System.Drawing.Size(707, 229);
+            this.RequestTable.Size = new System.Drawing.Size(982, 223);
             this.RequestTable.TabIndex = 26;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             this.RequestTable.SelectionChanged += new System.EventHandler(this.RequestTable_SelectionChanged);
@@ -292,20 +427,44 @@
             // 
             // Column1
             // 
-            this.Column1.HeaderText = "ФИО";
+            this.Column1.HeaderText = "Фамилия";
             this.Column1.Name = "Column1";
-            this.Column1.Width = 110;
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 75;
+            // 
+            // Column32
+            // 
+            this.Column32.HeaderText = "Имя";
+            this.Column32.Name = "Column32";
+            this.Column32.ReadOnly = true;
+            this.Column32.Width = 75;
+            // 
+            // Column33
+            // 
+            this.Column33.HeaderText = "Отчество";
+            this.Column33.Name = "Column33";
+            this.Column33.ReadOnly = true;
+            this.Column33.Width = 75;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Дата рождения";
             this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             this.Column2.Width = 80;
+            // 
+            // Column31
+            // 
+            this.Column31.HeaderText = "Пол";
+            this.Column31.Name = "Column31";
+            this.Column31.ReadOnly = true;
+            this.Column31.Width = 40;
             // 
             // Column3
             // 
             this.Column3.HeaderText = "Код документа";
             this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
             this.Column3.Width = 70;
             // 
             // Column12
@@ -326,32 +485,34 @@
             // 
             this.Column8.HeaderText = "Поиск в РС";
             this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
             this.Column8.Width = 60;
             // 
             // Column9
             // 
             this.Column9.HeaderText = "Отправка запроса в ЦС";
             this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
             this.Column9.Width = 70;
             // 
             // Column10
             // 
             this.Column10.HeaderText = "Ответ1 (ЦС)";
             this.Column10.Name = "Column10";
-            this.Column10.Width = 50;
+            this.Column10.ReadOnly = true;
             // 
             // Column11
             // 
             this.Column11.HeaderText = "Ответ2 (ЦС)";
             this.Column11.Name = "Column11";
-            this.Column11.Width = 50;
+            this.Column11.ReadOnly = true;
             // 
             // CheckCS
             // 
             this.CheckCS.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CheckCS.Enabled = false;
             this.CheckCS.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CheckCS.Location = new System.Drawing.Point(1248, 295);
+            this.CheckCS.Location = new System.Drawing.Point(1127, 301);
             this.CheckCS.Name = "CheckCS";
             this.CheckCS.Size = new System.Drawing.Size(143, 60);
             this.CheckCS.TabIndex = 27;
@@ -363,7 +524,7 @@
             // 
             this.DownLoadFileCSV.BackColor = System.Drawing.Color.LightGray;
             this.DownLoadFileCSV.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DownLoadFileCSV.Location = new System.Drawing.Point(252, 295);
+            this.DownLoadFileCSV.Location = new System.Drawing.Point(440, 253);
             this.DownLoadFileCSV.Name = "DownLoadFileCSV";
             this.DownLoadFileCSV.Size = new System.Drawing.Size(152, 52);
             this.DownLoadFileCSV.TabIndex = 24;
@@ -375,7 +536,7 @@
             // 
             this.AddPeople.BackColor = System.Drawing.Color.LightGray;
             this.AddPeople.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddPeople.Location = new System.Drawing.Point(569, 296);
+            this.AddPeople.Location = new System.Drawing.Point(256, 253);
             this.AddPeople.Name = "AddPeople";
             this.AddPeople.Size = new System.Drawing.Size(105, 51);
             this.AddPeople.TabIndex = 25;
@@ -475,9 +636,9 @@
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.tSeries);
             this.groupBox1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(246, 49);
+            this.groupBox1.Location = new System.Drawing.Point(246, 11);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 240);
+            this.groupBox1.Size = new System.Drawing.Size(428, 200);
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выберите тип документа и введите необходимые данные";
@@ -530,9 +691,9 @@
             this.DeletePeople.BackColor = System.Drawing.Color.LightGray;
             this.DeletePeople.Enabled = false;
             this.DeletePeople.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.DeletePeople.Location = new System.Drawing.Point(1130, 3);
+            this.DeletePeople.Location = new System.Drawing.Point(1036, 9);
             this.DeletePeople.Name = "DeletePeople";
-            this.DeletePeople.Size = new System.Drawing.Size(96, 51);
+            this.DeletePeople.Size = new System.Drawing.Size(82, 51);
             this.DeletePeople.TabIndex = 31;
             this.DeletePeople.Text = "Удалить";
             this.DeletePeople.UseVisualStyleBackColor = false;
@@ -548,8 +709,22 @@
             this.tBirthday.TabIndex = 23;
             this.tBirthday.ValidatingType = typeof(System.DateTime);
             // 
+            // RefreshInfo
+            // 
+            this.RefreshInfo.BackColor = System.Drawing.Color.LightGray;
+            this.RefreshInfo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.RefreshInfo.Location = new System.Drawing.Point(8, 146);
+            this.RefreshInfo.Name = "RefreshInfo";
+            this.RefreshInfo.Size = new System.Drawing.Size(127, 42);
+            this.RefreshInfo.TabIndex = 31;
+            this.RefreshInfo.Text = "Обновить";
+            this.RefreshInfo.UseVisualStyleBackColor = false;
+            this.RefreshInfo.Click += new System.EventHandler(this.RefreshInfo_Click);
+            // 
             // TableWithInformation
             // 
+            this.TableWithInformation.AllowUserToAddRows = false;
+            this.TableWithInformation.AllowUserToDeleteRows = false;
             this.TableWithInformation.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.TableWithInformation.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TableWithInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -571,7 +746,7 @@
             this.Column28,
             this.Column29,
             this.Column30});
-            this.TableWithInformation.Location = new System.Drawing.Point(5, 3);
+            this.TableWithInformation.Location = new System.Drawing.Point(8, 14);
             this.TableWithInformation.Name = "TableWithInformation";
             this.TableWithInformation.RowHeadersVisible = false;
             this.TableWithInformation.Size = new System.Drawing.Size(1395, 126);
@@ -694,53 +869,35 @@
             this.Column30.ReadOnly = true;
             this.Column30.Width = 60;
             // 
-            // signInProfile1
+            // openFileDialog1
             // 
-            this.signInProfile1.Location = new System.Drawing.Point(15, 640);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
-            this.signInProfile1.TabIndex = 17;
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // registration1
             // 
-            this.registration1.Location = new System.Drawing.Point(15, 666);
+            this.registration1.AutoSize = true;
+            this.registration1.Location = new System.Drawing.Point(3, 791);
             this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(1260, 570);
-            this.registration1.TabIndex = 16;
+            this.registration1.Size = new System.Drawing.Size(1264, 570);
+            this.registration1.TabIndex = 20;
             // 
-            // Highlight
+            // signInProfile1
             // 
-            this.Highlight.BackColor = System.Drawing.Color.LightGray;
-            this.Highlight.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Highlight.Location = new System.Drawing.Point(838, 3);
-            this.Highlight.Name = "Highlight";
-            this.Highlight.Size = new System.Drawing.Size(115, 51);
-            this.Highlight.TabIndex = 33;
-            this.Highlight.Text = "Выделить всё";
-            this.Highlight.UseVisualStyleBackColor = false;
-            this.Highlight.Click += new System.EventHandler(this.Highlight_Click);
-            // 
-            // Refresh
-            // 
-            this.Refresh.BackColor = System.Drawing.Color.LightGray;
-            this.Refresh.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Refresh.Location = new System.Drawing.Point(992, 3);
-            this.Refresh.Name = "Refresh";
-            this.Refresh.Size = new System.Drawing.Size(96, 51);
-            this.Refresh.TabIndex = 34;
-            this.Refresh.Text = "Обновить";
-            this.Refresh.UseVisualStyleBackColor = false;
-            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
+            this.signInProfile1.TabIndex = 17;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.ClientSize = new System.Drawing.Size(1465, 698);
+            this.ClientSize = new System.Drawing.Size(1680, 801);
+            this.Controls.Add(this.registration1);
             this.Controls.Add(this.signInProfile1);
             this.Controls.Add(this.panelWithHistory);
-            this.Controls.Add(this.registration1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.splitContainer1);
             this.MainMenuStrip = this.menuStrip1;
@@ -756,6 +913,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TableWithFilesCSV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RequestTable)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -778,19 +936,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private Registration registration1;
         private SignInProfile signInProfile1;
         private System.Windows.Forms.DataGridView RequestTable;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.Button CheckCS;
         private System.Windows.Forms.Button DownLoadFileCSV;
         private System.Windows.Forms.Button AddPeople;
@@ -833,6 +980,30 @@
         private System.Windows.Forms.Button TakeOff;
         private System.Windows.Forms.Button Refresh;
         private System.Windows.Forms.Button Highlight;
+        private System.Windows.Forms.Button RefreshInfo;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private Registration registration1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column32;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column33;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column31;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridView TableWithFilesCSV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column34;
+        private System.Windows.Forms.DataGridViewButtonColumn Column35;
+        private System.Windows.Forms.DataGridViewButtonColumn Column36;
+        private System.Windows.Forms.Button CreateFileAnwer;
     }
 }
 

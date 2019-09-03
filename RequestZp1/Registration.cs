@@ -86,5 +86,11 @@ namespace RequestZp1 {
             return encPassword;
 
         }
+
+        private void Close_Click(object sender, EventArgs e) {
+            this.Hide();
+            (Application.OpenForms[0] as Form1).AutoSize = true;
+            //(Application.OpenForms[0] as Form1).VisibleProfile();
+        }
     }
 }

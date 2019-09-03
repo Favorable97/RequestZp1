@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
+//using System.Data.SqlTypes;
 
 /*
  * ParsingXMLFileAndRecordDataToDB
@@ -24,7 +24,7 @@ namespace CreateRequest {
         int serialNumber = 0;
         // Имя файла передаётся в конструкторе
         private string FileName { get; set; }
-        XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
+        readonly XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
         public ParsingXMLFileAndRecordDataToDB(string fileName) {
             FileName = fileName;
         }
@@ -164,14 +164,27 @@ namespace CreateRequest {
 
         // Записываем информацию в случае отсутсвия информации в ЦС
         private void RecordDBInformation() {
-            using (SqlConnection con = new SqlConnection(connectionString)) {
-                using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP) VALUES(@PID, @ENP)", con)) {
-                    con.Open();
-                    com.Parameters.AddWithValue("@PID", GetPID());
-                    com.Parameters.AddWithValue("@ENP", "Нет страхования в ЦС");
-                    com.ExecuteNonQuery();
+            if (IsExistPeople()) {
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP) VALUES(@PID, @ENP)", con)) {
+                        con.Open();
+                        com.Parameters.AddWithValue("@PID", GetPID());
+                        com.Parameters.AddWithValue("@ENP", "Нет страхования в ЦС");
+                        com.ExecuteNonQuery();
+                    }
+                }
+            } else {
+                DeletePerson();
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP) VALUES(@PID, @ENP)", con)) {
+                        con.Open();
+                        com.Parameters.AddWithValue("@PID", GetPID());
+                        com.Parameters.AddWithValue("@ENP", "Нет страхования в ЦС");
+                        com.ExecuteNonQuery();
+                    }
                 }
             }
+            
         }
 
         // ID человека

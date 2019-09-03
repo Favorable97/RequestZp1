@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crc32.cs" />
+    <Compile Include="CreateAnswer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Cancel.png" />
+    <Content Include="Resources\close.png" />
     <Content Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

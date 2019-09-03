@@ -28,6 +28,7 @@
             this.HeadLine = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SignUpPanel = new System.Windows.Forms.Panel();
+            this.Close = new System.Windows.Forms.Button();
             this.SignUp = new System.Windows.Forms.Button();
             this.lSignUp = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -50,7 +51,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(96, 34);
+            this.pictureBox1.Location = new System.Drawing.Point(96, 44);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(348, 247);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -81,7 +82,8 @@
             // 
             // SignUpPanel
             // 
-            this.SignUpPanel.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.SignUpPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.SignUpPanel.Controls.Add(this.Close);
             this.SignUpPanel.Controls.Add(this.SignUp);
             this.SignUpPanel.Controls.Add(this.lSignUp);
             this.SignUpPanel.Controls.Add(this.label3);
@@ -97,16 +99,27 @@
             this.SignUpPanel.Controls.Add(this.Department);
             this.SignUpPanel.Controls.Add(this.NameR);
             this.SignUpPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SignUpPanel.Location = new System.Drawing.Point(597, 0);
+            this.SignUpPanel.Location = new System.Drawing.Point(601, 0);
             this.SignUpPanel.Name = "SignUpPanel";
             this.SignUpPanel.Size = new System.Drawing.Size(663, 570);
             this.SignUpPanel.TabIndex = 6;
+            // 
+            // Close
+            // 
+            this.Close.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Close.Image = ((System.Drawing.Image)(resources.GetObject("Close.Image")));
+            this.Close.Location = new System.Drawing.Point(586, 3);
+            this.Close.Name = "Close";
+            this.Close.Size = new System.Drawing.Size(46, 37);
+            this.Close.TabIndex = 8;
+            this.Close.UseVisualStyleBackColor = true;
+            this.Close.Click += new System.EventHandler(this.Close_Click);
             // 
             // SignUp
             // 
             this.SignUp.BackColor = System.Drawing.Color.LightSteelBlue;
             this.SignUp.Font = new System.Drawing.Font("Century", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SignUp.Location = new System.Drawing.Point(172, 487);
+            this.SignUp.Location = new System.Drawing.Point(172, 485);
             this.SignUp.Name = "SignUp";
             this.SignUp.Size = new System.Drawing.Size(196, 42);
             this.SignUp.TabIndex = 7;
@@ -118,7 +131,7 @@
             // 
             this.lSignUp.AutoSize = true;
             this.lSignUp.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lSignUp.Location = new System.Drawing.Point(172, 24);
+            this.lSignUp.Location = new System.Drawing.Point(172, 38);
             this.lSignUp.Name = "lSignUp";
             this.lSignUp.Size = new System.Drawing.Size(198, 36);
             this.lSignUp.TabIndex = 1;
@@ -128,7 +141,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(172, 203);
+            this.label3.Location = new System.Drawing.Point(172, 212);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 22);
             this.label3.TabIndex = 2;
@@ -138,7 +151,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(172, 71);
+            this.label1.Location = new System.Drawing.Point(172, 80);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 22);
             this.label1.TabIndex = 2;
@@ -148,7 +161,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(172, 336);
+            this.label4.Location = new System.Drawing.Point(172, 345);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 22);
             this.label4.TabIndex = 2;
@@ -158,7 +171,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(172, 271);
+            this.label2.Location = new System.Drawing.Point(172, 280);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 22);
             this.label2.TabIndex = 2;
@@ -168,7 +181,7 @@
             // 
             this.lName.AutoSize = true;
             this.lName.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lName.Location = new System.Drawing.Point(172, 141);
+            this.lName.Location = new System.Drawing.Point(172, 150);
             this.lName.Name = "lName";
             this.lName.Size = new System.Drawing.Size(54, 22);
             this.lName.TabIndex = 2;
@@ -177,7 +190,7 @@
             // Password
             // 
             this.Password.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Password.Location = new System.Drawing.Point(172, 437);
+            this.Password.Location = new System.Drawing.Point(172, 446);
             this.Password.Name = "Password";
             this.Password.PasswordChar = '*';
             this.Password.Size = new System.Drawing.Size(286, 30);
@@ -187,7 +200,7 @@
             // 
             this.lPassword.AutoSize = true;
             this.lPassword.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lPassword.Location = new System.Drawing.Point(172, 402);
+            this.lPassword.Location = new System.Drawing.Point(172, 411);
             this.lPassword.Name = "lPassword";
             this.lPassword.Size = new System.Drawing.Size(85, 22);
             this.lPassword.TabIndex = 2;
@@ -196,7 +209,7 @@
             // FatherName
             // 
             this.FatherName.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FatherName.Location = new System.Drawing.Point(172, 232);
+            this.FatherName.Location = new System.Drawing.Point(172, 241);
             this.FatherName.Name = "FatherName";
             this.FatherName.Size = new System.Drawing.Size(286, 30);
             this.FatherName.TabIndex = 3;
@@ -204,7 +217,7 @@
             // Surname
             // 
             this.Surname.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Surname.Location = new System.Drawing.Point(172, 100);
+            this.Surname.Location = new System.Drawing.Point(172, 109);
             this.Surname.Name = "Surname";
             this.Surname.Size = new System.Drawing.Size(286, 30);
             this.Surname.TabIndex = 1;
@@ -212,7 +225,7 @@
             // Rights
             // 
             this.Rights.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Rights.Location = new System.Drawing.Point(172, 366);
+            this.Rights.Location = new System.Drawing.Point(172, 375);
             this.Rights.Name = "Rights";
             this.Rights.Size = new System.Drawing.Size(286, 30);
             this.Rights.TabIndex = 5;
@@ -220,7 +233,7 @@
             // Department
             // 
             this.Department.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Department.Location = new System.Drawing.Point(172, 301);
+            this.Department.Location = new System.Drawing.Point(172, 310);
             this.Department.Name = "Department";
             this.Department.Size = new System.Drawing.Size(286, 30);
             this.Department.TabIndex = 4;
@@ -228,7 +241,7 @@
             // NameR
             // 
             this.NameR.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NameR.Location = new System.Drawing.Point(172, 166);
+            this.NameR.Location = new System.Drawing.Point(172, 175);
             this.NameR.Name = "NameR";
             this.NameR.Size = new System.Drawing.Size(286, 30);
             this.NameR.TabIndex = 2;
@@ -237,10 +250,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.Controls.Add(this.SignUpPanel);
             this.Controls.Add(this.panel1);
             this.Name = "Registration";
-            this.Size = new System.Drawing.Size(1260, 570);
+            this.Size = new System.Drawing.Size(1264, 570);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -270,5 +284,6 @@
         private System.Windows.Forms.TextBox Rights;
         private System.Windows.Forms.TextBox Department;
         private System.Windows.Forms.TextBox NameR;
+        private System.Windows.Forms.Button Close;
     }
 }

@@ -194,7 +194,6 @@ namespace RequestZp1 {
 
         private void SignInProfile_Load(object sender, EventArgs e) {
             string text = "";
-            string str = AppDomain.CurrentDomain.BaseDirectory;
             //using (FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "date.txt", FileMode.OpenOrCreate)) {
 
             using (var reader = new System.IO.StreamReader("date.txt")) {

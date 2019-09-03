@@ -18,7 +18,7 @@ namespace CreateRequest {
         public string FileName { get; set; }
 
         private string name, surname, fatherName, date;
-        
+        private int pol;
 
         public void WorkingProgram() {
             if (IsExist()) {
@@ -153,11 +153,11 @@ namespace CreateRequest {
             XElement cwe3 = new XElement(xNamespace + "CWE.3", "1.2.643.2.40.1.9");
             qpd1.Add(cwe1, cwe3);
             XElement qpd3 = new XElement(xNamespace + "QPD.3", "У");
-            //XElement qpd4 = new XElement(xNamespace + "QPD.4", GetBirthday(DateTime.Now.ToShortDateString()));
+            XElement qpd4 = new XElement(xNamespace + "QPD.4", GetBirthday(DateTime.Now.ToShortDateString()));
             string strWithDate = msh1.Value.ToString() + msh2.Value.ToString() + hd1.Value.ToString() + hd1_.Value.ToString() + hd2.Value.ToString() +
                 hd3.Value.ToString() + _hd1.Value.ToString() + hd1__.Value.ToString() + hd2_.Value.ToString() + hd3_.Value.ToString() +
                 msg1.Value.ToString() + msg2.Value.ToString() + msg3.Value.ToString() + pt1.Value.ToString() + vid1.Value.ToString() + msh15.Value.ToString() +
-                msh16.Value.ToString() + cwe1.Value.ToString() + cwe3.Value.ToString() + qpd3.Value.ToString(); //+ qpd4.Value.ToString();
+                msh16.Value.ToString() + cwe1.Value.ToString() + cwe3.Value.ToString() + qpd3.Value.ToString() + qpd4.Value.ToString();
 
 
 
@@ -174,6 +174,7 @@ namespace CreateRequest {
                             name = reader.GetString(2);
                             fatherName = reader.GetString(3);
                             date = GetBirthday(reader.GetDateTime(4).ToShortDateString());
+                            pol = Convert.ToInt32(reader.GetInt32(5));
                             RecordDataBaseRec(count);
                             XElement qbp_zp1 = new XElement(xNamespace + "QBP_ZP1");
                             XElement qpd = new XElement(xNamespace + "QPD");
@@ -186,14 +187,14 @@ namespace CreateRequest {
                             XElement qpd5 = new XElement(xNamespace + "QPD.5");
                             XElement cx1 = null;
                             XElement cx5 = null;
-                            if (reader.GetInt32(5) == 14) {
-                                cx1 = new XElement(xNamespace + "CX.1", reader.GetString(6) + " № " + reader.GetString(7));
-                                cx5 = new XElement(xNamespace + "CX.5", reader.GetInt32(5));
+                            if (reader.GetInt32(6) == 14) {
+                                cx1 = new XElement(xNamespace + "CX.1", reader.GetString(7) + " № " + reader.GetString(8));
+                                cx5 = new XElement(xNamespace + "CX.5", reader.GetInt32(6));
                             } else {
-                                cx1 = new XElement(xNamespace + "CX.1", reader.GetString(6) + " " + reader.GetString(7));
-                                cx5 = new XElement(xNamespace + "CX.5", reader.GetInt32(5));
+                                cx1 = new XElement(xNamespace + "CX.1", reader.GetString(7) + " " + reader.GetString(8));
+                                cx5 = new XElement(xNamespace + "CX.5", reader.GetInt32(6));
                             }
-
+                            
                             qpd5.Add(cx1, cx5);
                             if (count < 33) {
                                 string tempStr = alphabet[count].ToString();
@@ -214,28 +215,27 @@ namespace CreateRequest {
                             XElement xpn1 = new XElement(xNamespace + "XPN.1");
                             XElement fn1 = new XElement(xNamespace + "FN.1", surname);
                             XElement xpn2 = new XElement(xNamespace + "XPN.2", name);
-                            XElement xpn3 = new XElement(xNamespace + "XPN.3", fatherName);
+                            XElement xpn3 = fatherName != "" ? new XElement(xNamespace + "XPN.3", fatherName) : new XElement(xNamespace + @"XPN.3");
                             XElement xpn7 = new XElement(xNamespace + "XPN.7", "L");
                             XElement qpd7 = new XElement(xNamespace + "QPD.7", date);
-                            XElement qpd8;
+                            XElement qpd8 = new XElement(xNamespace + "QPD.8", pol);
                             XElement qpd9 = new XElement(xNamespace + "QPD.9", "В");
-                            int index = fatherName.Length - 1;
+                            //int index = fatherName.Length - 1;
 
-                            if (fatherName[index] == 'ч') {
+                            /*if (fatherName[index] == 'ч') {
                                 qpd8 = new XElement(xNamespace + "QPD.8", "1");
                             } else {
                                 qpd8 = new XElement(xNamespace + "QPD.8", "2");
-                            }
+                            }*/
                             xpn1.Add(fn1);
                             qpd6.Add(xpn1, xpn2, xpn3, xpn7);
 
-                            qpd.Add(qpd1, qpd3,  qpd5, qpd6, qpd7, qpd8, qpd9);
+                            qpd.Add(qpd1, qpd3, qpd4, qpd5, qpd6, qpd7, qpd8, qpd9);
                             msh.Add(msh1, msh2, msh3, msh4, msh5, msh6, msh7, msh9, msh10, msh11, msh12, msh15, msh16);
                             qbp_zp1.Add(msh, qpd);
                             upprmes.Add(qbp_zp1);
                             strWithDate += msh7.Value.ToString() + cx1.Value.ToString() + cx5.Value.ToString() + msh10.Value.ToString() + fn1.Value.ToString() +
                             xpn2.Value.ToString() + xpn3.Value.ToString() + qpd7.Value.ToString() + qpd8.Value.ToString() + qpd9.Value.ToString();
-
                         }
                     }
                 }
@@ -270,11 +270,18 @@ namespace CreateRequest {
         // запись данных об xml файле
         private void RecordFileXML() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                SqlCommand com = new SqlCommand("INSERT INTO FileXML(FileName, DateCreate) VALUES (@FileName, @DateCreate)", con);
-                con.Open();
-                com.Parameters.AddWithValue("@FileName", FileName.Remove(FileName.Length - 7, 7));
-                com.Parameters.AddWithValue("@DateCreate", DateTime.Now.ToString("s"));
-                com.ExecuteNonQuery();
+                using (SqlCommand com = new SqlCommand("INSERT INTO FileXML(FileName, DateCreate) VALUES (@FileName, @DateCreate)", con)) {
+                    con.Open();
+                    com.Parameters.AddWithValue("@FileName", FileName.Remove(FileName.Length - 7, 7));
+                    com.Parameters.AddWithValue("@DateCreate", DateTime.Now.ToString("s"));
+                    com.ExecuteNonQuery();
+                }
+
+                using (SqlCommand com = new SqlCommand("INSERT INTO Files(FileName) VALUES (@FileName)", con)) {
+                    //con.Open();
+                    com.Parameters.AddWithValue("@FileName", FileName.Remove(FileName.Length - 7, 7));
+                    com.ExecuteNonQuery();
+                }                   
             }
         }
         
