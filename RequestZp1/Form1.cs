@@ -188,14 +188,6 @@ namespace RequestZp1 {
             DelInform();
         }
 
-        private void OperationWithFile() {
-            if (IsExistFile()) {
-                RecordFileCSV();
-            } else if (IsExistFileOperator()) {
-                FillTableWithFileCSV();
-            }
-        }
-
         // проверка людей на наличие уже существующего человека
         private bool CheckPeople() {
             SqlConnection con = null;
@@ -1012,11 +1004,17 @@ namespace RequestZp1 {
         private void TakeOff_Click(object sender, EventArgs e) {
             for (int i = 0; i < RequestTable.Rows.Count; i++)
                 RequestTable.Rows[i].Cells[0].Value = 0;
+            CheckCS.Enabled = false;
+            DeletePeople.Enabled = false;
+            CreateFileAnwer.Enabled = false;
         }
 
         private void Highlight_Click(object sender, EventArgs e) {
             for (int i = 0; i < RequestTable.Rows.Count; i++)
                 RequestTable.Rows[i].Cells[0].Value = 1;
+            CreateFileAnwer.Enabled = true;
+            CheckCS.Enabled = true;
+            DeletePeople.Enabled = true;
         }
 
         private void Refresh_Click(object sender, EventArgs e) {
@@ -1054,6 +1052,9 @@ namespace RequestZp1 {
 
         private void TableWithFilesCSV_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             if (e.ColumnIndex == 1) {
+                CheckCS.Enabled = true;
+                DeletePeople.Enabled = true;
+                CreateFileAnwer.Enabled = true;
                 fileName = TableWithFilesCSV.Rows[e.RowIndex].Cells[0].Value.ToString();
                 SearchPeoples();
             } else if (e.ColumnIndex == 2) { 

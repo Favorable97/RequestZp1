@@ -25,7 +25,6 @@ namespace RequestZp1 {
         private string surname, name, fatherName, dr;
         private string fileName = @"C:\Users\melikyan\Desktop\papka\Result - " + DateTime.Now.ToString("yy.MM.dd HH.mm.ss") + ".csv";
         public void SearchPeoples() {
-            //File.Create(fileName);
             WriteFileHeader();
             for (int i = 0; i < MasWithPeoples.Count; i++) {
                 string[] person = MasWithPeoples[i].Split(',');

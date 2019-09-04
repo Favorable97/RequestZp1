@@ -34,7 +34,7 @@ namespace CreateRequest {
             XDocument uprak2 = XDocument.Load(fullName);
             XNamespace xNamespace = XNamespace.Get("urn:hl7-org:v2xml");
             uprak2.Declaration = new XDeclaration("1.0", "Windows-1251", null);
-            
+            Console.WriteLine("Открытие файла");
 
             foreach (XElement rsp in uprak2.Element(xNamespace + "UPRMessageBatch").Elements(xNamespace + "RSP_ZK1")) {
                 serialNumber++;
@@ -49,8 +49,10 @@ namespace CreateRequest {
         // Записываем информацию в случае наличия информации в ЦС
         private void RecordDBInformation(XElement element) {
             if (IsExistPeople()) {
+                Console.WriteLine("Такого человека не было");
                 RecordResult(element);
             } else {
+                Console.WriteLine("Такой человек был");
                 DeletePerson();
                 RecordResult(element);
             }
@@ -79,6 +81,7 @@ namespace CreateRequest {
                     "VALUES(@PID, @ENP, @DBEG, @DEND, @OKATO, @OPDOC, @QOGRN, @MAIN, @POLIS, @DUP, @NR, @MAINENP, @DS, @DR, @W, @POLVID)", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@PID", GetPID());
+                    Console.WriteLine("записываем человека с ID: " + GetPID());
                     if (GetENP(element) != "")
                         com.Parameters.AddWithValue("@ENP", GetENP(element));
                     else {

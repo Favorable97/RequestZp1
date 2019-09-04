@@ -46,7 +46,7 @@ namespace CreateRequest {
         private void CreateXmlFile() {
             Random rnd = new Random();
             int rndNumb = rnd.Next(0, 33);
-            string hash = "r" + GetHash(alphabet[rndNumb].ToString()).ToString();
+            string hash = "r" + GetHash(alphabet[rndNumb].ToString() + DateTime.Now.ToString()).ToString();
             hash = hash.Replace("=", "");
             hash = hash.Replace("+", "");
             FileName = ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString();
@@ -167,6 +167,8 @@ namespace CreateRequest {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("Select * From Temp", con)) {
                     con.Open();
+                    int j = 0;
+                    int tmp = 0;
                     using (SqlDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
                             count++;
@@ -183,7 +185,6 @@ namespace CreateRequest {
                             string timeStr = time.ToString("s") + "Z+03:00";
                             XElement msh7 = new XElement(xNamespace + "MSH.7", timeStr);
                             XElement msh10;
-                            int j = 0;
                             XElement qpd5 = new XElement(xNamespace + "QPD.5");
                             XElement cx1 = null;
                             XElement cx5 = null;
@@ -203,11 +204,22 @@ namespace CreateRequest {
                                 tempStr = tempStr.Replace("+", "");
                                 msh10 = new XElement(xNamespace + "MSH.10", tempStr);
                             } else {
-                                string tempStr = (alphabet[count] + alphabet[j]).ToString();
-                                tempStr = GetHash(tempStr).ToString().Replace("=", "");
-                                tempStr = tempStr.Replace(@"/", "");
-                                tempStr = tempStr.Replace("+", "");
-                                msh10 = new XElement(xNamespace + "MSH.10", tempStr);
+                                if (j < 32) {
+                                    string tempStr = (alphabet[tmp] + alphabet[j + 1]).ToString();
+                                    tempStr = GetHash(tempStr).ToString().Replace("=", "");
+                                    tempStr = tempStr.Replace(@"/", "");
+                                    tempStr = tempStr.Replace("+", "");
+                                    msh10 = new XElement(xNamespace + "MSH.10", tempStr);
+                                } else {
+                                    tmp++;
+                                    j = 0;
+                                    string tempStr = (alphabet[tmp] + alphabet[j]).ToString();
+                                    tempStr = GetHash(tempStr).ToString().Replace("=", "");
+                                    tempStr = tempStr.Replace(@"/", "");
+                                    tempStr = tempStr.Replace("+", "");
+                                    msh10 = new XElement(xNamespace + "MSH.10", tempStr);
+                                }
+                                
                                 j++;
                             }
 
