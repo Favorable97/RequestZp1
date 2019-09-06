@@ -36,6 +36,7 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.EditButton = new System.Windows.Forms.Button();
             this.CreateFileAnwer = new System.Windows.Forms.Button();
             this.TableWithFilesCSV = new System.Windows.Forms.DataGridView();
             this.Column34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -103,6 +104,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.registration1 = new RequestZp1.Registration();
             this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -229,6 +231,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.EditButton);
             this.splitContainer1.Panel1.Controls.Add(this.CreateFileAnwer);
             this.splitContainer1.Panel1.Controls.Add(this.TableWithFilesCSV);
             this.splitContainer1.Panel1.Controls.Add(this.label8);
@@ -263,9 +266,23 @@
             this.splitContainer1.TabIndex = 19;
             this.splitContainer1.Visible = false;
             // 
+            // EditButton
+            // 
+            this.EditButton.BackColor = System.Drawing.Color.LightGray;
+            this.EditButton.Enabled = false;
+            this.EditButton.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.EditButton.Location = new System.Drawing.Point(1035, 9);
+            this.EditButton.Name = "EditButton";
+            this.EditButton.Size = new System.Drawing.Size(119, 51);
+            this.EditButton.TabIndex = 40;
+            this.EditButton.Text = "Изменить";
+            this.EditButton.UseVisualStyleBackColor = false;
+            this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
+            // 
             // CreateFileAnwer
             // 
             this.CreateFileAnwer.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.CreateFileAnwer.Enabled = false;
             this.CreateFileAnwer.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.CreateFileAnwer.Location = new System.Drawing.Point(1356, 301);
             this.CreateFileAnwer.Name = "CreateFileAnwer";
@@ -416,6 +433,7 @@
             this.RequestTable.TabIndex = 26;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             this.RequestTable.SelectionChanged += new System.EventHandler(this.RequestTable_SelectionChanged);
+            this.RequestTable.Leave += new System.EventHandler(this.RequestTable_Leave);
             // 
             // Column7
             // 
@@ -430,6 +448,7 @@
             this.Column1.HeaderText = "Фамилия";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column1.Width = 75;
             // 
             // Column32
@@ -437,6 +456,7 @@
             this.Column32.HeaderText = "Имя";
             this.Column32.Name = "Column32";
             this.Column32.ReadOnly = true;
+            this.Column32.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column32.Width = 75;
             // 
             // Column33
@@ -444,6 +464,7 @@
             this.Column33.HeaderText = "Отчество";
             this.Column33.Name = "Column33";
             this.Column33.ReadOnly = true;
+            this.Column33.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column33.Width = 75;
             // 
             // Column2
@@ -451,6 +472,7 @@
             this.Column2.HeaderText = "Дата рождения";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column2.Width = 80;
             // 
             // Column31
@@ -458,6 +480,7 @@
             this.Column31.HeaderText = "Пол";
             this.Column31.Name = "Column31";
             this.Column31.ReadOnly = true;
+            this.Column31.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column31.Width = 40;
             // 
             // Column3
@@ -465,6 +488,7 @@
             this.Column3.HeaderText = "Код документа";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column3.Width = 70;
             // 
             // Column12
@@ -472,6 +496,7 @@
             this.Column12.HeaderText = "Серия";
             this.Column12.Name = "Column12";
             this.Column12.ReadOnly = true;
+            this.Column12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column12.Width = 70;
             // 
             // Column13
@@ -479,6 +504,7 @@
             this.Column13.HeaderText = "Номер";
             this.Column13.Name = "Column13";
             this.Column13.ReadOnly = true;
+            this.Column13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column13.Width = 70;
             // 
             // Column8
@@ -486,6 +512,7 @@
             this.Column8.HeaderText = "Поиск в РС";
             this.Column8.Name = "Column8";
             this.Column8.ReadOnly = true;
+            this.Column8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column8.Width = 60;
             // 
             // Column9
@@ -493,6 +520,7 @@
             this.Column9.HeaderText = "Отправка запроса в ЦС";
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
+            this.Column9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column9.Width = 70;
             // 
             // Column10
@@ -500,12 +528,14 @@
             this.Column10.HeaderText = "Ответ1 (ЦС)";
             this.Column10.Name = "Column10";
             this.Column10.ReadOnly = true;
+            this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column11
             // 
             this.Column11.HeaderText = "Ответ2 (ЦС)";
             this.Column11.Name = "Column11";
             this.Column11.ReadOnly = true;
+            this.Column11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CheckCS
             // 
@@ -691,7 +721,7 @@
             this.DeletePeople.BackColor = System.Drawing.Color.LightGray;
             this.DeletePeople.Enabled = false;
             this.DeletePeople.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.DeletePeople.Location = new System.Drawing.Point(1036, 9);
+            this.DeletePeople.Location = new System.Drawing.Point(1181, 11);
             this.DeletePeople.Name = "DeletePeople";
             this.DeletePeople.Size = new System.Drawing.Size(82, 51);
             this.DeletePeople.TabIndex = 31;
@@ -986,6 +1016,12 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private Registration registration1;
+        private System.Windows.Forms.DataGridView TableWithFilesCSV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column34;
+        private System.Windows.Forms.DataGridViewButtonColumn Column35;
+        private System.Windows.Forms.DataGridViewButtonColumn Column36;
+        private System.Windows.Forms.Button CreateFileAnwer;
+        private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column32;
@@ -999,11 +1035,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridView TableWithFilesCSV;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column34;
-        private System.Windows.Forms.DataGridViewButtonColumn Column35;
-        private System.Windows.Forms.DataGridViewButtonColumn Column36;
-        private System.Windows.Forms.Button CreateFileAnwer;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

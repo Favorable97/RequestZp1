@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
 using System.Web;
+using System.IO;
 using System.Data.SqlClient;
 
 namespace CreateRequest {
+    /*
+     * UprmesClass
+     * Предназночение:
+     * Создание uprmes файла по введённым данным или же по данным загруженного файла.
+     * Проверяем на наличие записей таблицу Temp.
+     * Создание uprmes файла
+     */
     class UprmesClass {
         public bool flag = true;
         private readonly string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
@@ -43,6 +51,8 @@ namespace CreateRequest {
                 }
             }
         }
+
+        // Создание upmes файла
         private void CreateXmlFile() {
             Random rnd = new Random();
             int rndNumb = rnd.Next(0, 33);
@@ -205,7 +215,7 @@ namespace CreateRequest {
                                 msh10 = new XElement(xNamespace + "MSH.10", tempStr);
                             } else {
                                 if (j < 32) {
-                                    string tempStr = (alphabet[tmp] + alphabet[j + 1]).ToString();
+                                    string tempStr = (alphabet[tmp].ToString() + alphabet[j + 1].ToString()).ToString();
                                     tempStr = GetHash(tempStr).ToString().Replace("=", "");
                                     tempStr = tempStr.Replace(@"/", "");
                                     tempStr = tempStr.Replace("+", "");
@@ -213,7 +223,7 @@ namespace CreateRequest {
                                 } else {
                                     tmp++;
                                     j = 0;
-                                    string tempStr = (alphabet[tmp] + alphabet[j]).ToString();
+                                    string tempStr = (alphabet[tmp].ToString() + alphabet[j].ToString()).ToString();
                                     tempStr = GetHash(tempStr).ToString().Replace("=", "");
                                     tempStr = tempStr.Replace(@"/", "");
                                     tempStr = tempStr.Replace("+", "");
@@ -222,7 +232,9 @@ namespace CreateRequest {
                                 
                                 j++;
                             }
-
+                            using (StreamWriter writer = new StreamWriter(@"C:\Projects\RequestZp1\CreateRequest\bin\Debug\msh10.txt", true, Encoding.Default)) {
+                                writer.WriteLine(msh10.Value);
+                            }
                             XElement qpd6 = new XElement(xNamespace + "QPD.6");
                             XElement xpn1 = new XElement(xNamespace + "XPN.1");
                             XElement fn1 = new XElement(xNamespace + "FN.1", surname);
@@ -289,11 +301,6 @@ namespace CreateRequest {
                     com.ExecuteNonQuery();
                 }
 
-                using (SqlCommand com = new SqlCommand("INSERT INTO Files(FileName) VALUES (@FileName)", con)) {
-                    //con.Open();
-                    com.Parameters.AddWithValue("@FileName", FileName.Remove(FileName.Length - 7, 7));
-                    com.ExecuteNonQuery();
-                }                   
             }
         }
         
@@ -310,7 +317,7 @@ namespace CreateRequest {
             }
         }
 
-        // id человека
+        // поиск ID человека по его ФИО и дате рождения
         private int SelectIDPerson() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 SqlCommand com = new SqlCommand("Select ID From Peoples WHERE Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con);
@@ -327,7 +334,7 @@ namespace CreateRequest {
             }
         }
 
-        // id файла
+        // поиск ID файла по имени
         private int SelectIDFile() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 SqlCommand com = new SqlCommand("Select ID From FileXML WHERE FileName = @FileName", con);
@@ -341,6 +348,7 @@ namespace CreateRequest {
             }
         }
 
+        // приводим дату к виду гггг-мм-дд
         private string GetBirthday(string birthday) {
             string year = birthday.Split('.')[2];
             string month = birthday.Split('.')[1];
@@ -349,6 +357,7 @@ namespace CreateRequest {
             return date;
         }
 
+        // приводим дату к виду ггггммдд
         private string RefBirthday(string birthday) {
             string year = birthday.Split('-')[0];
             string month = birthday.Split('-')[1];
@@ -357,6 +366,7 @@ namespace CreateRequest {
             return date;
         }
 
+        // Создание хэша
         private string GetHash(string input) {
             var md5 = MD5.Create();
             var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));

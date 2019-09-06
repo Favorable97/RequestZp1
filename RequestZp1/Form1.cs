@@ -22,6 +22,7 @@ namespace RequestZp1 {
             InitializeComponent();
             openFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
             openFileDialog1.Title = "Обзор";
+            //folderBrowserDialog1.ShowNewFolderButton = false;
             signInProfile1.Location = this.Location;
             menuStrip1.Visible = false;
             this.Size = signInProfile1.Size;
@@ -86,19 +87,19 @@ namespace RequestZp1 {
                     };
 
                     DataGridViewCell RS = new DataGridViewTextBoxCell {
-                        Value = "NULL"
+                        Value = ""
                     };
 
                     DataGridViewCell CS = new DataGridViewTextBoxCell {
-                        Value = "NULL"
+                        Value = ""
                     };
 
                     DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
-                        Value = reader.IsDBNull(8) ? "NULL" : reader.GetDateTime(8).ToString()
+                        Value = reader.IsDBNull(8) ? "" : reader.GetDateTime(8).ToString()
                     };
 
                     DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
-                        Value = reader.IsDBNull(9) ? "NULL" : reader.GetDateTime(8).ToString()
+                        Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(8).ToString()
                     };
 
                     newRow.Cells.Add(checkoxCell);
@@ -162,30 +163,35 @@ namespace RequestZp1 {
                     }
                 }
             }*/
-            if (CheckPeople()) {
-                RecordDataBasePeoples();
-                RecordDataBaseListOperationAddPeoples();
-                
-                if (!isFile) {
-                    RecordDBListOperator();
-                    AddPeopleTable();
-                } else {
-                    RecordDBListOperatorWithFile();
-                    AddPeopleMarkTable();
-                } 
-            } else {
-                if (CheckOperator()) {
+            try {
+                if (CheckPeople()) {
+                    RecordDataBasePeoples();
                     RecordDataBaseListOperationAddPeoples();
+
                     if (!isFile) {
                         RecordDBListOperator();
                         AddPeopleTable();
                     } else {
-                        AddPeopleMarkTable();
                         RecordDBListOperatorWithFile();
+                        AddPeopleMarkTable();
                     }
-                } else return;
+                } else {
+                    if (CheckOperator()) {
+                        RecordDataBaseListOperationAddPeoples();
+                        if (!isFile) {
+                            RecordDBListOperator();
+                            AddPeopleTable();
+                        } else {
+                            AddPeopleMarkTable();
+                            RecordDBListOperatorWithFile();
+                        }
+                    } else return;
+                }
+                DelInform();
+            } catch (Exception e) {
+                MessageBox.Show("Произошла ошибка: " + e.Message + "\nОбратитесь к специалистам" );
             }
-            DelInform();
+            
         }
 
         // проверка людей на наличие уже существующего человека
@@ -331,19 +337,19 @@ namespace RequestZp1 {
             };
 
             DataGridViewCell RS = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
 
             DataGridViewCell CSRequest = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
 
             DataGridViewCell CS1 = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
 
             DataGridViewCell CS2 = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
             newRow.Cells.Add(checkoxCell);
             newRow.Cells.Add(Surname);
@@ -404,19 +410,19 @@ namespace RequestZp1 {
             };
 
             DataGridViewCell RS = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
 
             DataGridViewCell CSRequest = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
 
             DataGridViewCell CS1 = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
 
             DataGridViewCell CS2 = new DataGridViewTextBoxCell {
-                Value = "NULL"
+                Value = ""
             };
             newRow.Cells.Add(checkoxCell);
             newRow.Cells.Add(Surname);
@@ -442,7 +448,7 @@ namespace RequestZp1 {
             tName.Clear();
             tFatherName.Clear();
             tBirthday.Clear();
-            comboBox1.SelectedItem = -1;
+            comboBox1.Text = "Тип документа";
             tSeries.Clear();
             tNumber.Clear();
             radioButton1.Checked = false;
@@ -451,8 +457,13 @@ namespace RequestZp1 {
 
         // Кнопка отправки в ЦС
         private void CheckCS_Click(object sender, EventArgs e) {
-            RecordListOperationCreateFile();
-            RecordTempDB();     
+            try {
+                RecordListOperationCreateFile();
+                RecordTempDB();
+            } catch (Exception ex) {
+                MessageBox.Show("Произошла ошибка: " + ex.Message + "\nОбратитесь к специалистам");
+            }
+               
         }
 
         // запись в третью БД
@@ -657,6 +668,7 @@ namespace RequestZp1 {
                 tNumber.Text = GetNumberSB();
                 code = 3;
             } else {
+                tSeries.Mask = "99 99";
                 tSeries.Text = GetSeriesP();
                 tNumber.Text = GetNumberP();
                 code = 14;
@@ -937,12 +949,13 @@ namespace RequestZp1 {
 
         private void RequestTable_SelectionChanged(object sender, EventArgs e) {
             if (!flag) return;
-            if (Convert.ToInt16(RequestTable.SelectedCells[0].ColumnIndex) == 0)
+            if (Convert.ToInt16(RequestTable.CurrentCell.ColumnIndex) == 0)
                 return;
             //RequestTable.EndEdit();
             TableWithInformation.Rows.Clear();
             int index = RequestTable.CurrentRow.Index;
             SearchInformCS(index);
+            EditButton.Enabled = true;
         }
 
         // поиск информации в ЦС
@@ -1040,13 +1053,16 @@ namespace RequestZp1 {
         }
 
         private void CreateFileAnswer_Click(object sender, EventArgs e) {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            string path = folderBrowserDialog1.SelectedPath;
             List<string> persons = new List<string>();
             for (int i = 0; i < RequestTable.Rows.Count; i++) {
                 if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
                     persons.Add(RequestTable.Rows[i].Cells[1].Value + "," + RequestTable.Rows[i].Cells[2].Value + "," + RequestTable.Rows[i].Cells[3].Value + "," + RequestTable.Rows[i].Cells[4].Value);
                 }
             }
-            CreateAnswer createAnswer = new CreateAnswer(persons);
+            CreateAnswer createAnswer = new CreateAnswer(persons, path);
             createAnswer.SearchPeoples();
         }
 
@@ -1107,6 +1123,67 @@ namespace RequestZp1 {
                     RequestTable.Rows[i].Cells[0].Value = 1;
                 }
             }
+        }
+        bool flagEdit = true;
+        string nameEd, surnameEd, fatherNameEd, drEd;
+
+        private void RequestTable_Leave(object sender, EventArgs e) {
+            RequestTable.ClearSelection();
+            RequestTable.EndEdit();
+            EditButton.Enabled = false;
+            //CreateFileAnwer.Enabled = false;
+        }
+
+        int indexRow;
+        private void EditButton_Click(object sender, EventArgs e) {
+            try {
+                if (flagEdit) {
+                    indexRow = RequestTable.CurrentRow.Index;
+                    surnameEd = RequestTable.Rows[indexRow].Cells[1].Value.ToString();
+                    nameEd = RequestTable.Rows[indexRow].Cells[2].Value.ToString();
+                    fatherNameEd = RequestTable.Rows[indexRow].Cells[3].Value.ToString();
+                    drEd = RequestTable.Rows[indexRow].Cells[4].Value.ToString();
+                    for (int i = 0; i < RequestTable.CurrentRow.Cells.Count; i++) {
+                        RequestTable.Rows[indexRow].Cells[i].ReadOnly = false;
+                    }
+                    flagEdit = false;
+                    flag = false;
+                    EditButton.Text = "Сохранить";
+                } else {
+                    using (SqlConnection con = new SqlConnection(connectionString)) {
+                        using (SqlCommand com = new SqlCommand("Update Peoples " +
+                                            "Set Surname = @Surname, Name = @Name, FatherName = @FatherName, DateBirthday = @DR, " +
+                                            "Pol = @Pol, CodeDocument = @Code, SeriesDoc = @Series, NumbDoc = @NumbDoc " +
+                                            "Where Surname = @SurnameEd and Name = @NameEd and FatherName = @FatherEd and DateBirthday = @DrED", con)) {
+                            con.Open();
+                            com.Parameters.AddWithValue("@Surname", RequestTable.Rows[indexRow].Cells[1].Value.ToString());
+                            com.Parameters.AddWithValue("@Name", RequestTable.Rows[indexRow].Cells[2].Value.ToString());
+                            com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[indexRow].Cells[3].Value.ToString());
+                            com.Parameters.AddWithValue("@DR", DateTime.ParseExact(GetBirthday(RequestTable.Rows[indexRow].Cells[4].Value.ToString()), "yyyyMdd", null));
+                            com.Parameters.AddWithValue("@Pol", Convert.ToInt32(RequestTable.Rows[indexRow].Cells[5].Value.ToString()));
+                            com.Parameters.AddWithValue("@Code", Convert.ToInt32(RequestTable.Rows[indexRow].Cells[6].Value.ToString()));
+                            com.Parameters.AddWithValue("@Series", RequestTable.Rows[indexRow].Cells[7].Value.ToString());
+                            com.Parameters.AddWithValue("@NumbDoc", RequestTable.Rows[indexRow].Cells[8].Value.ToString());
+                            com.Parameters.AddWithValue("@SurnameEd", surnameEd);
+                            com.Parameters.AddWithValue("@NameEd", nameEd);
+                            com.Parameters.AddWithValue("@FatherEd", fatherNameEd);
+                            com.Parameters.AddWithValue("@DrED", DateTime.ParseExact(GetBirthday(drEd), "yyyyMdd", null));
+                            com.ExecuteNonQuery();
+                        }
+                    }
+                    for (int i = 0; i < RequestTable.CurrentRow.Cells.Count; i++) {
+                        RequestTable.Rows[indexRow].Cells[i].ReadOnly = true;
+                    }
+                    flagEdit = true;
+                    EditButton.Enabled = false;
+                    EditButton.Text = "Изменить";
+                    flag = true;
+                }
+            } catch (Exception ex) {
+                MessageBox.Show("Произошла ошибка: " + ex.Message + "\nОбратитесь к специалистам");
+            }
+            
+            
         }
 
         // получение отредактированного дня рождения

@@ -6,14 +6,26 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.IO;
 
+/*
+ * CreateAnswer
+ * Предназночение:
+ * Создание файла с выгруженными данными людей.
+ * Поиск выбранных людей в БД по ФИО и дате рождения. Берём ID этих людей.
+ * По найденным ID ищем результаты в БД, в таблице Results. 
+ * Запись в файл данных из таблицы Results
+ */
 
 namespace RequestZp1 {
     class CreateAnswer {
         private List<string> MasWithPeoples { get; set; }
+        private string Path { get; set; }
         private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
-        public CreateAnswer(List<string> persons) {
+        
+        public CreateAnswer(List<string> persons, string path) {
             MasWithPeoples = persons;
+            Path = path;
         }
+        string fileName = "";
         /*
             using (var sw = new StreamWriter(@"C:\1.csv", false, Encoding.Default))
             {
@@ -23,8 +35,10 @@ namespace RequestZp1 {
             }
          */
         private string surname, name, fatherName, dr;
-        private string fileName = @"C:\Users\melikyan\Desktop\papka\Result - " + DateTime.Now.ToString("yy.MM.dd HH.mm.ss") + ".csv";
+        
+        // Поиск людей, информацию по которым необходимо выгрузить в файл
         public void SearchPeoples() {
+            fileName = Path + @"\Result - " + DateTime.Now.ToString("yy.MM.dd HH.mm.ss") + ".csv";
             WriteFileHeader();
             for (int i = 0; i < MasWithPeoples.Count; i++) {
                 string[] person = MasWithPeoples[i].Split(',');
@@ -49,6 +63,7 @@ namespace RequestZp1 {
             }
         }
 
+        // Поиск результатов
         private void SearchResult(int id) {
             using (StreamWriter writer = new StreamWriter(fileName, true, Encoding.Default)) {
                 using (SqlConnection con = new SqlConnection(connectionString)) {
@@ -74,6 +89,7 @@ namespace RequestZp1 {
             }
         }
 
+        // Запись в файл заголовков столбцов
         private void WriteFileHeader() {
             using (StreamWriter writer = new StreamWriter(fileName, true, Encoding.Default)) {
                 writer.WriteLine("Фамилия;Имя;Отчество;ENP;Дата начала;Дата окончания;OKATO;QOGRN;Серия и номер полиса;MAINEMNP;Дата рождения");
