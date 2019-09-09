@@ -102,9 +102,9 @@
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.registration1 = new RequestZp1.Registration();
             this.signInProfile1 = new RequestZp1.SignInProfile();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
