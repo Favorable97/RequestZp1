@@ -45,7 +45,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.Refresh = new System.Windows.Forms.Button();
+            this.RefreshButton = new System.Windows.Forms.Button();
             this.Highlight = new System.Windows.Forms.Button();
             this.TakeOff = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
@@ -105,6 +105,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.registration1 = new RequestZp1.Registration();
             this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.ToRepayPolis = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -231,13 +232,14 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.ToRepayPolis);
             this.splitContainer1.Panel1.Controls.Add(this.EditButton);
             this.splitContainer1.Panel1.Controls.Add(this.CreateFileAnwer);
             this.splitContainer1.Panel1.Controls.Add(this.TableWithFilesCSV);
             this.splitContainer1.Panel1.Controls.Add(this.label8);
             this.splitContainer1.Panel1.Controls.Add(this.radioButton2);
             this.splitContainer1.Panel1.Controls.Add(this.radioButton1);
-            this.splitContainer1.Panel1.Controls.Add(this.Refresh);
+            this.splitContainer1.Panel1.Controls.Add(this.RefreshButton);
             this.splitContainer1.Panel1.Controls.Add(this.Highlight);
             this.splitContainer1.Panel1.Controls.Add(this.TakeOff);
             this.splitContainer1.Panel1.Controls.Add(this.RequestTable);
@@ -284,7 +286,7 @@
             this.CreateFileAnwer.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CreateFileAnwer.Enabled = false;
             this.CreateFileAnwer.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.CreateFileAnwer.Location = new System.Drawing.Point(1356, 301);
+            this.CreateFileAnwer.Location = new System.Drawing.Point(1422, 301);
             this.CreateFileAnwer.Name = "CreateFileAnwer";
             this.CreateFileAnwer.Size = new System.Drawing.Size(156, 60);
             this.CreateFileAnwer.TabIndex = 39;
@@ -369,17 +371,17 @@
             this.radioButton1.Text = "Муж.";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // Refresh
+            // RefreshButton
             // 
-            this.Refresh.BackColor = System.Drawing.Color.LightGray;
-            this.Refresh.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Refresh.Location = new System.Drawing.Point(923, 9);
-            this.Refresh.Name = "Refresh";
-            this.Refresh.Size = new System.Drawing.Size(94, 51);
-            this.Refresh.TabIndex = 34;
-            this.Refresh.Text = "Обновить";
-            this.Refresh.UseVisualStyleBackColor = false;
-            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            this.RefreshButton.BackColor = System.Drawing.Color.LightGray;
+            this.RefreshButton.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.RefreshButton.Location = new System.Drawing.Point(923, 9);
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(94, 51);
+            this.RefreshButton.TabIndex = 34;
+            this.RefreshButton.Text = "Обновить";
+            this.RefreshButton.UseVisualStyleBackColor = false;
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
             // Highlight
             // 
@@ -542,7 +544,7 @@
             this.CheckCS.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CheckCS.Enabled = false;
             this.CheckCS.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CheckCS.Location = new System.Drawing.Point(1127, 301);
+            this.CheckCS.Location = new System.Drawing.Point(1024, 301);
             this.CheckCS.Name = "CheckCS";
             this.CheckCS.Size = new System.Drawing.Size(143, 60);
             this.CheckCS.TabIndex = 27;
@@ -918,6 +920,19 @@
             this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
             this.signInProfile1.TabIndex = 17;
             // 
+            // ToRepayPolis
+            // 
+            this.ToRepayPolis.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.ToRepayPolis.Enabled = false;
+            this.ToRepayPolis.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ToRepayPolis.Location = new System.Drawing.Point(1196, 301);
+            this.ToRepayPolis.Name = "ToRepayPolis";
+            this.ToRepayPolis.Size = new System.Drawing.Size(183, 60);
+            this.ToRepayPolis.TabIndex = 41;
+            this.ToRepayPolis.Text = "Погасить полисы выбранных людей";
+            this.ToRepayPolis.UseVisualStyleBackColor = false;
+            this.ToRepayPolis.Click += new System.EventHandler(this.ToRepayPolis_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1008,7 +1023,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column29;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column30;
         private System.Windows.Forms.Button TakeOff;
-        private System.Windows.Forms.Button Refresh;
+        private System.Windows.Forms.Button RefreshButton;
         private System.Windows.Forms.Button Highlight;
         private System.Windows.Forms.Button RefreshInfo;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -1036,6 +1051,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button ToRepayPolis;
     }
 }
 

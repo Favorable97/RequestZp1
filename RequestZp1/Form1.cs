@@ -938,10 +938,12 @@ namespace RequestZp1 {
                     CheckCS.Enabled = true;
                     DeletePeople.Enabled = true;
                     CreateFileAnwer.Enabled = true;
+                    ToRepayPolis.Enabled = true;
                 } else {
                     CheckCS.Enabled = false;
                     DeletePeople.Enabled = false;
                     CreateFileAnwer.Enabled = false;
+                    ToRepayPolis.Enabled = false;
                 }
                 return;
             }
@@ -1030,7 +1032,7 @@ namespace RequestZp1 {
             DeletePeople.Enabled = true;
         }
 
-        private void Refresh_Click(object sender, EventArgs e) {
+        private void RefreshButton_Click(object sender, EventArgs e) {
             flag = false;
             CheckCS.Enabled = false;
             DeletePeople.Enabled = false;
@@ -1126,6 +1128,18 @@ namespace RequestZp1 {
         }
         bool flagEdit = true;
         string nameEd, surnameEd, fatherNameEd, drEd;
+
+        private void ToRepayPolis_Click(object sender, EventArgs e) {
+            List<string> persons = new List<string>();
+            for (int i = 0; i < RequestTable.Rows.Count; i++) {
+                if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
+                    persons.Add(RequestTable.Rows[i].Cells[1].Value + "," + RequestTable.Rows[i].Cells[2].Value + "," + RequestTable.Rows[i].Cells[3].Value + "," + RequestTable.Rows[i].Cells[4].Value);
+                }
+            }
+
+            RepayPolises repay = new RepayPolises(persons);
+            repay.ToRepay();
+        }
 
         private void RequestTable_Leave(object sender, EventArgs e) {
             RequestTable.ClearSelection();
