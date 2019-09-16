@@ -36,6 +36,7 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ToRepayPolis = new System.Windows.Forms.Button();
             this.EditButton = new System.Windows.Forms.Button();
             this.CreateFileAnwer = new System.Windows.Forms.Button();
             this.TableWithFilesCSV = new System.Windows.Forms.DataGridView();
@@ -105,7 +106,6 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.registration1 = new RequestZp1.Registration();
             this.signInProfile1 = new RequestZp1.SignInProfile();
-            this.ToRepayPolis = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -226,6 +226,7 @@
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(3, 39);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -267,6 +268,19 @@
             this.splitContainer1.SplitterDistance = 475;
             this.splitContainer1.TabIndex = 19;
             this.splitContainer1.Visible = false;
+            // 
+            // ToRepayPolis
+            // 
+            this.ToRepayPolis.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.ToRepayPolis.Enabled = false;
+            this.ToRepayPolis.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ToRepayPolis.Location = new System.Drawing.Point(1196, 301);
+            this.ToRepayPolis.Name = "ToRepayPolis";
+            this.ToRepayPolis.Size = new System.Drawing.Size(183, 60);
+            this.ToRepayPolis.TabIndex = 41;
+            this.ToRepayPolis.Text = "Погасить полисы выбранных людей";
+            this.ToRepayPolis.UseVisualStyleBackColor = false;
+            this.ToRepayPolis.Click += new System.EventHandler(this.ToRepayPolis_Click);
             // 
             // EditButton
             // 
@@ -435,6 +449,7 @@
             this.RequestTable.TabIndex = 26;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             this.RequestTable.SelectionChanged += new System.EventHandler(this.RequestTable_SelectionChanged);
+            this.RequestTable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RequestTable_KeyDown);
             // 
             // Column7
             // 
@@ -782,6 +797,7 @@
             this.TableWithInformation.RowHeadersVisible = false;
             this.TableWithInformation.Size = new System.Drawing.Size(1395, 126);
             this.TableWithInformation.TabIndex = 30;
+            this.TableWithInformation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TableWithInformation_KeyDown);
             // 
             // Column14
             // 
@@ -918,19 +934,6 @@
             this.signInProfile1.Name = "signInProfile1";
             this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
             this.signInProfile1.TabIndex = 17;
-            // 
-            // ToRepayPolis
-            // 
-            this.ToRepayPolis.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ToRepayPolis.Enabled = false;
-            this.ToRepayPolis.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ToRepayPolis.Location = new System.Drawing.Point(1196, 301);
-            this.ToRepayPolis.Name = "ToRepayPolis";
-            this.ToRepayPolis.Size = new System.Drawing.Size(183, 60);
-            this.ToRepayPolis.TabIndex = 41;
-            this.ToRepayPolis.Text = "Погасить полисы выбранных людей";
-            this.ToRepayPolis.UseVisualStyleBackColor = false;
-            this.ToRepayPolis.Click += new System.EventHandler(this.ToRepayPolis_Click);
             // 
             // Form1
             // 

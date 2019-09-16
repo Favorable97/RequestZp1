@@ -1033,6 +1033,11 @@ namespace RequestZp1 {
         }
 
         private void RefreshButton_Click(object sender, EventArgs e) {
+            RefreshTableWithPerson();
+        }
+
+        /*Действия кнопки обновить*/
+        private void RefreshTableWithPerson() {
             flag = false;
             CheckCS.Enabled = false;
             DeletePeople.Enabled = false;
@@ -1041,17 +1046,22 @@ namespace RequestZp1 {
             TableWithFilesCSV.Rows.Clear();
             ToFillTable();
         }
-        /*изменить работу
+        /*
+         * изменить работу
          */
         private void RefreshInfo_Click(object sender, EventArgs e) {
+            RefreshInfoAboutPerson();
+        }
+
+        private void RefreshInfoAboutPerson() {
             try {
                 int index = Convert.ToInt32(TableWithInformation.Rows[0].Cells[1].Value);
                 TableWithInformation.Rows.Clear();
                 GetInformationCS(index);
-            } catch (ArgumentOutOfRangeException) {
+            }
+            catch (ArgumentOutOfRangeException) {
                 return;
             }
-            
         }
 
         private void CreateFileAnswer_Click(object sender, EventArgs e) {
@@ -1128,6 +1138,16 @@ namespace RequestZp1 {
         }
         bool flagEdit = true;
         string nameEd, surnameEd, fatherNameEd, drEd;
+
+        private void RequestTable_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyData == Keys.F5)
+                RefreshTableWithPerson();
+        }
+
+        private void TableWithInformation_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyData == Keys.F5)
+                RefreshInfoAboutPerson();
+        }
 
         private void ToRepayPolis_Click(object sender, EventArgs e) {
             List<string> persons = new List<string>();
