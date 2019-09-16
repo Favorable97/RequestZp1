@@ -435,7 +435,6 @@
             this.RequestTable.TabIndex = 26;
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             this.RequestTable.SelectionChanged += new System.EventHandler(this.RequestTable_SelectionChanged);
-            this.RequestTable.Leave += new System.EventHandler(this.RequestTable_Leave);
             // 
             // Column7
             // 

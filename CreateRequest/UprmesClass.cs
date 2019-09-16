@@ -110,7 +110,7 @@ namespace CreateRequest {
             XElement bhs7 = new XElement(xNamespace + "BHS.7", strTime);
 
             XElement bhs11 = new XElement(xNamespace + "BHS.11", hash.ToString().Replace(@"/", ""));
-
+            
             bhs.Add(bhs1, bhs2, bhs3, bhs4, bhs5, bhs6, bhs7, bhs11);
             #endregion
             #region MSH
@@ -232,9 +232,7 @@ namespace CreateRequest {
                                 
                                 j++;
                             }
-                            using (StreamWriter writer = new StreamWriter(@"C:\Projects\RequestZp1\CreateRequest\bin\Debug\msh10.txt", true, Encoding.Default)) {
-                                writer.WriteLine(msh10.Value);
-                            }
+                            
                             XElement qpd6 = new XElement(xNamespace + "QPD.6");
                             XElement xpn1 = new XElement(xNamespace + "XPN.1");
                             XElement fn1 = new XElement(xNamespace + "FN.1", surname);

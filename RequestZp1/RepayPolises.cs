@@ -36,6 +36,7 @@ namespace RequestZp1 {
                 if (pid != -1) {
                     polis = GetPolis();
                     string res = GetResult();
+                    
                     RepayPeople();
                     RepayPolis();
                     InsertInform();
@@ -49,7 +50,7 @@ namespace RequestZp1 {
                 using (SqlCommand com = new SqlCommand("Update PEOPLE " +
                                                        "Set DSTOP = @stop, " +
                                                        "RSTOP = " + 3 + " " +
-                                                       "Where PID = @pid", con)) {
+                                                       "Where ID = @pid", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@stop", DateTime.Now);
                     com.Parameters.AddWithValue("@pid", pid);
@@ -76,28 +77,31 @@ namespace RequestZp1 {
         // получаем ЕНП
         private int GetPID() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                using (SqlCommand com = new SqlCommand("Select PID " +
+                using (SqlCommand com = new SqlCommand("Select ID " +
                                                        "From PEOPLE " +
-                                                       "Where Fam = @surname and IM = @name and OT = @fatherName and DR = @dr", con)) {
+                                                       "Where FAM = @surname and IM = @name and OT = @fatherName and DR = @dr", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@surname", surname);
                     com.Parameters.AddWithValue("@name", name);
                     com.Parameters.AddWithValue("@fatherName", fatherName);
                     com.Parameters.AddWithValue("@dr", DateTime.ParseExact(GetBirthday(dr), "yyyyMdd", null));
-                    SqlDataReader reader = com.ExecuteReader();
-                    reader.Read();
-                    if (!reader.IsDBNull(0))
-                        return Convert.ToInt32(reader.GetInt32(0));
+                    using (SqlDataReader reader = com.ExecuteReader()) {
+                        reader.Read();
+                        if (!reader.IsDBNull(0))
+                            return Convert.ToInt32(reader.GetInt32(0));
+                    }
                     return -1;
                 }
+                
             }
+            return 0;
         }
         // получаем полис
         private string GetPolis() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("Select NPOL " +
                                                        "From PEOPLE " +
-                                                       "Where Fam = @surname and IM = @name and OT = @fatherName and DR = @dr", con)) {
+                                                       "Where FAM = @surname and IM = @name and OT = @fatherName and DR = @dr", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@surname", surname);
                     com.Parameters.AddWithValue("@name", name);
@@ -132,6 +136,8 @@ namespace RequestZp1 {
                 string script = file.OpenText().ReadToEnd();
                 using (SqlCommand com = new SqlCommand(script, con)) {
                     con.Open();
+                    //com.Parameters.Clear();
+                    //com.Parameters["@id1"].Value = pid;
                     com.Parameters.AddWithValue("@id1", pid);
                     SqlDataReader reader = com.ExecuteReader();
                     reader.Read();

@@ -1141,13 +1141,6 @@ namespace RequestZp1 {
             repay.ToRepay();
         }
 
-        private void RequestTable_Leave(object sender, EventArgs e) {
-            RequestTable.ClearSelection();
-            RequestTable.EndEdit();
-            EditButton.Enabled = false;
-            //CreateFileAnwer.Enabled = false;
-        }
-
         int indexRow;
         private void EditButton_Click(object sender, EventArgs e) {
             try {
@@ -1157,7 +1150,7 @@ namespace RequestZp1 {
                     nameEd = RequestTable.Rows[indexRow].Cells[2].Value.ToString();
                     fatherNameEd = RequestTable.Rows[indexRow].Cells[3].Value.ToString();
                     drEd = RequestTable.Rows[indexRow].Cells[4].Value.ToString();
-                    for (int i = 0; i < RequestTable.CurrentRow.Cells.Count; i++) {
+                    for (int i = 1; i < RequestTable.CurrentRow.Cells.Count; i++) {
                         RequestTable.Rows[indexRow].Cells[i].ReadOnly = false;
                     }
                     flagEdit = false;
@@ -1185,7 +1178,7 @@ namespace RequestZp1 {
                             com.ExecuteNonQuery();
                         }
                     }
-                    for (int i = 0; i < RequestTable.CurrentRow.Cells.Count; i++) {
+                    for (int i = 1; i < RequestTable.CurrentRow.Cells.Count; i++) {
                         RequestTable.Rows[indexRow].Cells[i].ReadOnly = true;
                     }
                     flagEdit = true;
