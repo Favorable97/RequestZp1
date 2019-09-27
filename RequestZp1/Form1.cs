@@ -1022,6 +1022,7 @@ namespace RequestZp1 {
             CheckCS.Enabled = false;
             DeletePeople.Enabled = false;
             CreateFileAnwer.Enabled = false;
+            ToRepayPolis.Enabled = false;
         }
 
         private void Highlight_Click(object sender, EventArgs e) {
@@ -1030,6 +1031,7 @@ namespace RequestZp1 {
             CreateFileAnwer.Enabled = true;
             CheckCS.Enabled = true;
             DeletePeople.Enabled = true;
+            ToRepayPolis.Enabled = true;
         }
 
         private void RefreshButton_Click(object sender, EventArgs e) {
@@ -1042,6 +1044,7 @@ namespace RequestZp1 {
             CheckCS.Enabled = false;
             DeletePeople.Enabled = false;
             CreateFileAnwer.Enabled = false;
+            ToRepayPolis.Enabled = false;
             RequestTable.Rows.Clear();
             TableWithFilesCSV.Rows.Clear();
             ToFillTable();
@@ -1083,6 +1086,7 @@ namespace RequestZp1 {
                 CheckCS.Enabled = true;
                 DeletePeople.Enabled = true;
                 CreateFileAnwer.Enabled = true;
+                ToRepayPolis.Enabled = true;
                 fileName = TableWithFilesCSV.Rows[e.RowIndex].Cells[0].Value.ToString();
                 SearchPeoples();
             } else if (e.ColumnIndex == 2) { 
@@ -1103,6 +1107,7 @@ namespace RequestZp1 {
         }
 
         private void SearchPeoples() {
+            
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("Select IDPeople From ListOperator Where IDCSV = @IDCSV", con)) {
                     con.Open();
@@ -1114,6 +1119,8 @@ namespace RequestZp1 {
                     }
                 }
             }
+            
+            
         }
 
         private void GetInformPeople(int id) {

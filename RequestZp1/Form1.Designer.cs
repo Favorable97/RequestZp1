@@ -274,7 +274,7 @@
             this.ToRepayPolis.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ToRepayPolis.Enabled = false;
             this.ToRepayPolis.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ToRepayPolis.Location = new System.Drawing.Point(1196, 301);
+            this.ToRepayPolis.Location = new System.Drawing.Point(1263, 301);
             this.ToRepayPolis.Name = "ToRepayPolis";
             this.ToRepayPolis.Size = new System.Drawing.Size(183, 60);
             this.ToRepayPolis.TabIndex = 41;
@@ -300,7 +300,7 @@
             this.CreateFileAnwer.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CreateFileAnwer.Enabled = false;
             this.CreateFileAnwer.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.CreateFileAnwer.Location = new System.Drawing.Point(1422, 301);
+            this.CreateFileAnwer.Location = new System.Drawing.Point(1489, 301);
             this.CreateFileAnwer.Name = "CreateFileAnwer";
             this.CreateFileAnwer.Size = new System.Drawing.Size(156, 60);
             this.CreateFileAnwer.TabIndex = 39;
@@ -558,7 +558,7 @@
             this.CheckCS.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CheckCS.Enabled = false;
             this.CheckCS.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CheckCS.Location = new System.Drawing.Point(1024, 301);
+            this.CheckCS.Location = new System.Drawing.Point(1091, 301);
             this.CheckCS.Name = "CheckCS";
             this.CheckCS.Size = new System.Drawing.Size(143, 60);
             this.CheckCS.TabIndex = 27;
