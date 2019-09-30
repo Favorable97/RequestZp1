@@ -71,7 +71,7 @@ namespace CreateRequest {
             }
         }
 
-        // запись в таблицу Results данных о человеке
+        /*// запись в таблицу Results данных о человеке
         private void RecordResult(XElement element) {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP, DBEG, DEND, OKATO, OPDOC, QOGRN, MAIN, POLIS, DUP, NR, MAINENP, DS, DR, W, POLVID) " +
@@ -148,7 +148,88 @@ namespace CreateRequest {
                     com.ExecuteNonQuery();
                 }
             }
+        }*/
+
+        // запись в таблицу Results данных о человеке
+        private void RecordResult(XElement element) {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP, DBEG, DEND, OKATO, OPDOC, QOGRN, MAIN, POLIS, DUP, NR, MAINENP, DS, DR, W, POLVID) " +
+                    "VALUES(@PID, @ENP, @DBEG, @DEND, @OKATO, @OPDOC, @QOGRN, @MAIN, @POLIS, @DUP, @NR, @MAINENP, @DS, @DR, @W, @POLVID)", con)) {
+                    con.Open();
+                    foreach (XElement el in element.Elements(xNamespace + "PID"))
+                    com.Parameters.AddWithValue("@PID", GetPID());
+                    if (GetENP(element) != "")
+                        com.Parameters.AddWithValue("@ENP", GetENP(element));
+                    else {
+                        com.Parameters.AddWithValue("@ENP", DBNull.Value);
+                    }
+                    if (GetDBEG(element) != "")
+                        com.Parameters.AddWithValue("@DBEG", DateTime.ParseExact(GetDBEG(element), "yyyy-MM-dd", null));
+                    else {
+                        com.Parameters.AddWithValue("@DBEG", DBNull.Value);
+                    }
+                    if (GetDEND(element) != "")
+                        com.Parameters.AddWithValue("@DEND", DateTime.ParseExact(GetDEND(element), "yyyy-MM-dd", null));
+                    else {
+                        com.Parameters.AddWithValue("@DEND", DBNull.Value);
+                    }
+                    if (GetOkato(element) != "")
+                        com.Parameters.AddWithValue("@OKATO", GetOkato(element));
+                    else {
+                        com.Parameters.AddWithValue("@OKATO", DBNull.Value);
+                    }
+                    if (GetOPDOC(element) != "")
+                        com.Parameters.AddWithValue("@OPDOC", GetOPDOC(element));
+                    else {
+                        com.Parameters.AddWithValue("@OPDOC", DBNull.Value);
+                    }
+                    if (GetQOGRN(element) != "")
+                        com.Parameters.AddWithValue("@QOGRN", GetQOGRN(element));
+                    else {
+                        com.Parameters.AddWithValue("@QOGRN", DBNull.Value);
+                    }
+                    com.Parameters.AddWithValue("@MAIN", 1);
+                    if (GetPOLIS(element) != "")
+                        com.Parameters.AddWithValue("@POLIS", GetPOLIS(element));
+                    else {
+                        com.Parameters.AddWithValue("@POLIS", DBNull.Value);
+                    }
+                    if (GetDUP(element) != "")
+                        com.Parameters.AddWithValue("@DUP", GetDUP(element));
+                    else {
+                        com.Parameters.AddWithValue("@DUP", DBNull.Value);
+                    }
+                    com.Parameters.AddWithValue("@NR", 1);
+                    if (GetMainENP(element) != "")
+                        com.Parameters.AddWithValue("@MAINENP", GetMainENP(element));
+                    else {
+                        com.Parameters.AddWithValue("@MAINENP", DBNull.Value);
+                    }
+                    if (GetDS(element) != -1)
+                        com.Parameters.AddWithValue("@DS", GetDS(element));
+                    else {
+                        com.Parameters.AddWithValue("@DS", DBNull.Value);
+                    }
+                    if (GetDR(element) != "")
+                        com.Parameters.AddWithValue("@DR", DateTime.ParseExact(GetDR(element), "yyyy-MM-dd", null));
+                    else {
+                        com.Parameters.AddWithValue("@DR", DBNull.Value);
+                    }
+                    if (GetW(element) != 0)
+                        com.Parameters.AddWithValue("@W", GetW(element));
+                    else {
+                        com.Parameters.AddWithValue("@W", DBNull.Value);
+                    }
+                    if (GetPOLVID(element) != "")
+                        com.Parameters.AddWithValue("@POLVID", GetPOLVID(element));
+                    else {
+                        com.Parameters.AddWithValue("@POLVID", DBNull.Value);
+                    }
+                    com.ExecuteNonQuery();
+                }
+            }
         }
+
 
         // удаление данных о человеке в таблице Results
         private void DeletePerson() {
