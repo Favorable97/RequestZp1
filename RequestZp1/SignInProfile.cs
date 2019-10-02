@@ -27,7 +27,7 @@ namespace RequestZp1 {
         }
         private object id;
         readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
-
+        byte countTry = 1;
         private void ToSignIn() {
             SqlConnection con = null;
             SqlCommand com;
@@ -53,7 +53,7 @@ namespace RequestZp1 {
                 } else {
                     MessageBox.Show("Вход выполнен");
                     ToWriteFile();
-                    
+                    countTry = 1;
                     com = new SqlCommand("Select ID, Rights From Users Where Name = @Name and Password = @Password", con);
                     com.Parameters.AddWithValue("@Name", NameP.Text);
                     com.Parameters.AddWithValue("@Password", encPassword);
