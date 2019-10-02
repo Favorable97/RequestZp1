@@ -42,7 +42,8 @@ namespace RequestZp1 {
         public void ToFillTable() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2 " +
-                    "FROM Users join ListOperator on Users.ID = " + GetID() + " join Peoples on ListOperator.IDPeople = Peoples.ID", con);
+                    "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
+                    "Where ListOperator.IDUser = " + GetID(), con);
                 con.Open();
                 //com.Parameters.AddWithValue("@ListOperator.IDUser", GetID());
 
@@ -123,7 +124,8 @@ namespace RequestZp1 {
             }
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("SELECT Distinct FilesCSV.FileName " +
-                                            "FROM Users join ListOperator on Users.ID = " + GetID() + " join FilesCSV on ListOperator.IDCSV = FilesCSV.ID", con)) {
+                                            "FROM ListOperator join FilesCSV on ListOperator.IDCSV = FilesCSV.ID " +
+                                            "Where ListOperator.IDUser = " + GetID(), con)) {
                     con.Open();
                     using (SqlDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
@@ -986,34 +988,40 @@ namespace RequestZp1 {
                     con.Open();
                     com.Parameters.AddWithValue("@ID", id);
                     SqlDataReader reader = com.ExecuteReader();
-                    reader.Read();
+                    //reader.Read();
+                    int count = 0;
                     if (reader.HasRows) {
-                        AddInformation(reader);
+                        while (reader.Read()) {
+                            AddInformation(reader, count);
+                            count++;
+                        }
+                            
                     }
                     reader.Close();
                 }
             }
         }
 
-        private void AddInformation(SqlDataReader reader) {
+        private void AddInformation(SqlDataReader reader, int count) {
             TableWithInformation.Rows.Add();
-            TableWithInformation.Rows[0].Cells[0].Value = reader.IsDBNull(0) ? "NULL" : Convert.ToInt32(reader.GetInt32(0)).ToString();
-            TableWithInformation.Rows[0].Cells[1].Value = reader.IsDBNull(1) ? "NULL" : Convert.ToInt32(reader.GetInt32(1)).ToString();
-            TableWithInformation.Rows[0].Cells[2].Value = reader.IsDBNull(2) ? "NULL" : reader.GetString(2);
-            TableWithInformation.Rows[0].Cells[3].Value = reader.IsDBNull(3) ? "NULL" : reader.GetDateTime(3).ToShortDateString();
-            TableWithInformation.Rows[0].Cells[4].Value = reader.IsDBNull(4) ? "NULL" : reader.GetDateTime(4).ToShortDateString();
-            TableWithInformation.Rows[0].Cells[5].Value = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
-            TableWithInformation.Rows[0].Cells[6].Value = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
-            TableWithInformation.Rows[0].Cells[7].Value = reader.IsDBNull(7) ? "NULL" : reader.GetString(7);
-            TableWithInformation.Rows[0].Cells[8].Value = reader.IsDBNull(8) ? false : reader.GetBoolean(8);
-            TableWithInformation.Rows[0].Cells[9].Value = reader.IsDBNull(9) ? "NULL" : reader.GetString(9);
-            TableWithInformation.Rows[0].Cells[10].Value = reader.IsDBNull(10) ? "NULL" : reader.GetString(10);
-            TableWithInformation.Rows[0].Cells[11].Value = reader.IsDBNull(11) ? "NULL" : Convert.ToInt32(reader.GetInt32(11)).ToString();
-            TableWithInformation.Rows[0].Cells[12].Value = reader.IsDBNull(12) ? "NULL" : reader.GetString(12);
-            TableWithInformation.Rows[0].Cells[13].Value = reader.IsDBNull(13) ? "NULL" : Convert.ToInt32(reader.GetInt32(13)).ToString();
-            TableWithInformation.Rows[0].Cells[14].Value = reader.IsDBNull(14) ? "NULL" : reader.GetDateTime(14).ToShortDateString();
-            TableWithInformation.Rows[0].Cells[15].Value = reader.IsDBNull(15) ? "NULL" : Convert.ToInt32(reader.GetInt32(15)).ToString();
-            TableWithInformation.Rows[0].Cells[16].Value = reader.IsDBNull(16) ? "NULL" : reader.GetString(16);
+            TableWithInformation.Rows[count].Cells[0].Value = reader.IsDBNull(0) ? "NULL" : Convert.ToInt32(reader.GetInt32(0)).ToString();
+            TableWithInformation.Rows[count].Cells[1].Value = reader.IsDBNull(1) ? "NULL" : Convert.ToInt32(reader.GetInt32(1)).ToString();
+            TableWithInformation.Rows[count].Cells[2].Value = reader.IsDBNull(2) ? "NULL" : reader.GetString(2);
+            TableWithInformation.Rows[count].Cells[3].Value = reader.IsDBNull(3) ? "NULL" : reader.GetDateTime(3).ToShortDateString();
+            TableWithInformation.Rows[count].Cells[4].Value = reader.IsDBNull(4) ? "NULL" : reader.GetDateTime(4).ToShortDateString();
+            TableWithInformation.Rows[count].Cells[5].Value = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
+            TableWithInformation.Rows[count].Cells[6].Value = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
+            TableWithInformation.Rows[count].Cells[7].Value = reader.IsDBNull(7) ? "NULL" : reader.GetString(7);
+            TableWithInformation.Rows[count].Cells[8].Value = reader.IsDBNull(8) ? false : reader.GetBoolean(8);
+            TableWithInformation.Rows[count].Cells[9].Value = reader.IsDBNull(9) ? "NULL" : reader.GetString(9);
+            TableWithInformation.Rows[count].Cells[10].Value = reader.IsDBNull(10) ? "NULL" : reader.GetString(10);
+            TableWithInformation.Rows[count].Cells[11].Value = reader.IsDBNull(11) ? "NULL" : Convert.ToInt32(reader.GetInt32(11)).ToString();
+            TableWithInformation.Rows[count].Cells[12].Value = reader.IsDBNull(12) ? "NULL" : reader.GetString(12);
+            TableWithInformation.Rows[count].Cells[13].Value = reader.IsDBNull(13) ? "NULL" : Convert.ToInt32(reader.GetInt32(13)).ToString();
+            TableWithInformation.Rows[count].Cells[14].Value = reader.IsDBNull(14) ? "NULL" : reader.GetDateTime(14).ToShortDateString();
+            TableWithInformation.Rows[count].Cells[15].Value = reader.IsDBNull(15) ? "NULL" : Convert.ToInt32(reader.GetInt32(15)).ToString();
+            TableWithInformation.Rows[count].Cells[16].Value = reader.IsDBNull(16) ? "NULL" : reader.GetString(16);
+            
         }
 
         private void TakeOff_Click(object sender, EventArgs e) {

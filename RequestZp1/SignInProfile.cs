@@ -99,8 +99,8 @@ namespace RequestZp1 {
                 
                 if (!RememberMe.Checked) {
                     write.Write("");
-                    NameP.Clear();
-                    Password.Clear();
+                    //NameP.Clear();
+                    //Password.Clear();
                 } else {
                     byte[] nameByte = System.Text.Encoding.Default.GetBytes(NameP.Text);
                     string strName = "";

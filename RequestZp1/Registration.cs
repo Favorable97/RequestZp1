@@ -20,7 +20,7 @@ namespace RequestZp1 {
         private void SignUp_Click(object sender, EventArgs e) {
             AddUsers();
             RecordListOperationAddUser();
-
+            (Application.OpenForms[0] as Form1).AutoSize = true;
             this.Hide();
         }
 
@@ -40,7 +40,6 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Rights", Rights.Text);
                 com.Parameters.AddWithValue("@Password", encPassword);
                 com.ExecuteNonQuery();
-                RecordListOperationAddUser();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
             finally { con.Close(); }
