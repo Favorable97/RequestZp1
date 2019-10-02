@@ -76,7 +76,6 @@
     <Compile Include="Registration.Designer.cs">
       <DependentUpon>Registration.cs</DependentUpon>
     </Compile>
-    <Compile Include="RepayPolises.cs" />
     <Compile Include="SignInProfile.cs">
       <SubType>UserControl</SubType>
     </Compile>

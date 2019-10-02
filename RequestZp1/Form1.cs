@@ -940,12 +940,10 @@ namespace RequestZp1 {
                     CheckCS.Enabled = true;
                     DeletePeople.Enabled = true;
                     CreateFileAnwer.Enabled = true;
-                    ToRepayPolis.Enabled = true;
                 } else {
                     CheckCS.Enabled = false;
                     DeletePeople.Enabled = false;
                     CreateFileAnwer.Enabled = false;
-                    ToRepayPolis.Enabled = false;
                 }
                 return;
             }
@@ -1030,7 +1028,6 @@ namespace RequestZp1 {
             CheckCS.Enabled = false;
             DeletePeople.Enabled = false;
             CreateFileAnwer.Enabled = false;
-            ToRepayPolis.Enabled = false;
         }
 
         private void Highlight_Click(object sender, EventArgs e) {
@@ -1039,7 +1036,6 @@ namespace RequestZp1 {
             CreateFileAnwer.Enabled = true;
             CheckCS.Enabled = true;
             DeletePeople.Enabled = true;
-            ToRepayPolis.Enabled = true;
         }
 
         private void RefreshButton_Click(object sender, EventArgs e) {
@@ -1052,7 +1048,6 @@ namespace RequestZp1 {
             CheckCS.Enabled = false;
             DeletePeople.Enabled = false;
             CreateFileAnwer.Enabled = false;
-            ToRepayPolis.Enabled = false;
             RequestTable.Rows.Clear();
             TableWithFilesCSV.Rows.Clear();
             ToFillTable();
@@ -1094,7 +1089,6 @@ namespace RequestZp1 {
                 CheckCS.Enabled = true;
                 DeletePeople.Enabled = true;
                 CreateFileAnwer.Enabled = true;
-                ToRepayPolis.Enabled = true;
                 fileName = TableWithFilesCSV.Rows[e.RowIndex].Cells[0].Value.ToString();
                 SearchPeoples();
             } else if (e.ColumnIndex == 2) { 
@@ -1162,18 +1156,6 @@ namespace RequestZp1 {
         private void TableWithInformation_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyData == Keys.F5)
                 RefreshInfoAboutPerson();
-        }
-
-        private void ToRepayPolis_Click(object sender, EventArgs e) {
-            List<string> persons = new List<string>();
-            for (int i = 0; i < RequestTable.Rows.Count; i++) {
-                if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
-                    persons.Add(RequestTable.Rows[i].Cells[1].Value + "," + RequestTable.Rows[i].Cells[2].Value + "," + RequestTable.Rows[i].Cells[3].Value + "," + RequestTable.Rows[i].Cells[4].Value);
-                }
-            }
-
-            RepayPolises repay = new RepayPolises(persons);
-            repay.ToRepay();
         }
 
         int indexRow;

@@ -36,7 +36,6 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.ToRepayPolis = new System.Windows.Forms.Button();
             this.EditButton = new System.Windows.Forms.Button();
             this.CreateFileAnwer = new System.Windows.Forms.Button();
             this.TableWithFilesCSV = new System.Windows.Forms.DataGridView();
@@ -233,7 +232,6 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.ToRepayPolis);
             this.splitContainer1.Panel1.Controls.Add(this.EditButton);
             this.splitContainer1.Panel1.Controls.Add(this.CreateFileAnwer);
             this.splitContainer1.Panel1.Controls.Add(this.TableWithFilesCSV);
@@ -268,19 +266,6 @@
             this.splitContainer1.SplitterDistance = 475;
             this.splitContainer1.TabIndex = 19;
             this.splitContainer1.Visible = false;
-            // 
-            // ToRepayPolis
-            // 
-            this.ToRepayPolis.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ToRepayPolis.Enabled = false;
-            this.ToRepayPolis.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ToRepayPolis.Location = new System.Drawing.Point(1263, 301);
-            this.ToRepayPolis.Name = "ToRepayPolis";
-            this.ToRepayPolis.Size = new System.Drawing.Size(183, 60);
-            this.ToRepayPolis.TabIndex = 41;
-            this.ToRepayPolis.Text = "Погасить полисы выбранных людей";
-            this.ToRepayPolis.UseVisualStyleBackColor = false;
-            this.ToRepayPolis.Click += new System.EventHandler(this.ToRepayPolis_Click);
             // 
             // EditButton
             // 
@@ -558,7 +543,7 @@
             this.CheckCS.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CheckCS.Enabled = false;
             this.CheckCS.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CheckCS.Location = new System.Drawing.Point(1091, 301);
+            this.CheckCS.Location = new System.Drawing.Point(1323, 301);
             this.CheckCS.Name = "CheckCS";
             this.CheckCS.Size = new System.Drawing.Size(143, 60);
             this.CheckCS.TabIndex = 27;
@@ -1053,7 +1038,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button ToRepayPolis;
     }
 }
 
