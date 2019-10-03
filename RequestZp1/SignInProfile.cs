@@ -42,7 +42,6 @@ namespace RequestZp1 {
                 com.Parameters.AddWithValue("@Name", NameP.Text);
                 com.Parameters.AddWithValue("@Password", encPassword);
                 int count = (int)com.ExecuteScalar();
-                byte countTry = 1;
 
                 if (count == 0) {
                     MessageBox.Show("Введеные неверные данные");
