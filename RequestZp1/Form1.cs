@@ -1153,6 +1153,98 @@ namespace RequestZp1 {
                 RefreshTableWithPerson();
         }
 
+        private void SearchButton_Click(object sender, EventArgs e) {
+            if (sSurname.Text == "") {
+                ToFillTable();
+            } else {
+                RequestTable.Rows.Clear();
+                SearchPeopleAtDB();
+            }
+        }
+
+        private void SearchPeopleAtDB() {
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                
+                using (SqlCommand com = new SqlCommand("Select Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2 " +
+                    "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
+                    "Where ListOperator.IDUser = " + GetID() + " and Peoples.Surname = '" + sSurname.Text + "'", con)) {
+                    con.Open();
+                    using (SqlDataReader reader = com.ExecuteReader()) {
+                        while (reader.Read()) {
+                            DataGridViewRow newRow = new DataGridViewRow();
+
+                            DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
+                                Value = 0
+                            };
+                            DataGridViewCell Surname = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(0)
+                            };
+
+                            DataGridViewCell Name = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(1)
+                            };
+
+                            DataGridViewCell FatherName = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(2)
+                            };
+
+                            DataGridViewCell Birthday = new DataGridViewTextBoxCell {
+                                Value = reader.GetDateTime(3).ToShortDateString()
+                            };
+
+                            DataGridViewCell Pol = new DataGridViewTextBoxCell {
+                                Value = Convert.ToInt32(reader.GetInt32(4))
+                            };
+
+                            DataGridViewCell CodeDocument = new DataGridViewTextBoxCell {
+                                Value = reader.GetInt32(5)
+                            };
+
+                            DataGridViewCell SeriesDoc = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(6)
+                            };
+
+                            DataGridViewCell NumbDoc = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(7)
+                            };
+
+                            DataGridViewCell RS = new DataGridViewTextBoxCell {
+                                Value = ""
+                            };
+
+                            DataGridViewCell CS = new DataGridViewTextBoxCell {
+                                Value = ""
+                            };
+
+                            DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
+                                Value = reader.IsDBNull(8) ? "" : reader.GetDateTime(8).ToString()
+                            };
+
+                            DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
+                                Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(8).ToString()
+                            };
+
+                            newRow.Cells.Add(checkoxCell);
+                            newRow.Cells.Add(Surname);
+                            newRow.Cells.Add(Name);
+                            newRow.Cells.Add(FatherName);
+                            newRow.Cells.Add(Birthday);
+                            newRow.Cells.Add(Pol);
+                            newRow.Cells.Add(CodeDocument);
+                            newRow.Cells.Add(SeriesDoc);
+                            newRow.Cells.Add(NumbDoc);
+                            newRow.Cells.Add(RS);
+                            newRow.Cells.Add(CS);
+                            newRow.Cells.Add(Uprak1);
+                            newRow.Cells.Add(Uprak2);
+
+                            RequestTable.Rows.Add(newRow);
+                        }
+                    }
+                }
+            }
+        }
+
         private void TableWithInformation_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyData == Keys.F5)
                 RefreshInfoAboutPerson();

@@ -49,19 +49,6 @@
             this.Highlight = new System.Windows.Forms.Button();
             this.TakeOff = new System.Windows.Forms.Button();
             this.RequestTable = new System.Windows.Forms.DataGridView();
-            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CheckCS = new System.Windows.Forms.Button();
             this.DownLoadFileCSV = new System.Windows.Forms.Button();
             this.AddPeople = new System.Windows.Forms.Button();
@@ -84,6 +71,12 @@
             this.tBirthday = new System.Windows.Forms.MaskedTextBox();
             this.RefreshInfo = new System.Windows.Forms.Button();
             this.TableWithInformation = new System.Windows.Forms.DataGridView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.registration1 = new RequestZp1.Registration();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.SearchButton = new System.Windows.Forms.Button();
+            this.sSurname = new System.Windows.Forms.TextBox();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,10 +94,19 @@
             this.Column28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.registration1 = new RequestZp1.Registration();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
+            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -232,6 +234,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.sSurname);
+            this.splitContainer1.Panel1.Controls.Add(this.SearchButton);
             this.splitContainer1.Panel1.Controls.Add(this.EditButton);
             this.splitContainer1.Panel1.Controls.Add(this.CreateFileAnwer);
             this.splitContainer1.Panel1.Controls.Add(this.TableWithFilesCSV);
@@ -272,7 +276,7 @@
             this.EditButton.BackColor = System.Drawing.Color.LightGray;
             this.EditButton.Enabled = false;
             this.EditButton.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.EditButton.Location = new System.Drawing.Point(1035, 9);
+            this.EditButton.Location = new System.Drawing.Point(1044, 301);
             this.EditButton.Name = "EditButton";
             this.EditButton.Size = new System.Drawing.Size(119, 51);
             this.EditButton.TabIndex = 40;
@@ -307,7 +311,7 @@
             this.TableWithFilesCSV.Location = new System.Drawing.Point(256, 311);
             this.TableWithFilesCSV.Name = "TableWithFilesCSV";
             this.TableWithFilesCSV.RowHeadersVisible = false;
-            this.TableWithFilesCSV.Size = new System.Drawing.Size(328, 142);
+            this.TableWithFilesCSV.Size = new System.Drawing.Size(336, 142);
             this.TableWithFilesCSV.TabIndex = 38;
             this.TableWithFilesCSV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TableWithFilesCSV_CellContentClick);
             // 
@@ -374,7 +378,7 @@
             // 
             this.RefreshButton.BackColor = System.Drawing.Color.LightGray;
             this.RefreshButton.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.RefreshButton.Location = new System.Drawing.Point(923, 9);
+            this.RefreshButton.Location = new System.Drawing.Point(932, 301);
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(94, 51);
             this.RefreshButton.TabIndex = 34;
@@ -386,7 +390,7 @@
             // 
             this.Highlight.BackColor = System.Drawing.Color.LightGray;
             this.Highlight.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Highlight.Location = new System.Drawing.Point(813, 9);
+            this.Highlight.Location = new System.Drawing.Point(822, 301);
             this.Highlight.Name = "Highlight";
             this.Highlight.Size = new System.Drawing.Size(95, 51);
             this.Highlight.TabIndex = 33;
@@ -399,7 +403,7 @@
             this.TakeOff.BackColor = System.Drawing.Color.LightGray;
             this.TakeOff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.TakeOff.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.TakeOff.Location = new System.Drawing.Point(695, 9);
+            this.TakeOff.Location = new System.Drawing.Point(704, 301);
             this.TakeOff.Name = "TakeOff";
             this.TakeOff.Size = new System.Drawing.Size(104, 51);
             this.TakeOff.TabIndex = 32;
@@ -435,108 +439,6 @@
             this.RequestTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.RequestTable_CurrentCellDirtyStateChanged);
             this.RequestTable.SelectionChanged += new System.EventHandler(this.RequestTable_SelectionChanged);
             this.RequestTable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RequestTable_KeyDown);
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "";
-            this.Column7.Name = "Column7";
-            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column7.Width = 30;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Фамилия";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column1.Width = 75;
-            // 
-            // Column32
-            // 
-            this.Column32.HeaderText = "Имя";
-            this.Column32.Name = "Column32";
-            this.Column32.ReadOnly = true;
-            this.Column32.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column32.Width = 75;
-            // 
-            // Column33
-            // 
-            this.Column33.HeaderText = "Отчество";
-            this.Column33.Name = "Column33";
-            this.Column33.ReadOnly = true;
-            this.Column33.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column33.Width = 75;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Дата рождения";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column2.Width = 80;
-            // 
-            // Column31
-            // 
-            this.Column31.HeaderText = "Пол";
-            this.Column31.Name = "Column31";
-            this.Column31.ReadOnly = true;
-            this.Column31.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column31.Width = 40;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Код документа";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column3.Width = 70;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "Серия";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column12.Width = 70;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "Номер";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            this.Column13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column13.Width = 70;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Поиск в РС";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column8.Width = 60;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Отправка запроса в ЦС";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column9.Width = 70;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Ответ1 (ЦС)";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Ответ2 (ЦС)";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CheckCS
             // 
@@ -722,7 +624,7 @@
             this.DeletePeople.BackColor = System.Drawing.Color.LightGray;
             this.DeletePeople.Enabled = false;
             this.DeletePeople.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.DeletePeople.Location = new System.Drawing.Point(1181, 11);
+            this.DeletePeople.Location = new System.Drawing.Point(1190, 303);
             this.DeletePeople.Name = "DeletePeople";
             this.DeletePeople.Size = new System.Drawing.Size(82, 51);
             this.DeletePeople.TabIndex = 31;
@@ -780,9 +682,47 @@
             this.TableWithInformation.Location = new System.Drawing.Point(8, 14);
             this.TableWithInformation.Name = "TableWithInformation";
             this.TableWithInformation.RowHeadersVisible = false;
-            this.TableWithInformation.Size = new System.Drawing.Size(1395, 126);
+            this.TableWithInformation.Size = new System.Drawing.Size(1401, 126);
             this.TableWithInformation.TabIndex = 30;
             this.TableWithInformation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TableWithInformation_KeyDown);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // registration1
+            // 
+            this.registration1.AutoSize = true;
+            this.registration1.Location = new System.Drawing.Point(3, 791);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(1264, 570);
+            this.registration1.TabIndex = 20;
+            // 
+            // signInProfile1
+            // 
+            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
+            this.signInProfile1.TabIndex = 17;
+            // 
+            // SearchButton
+            // 
+            this.SearchButton.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.SearchButton.Location = new System.Drawing.Point(825, 14);
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(101, 37);
+            this.SearchButton.TabIndex = 41;
+            this.SearchButton.Text = "Найти";
+            this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            // 
+            // sSurname
+            // 
+            this.sSurname.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.sSurname.Location = new System.Drawing.Point(684, 24);
+            this.sSurname.Name = "sSurname";
+            this.sSurname.Size = new System.Drawing.Size(125, 27);
+            this.sSurname.TabIndex = 42;
             // 
             // Column14
             // 
@@ -803,28 +743,25 @@
             this.Column16.HeaderText = "ENP";
             this.Column16.Name = "Column16";
             this.Column16.ReadOnly = true;
-            this.Column16.Width = 70;
+            this.Column16.Width = 120;
             // 
             // Column17
             // 
             this.Column17.HeaderText = "Дата начала";
             this.Column17.Name = "Column17";
             this.Column17.ReadOnly = true;
-            this.Column17.Width = 80;
             // 
             // Column18
             // 
             this.Column18.HeaderText = "Дата конца";
             this.Column18.Name = "Column18";
             this.Column18.ReadOnly = true;
-            this.Column18.Width = 80;
             // 
             // Column19
             // 
             this.Column19.HeaderText = "ОКАТО";
             this.Column19.Name = "Column19";
             this.Column19.ReadOnly = true;
-            this.Column19.Width = 70;
             // 
             // Column20
             // 
@@ -851,27 +788,27 @@
             this.Column23.HeaderText = "POLIS";
             this.Column23.Name = "Column23";
             this.Column23.ReadOnly = true;
-            this.Column23.Width = 80;
             // 
             // Column24
             // 
             this.Column24.HeaderText = "DUP";
             this.Column24.Name = "Column24";
             this.Column24.ReadOnly = true;
-            this.Column24.Width = 80;
+            this.Column24.Width = 150;
             // 
             // Column25
             // 
             this.Column25.HeaderText = "NR";
             this.Column25.Name = "Column25";
             this.Column25.ReadOnly = true;
+            this.Column25.Width = 50;
             // 
             // Column26
             // 
             this.Column26.HeaderText = "MAINENP";
             this.Column26.Name = "Column26";
             this.Column26.ReadOnly = true;
-            this.Column26.Width = 70;
+            this.Column26.Width = 120;
             // 
             // Column27
             // 
@@ -885,7 +822,6 @@
             this.Column28.HeaderText = "Дата рождения";
             this.Column28.Name = "Column28";
             this.Column28.ReadOnly = true;
-            this.Column28.Width = 80;
             // 
             // Column29
             // 
@@ -901,24 +837,99 @@
             this.Column30.ReadOnly = true;
             this.Column30.Width = 60;
             // 
-            // openFileDialog1
+            // Column7
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.Column7.HeaderText = "";
+            this.Column7.Name = "Column7";
+            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column7.Width = 30;
             // 
-            // registration1
+            // Column1
             // 
-            this.registration1.AutoSize = true;
-            this.registration1.Location = new System.Drawing.Point(3, 791);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(1264, 570);
-            this.registration1.TabIndex = 20;
+            this.Column1.HeaderText = "Фамилия";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 75;
             // 
-            // signInProfile1
+            // Column32
             // 
-            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
-            this.signInProfile1.TabIndex = 17;
+            this.Column32.HeaderText = "Имя";
+            this.Column32.Name = "Column32";
+            this.Column32.ReadOnly = true;
+            this.Column32.Width = 75;
+            // 
+            // Column33
+            // 
+            this.Column33.HeaderText = "Отчество";
+            this.Column33.Name = "Column33";
+            this.Column33.ReadOnly = true;
+            this.Column33.Width = 75;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Дата рождения";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 80;
+            // 
+            // Column31
+            // 
+            this.Column31.HeaderText = "Пол";
+            this.Column31.Name = "Column31";
+            this.Column31.ReadOnly = true;
+            this.Column31.Width = 40;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Код документа";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 70;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Серия";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            this.Column12.Width = 70;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Номер";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            this.Column13.Width = 70;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Поиск в РС";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column8.Width = 60;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Отправка запроса в ЦС";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            this.Column9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column9.Width = 70;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Ответ1 (ЦС)";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Ответ2 (ЦС)";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            this.Column11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Form1
             // 
@@ -992,6 +1003,24 @@
         private System.Windows.Forms.MaskedTextBox tBirthday;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView TableWithInformation;
+        private System.Windows.Forms.Button TakeOff;
+        private System.Windows.Forms.Button RefreshButton;
+        private System.Windows.Forms.Button Highlight;
+        private System.Windows.Forms.Button RefreshInfo;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private Registration registration1;
+        private System.Windows.Forms.DataGridView TableWithFilesCSV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column34;
+        private System.Windows.Forms.DataGridViewButtonColumn Column35;
+        private System.Windows.Forms.DataGridViewButtonColumn Column36;
+        private System.Windows.Forms.Button CreateFileAnwer;
+        private System.Windows.Forms.Button EditButton;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.TextBox sSurname;
+        private System.Windows.Forms.Button SearchButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
@@ -1009,21 +1038,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column28;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column29;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column30;
-        private System.Windows.Forms.Button TakeOff;
-        private System.Windows.Forms.Button RefreshButton;
-        private System.Windows.Forms.Button Highlight;
-        private System.Windows.Forms.Button RefreshInfo;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private Registration registration1;
-        private System.Windows.Forms.DataGridView TableWithFilesCSV;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column34;
-        private System.Windows.Forms.DataGridViewButtonColumn Column35;
-        private System.Windows.Forms.DataGridViewButtonColumn Column36;
-        private System.Windows.Forms.Button CreateFileAnwer;
-        private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column32;
@@ -1037,7 +1051,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
