@@ -41,7 +41,7 @@ namespace RequestZp1 {
         // заполнение таблицы
         public void ToFillTable() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2 " +
+                SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
                     "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
                     "Where ListOperator.IDUser = " + GetID(), con);
                 con.Open();
@@ -92,7 +92,7 @@ namespace RequestZp1 {
                     };
 
                     DataGridViewCell CS = new DataGridViewTextBoxCell {
-                        Value = ""
+                        Value = reader.IsDBNull(10) ? "" : reader.GetDateTime(10).ToString()
                     };
 
                     DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
@@ -100,7 +100,7 @@ namespace RequestZp1 {
                     };
 
                     DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
-                        Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(8).ToString()
+                        Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(9).ToString()
                     };
 
                     newRow.Cells.Add(checkoxCell);
@@ -187,7 +187,18 @@ namespace RequestZp1 {
                             AddPeopleMarkTable();
                             RecordDBListOperatorWithFile();
                         }
-                    } else return;
+                    } else {
+                        if (!isFile) {
+                            for (int i = 0; i < RequestTable.Rows.Count; i++) {
+                                if (RequestTable.Rows[i].Cells[1].Value.ToString() == tSurname.Text && RequestTable.Rows[i].Cells[2].Value.ToString() == tName.Text
+                                                    && RequestTable.Rows[i].Cells[3].Value.ToString() == tFatherName.Text && RequestTable.Rows[i].Cells[4].Value.ToString() == tBirthday.Text) {
+                                    RequestTable.CurrentCell = RequestTable.Rows[i].Cells[1];
+                                    RequestTable.FirstDisplayedScrollingRowIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
                 DelInform();
             } catch (Exception e) {
@@ -472,7 +483,7 @@ namespace RequestZp1 {
         private void RecordTempDB() {
             for (int i = 0; i < RequestTable.Rows.Count; i++) {
                 if (Convert.ToBoolean(RequestTable.Rows[i].Cells[0].Value)) {
-                    RequestTable.Rows[i].Cells[10].Value = "OK";
+                    RequestTable.Rows[i].Cells[10].Value = DateTime.Now.ToString();
                     using (SqlConnection con = new SqlConnection(connectionString)) {
                         using (SqlCommand com = new SqlCommand("INSERT INTO Temp(Surname, Name, FatherName, DateBirthday, Pol, CodeDocument, Series, Number) VALUES" +
                             "(@Surname, @Name, @FatherName, @DateBirthday, @Pol, @CodeDocument, @Series, @Number)", con)) {
@@ -485,6 +496,13 @@ namespace RequestZp1 {
                             com.Parameters.AddWithValue("@CodeDocument", RequestTable.Rows[i].Cells[6].Value);
                             com.Parameters.AddWithValue("@Series", RequestTable.Rows[i].Cells[7].Value.ToString());
                             com.Parameters.AddWithValue("@Number", RequestTable.Rows[i].Cells[8].Value.ToString());
+                            com.ExecuteNonQuery();
+                        }
+
+                        using (SqlCommand com = new SqlCommand("Update ListOperator Set CSTime = @time Where IDUser = @id and IDPeople = @idP", con)) {
+                            com.Parameters.AddWithValue("@time", DateTime.Now);
+                            com.Parameters.AddWithValue("@id", GetID());
+                            com.Parameters.AddWithValue("@idP", GetIDPeople(RequestTable.Rows[i].Cells[2].Value.ToString(), RequestTable.Rows[i].Cells[1].Value.ToString(), RequestTable.Rows[i].Cells[3].Value.ToString(), RequestTable.Rows[i].Cells[4].Value.ToString()));
                             com.ExecuteNonQuery();
                         }
                     }
@@ -1165,7 +1183,7 @@ namespace RequestZp1 {
         private void SearchPeopleAtDB() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 
-                using (SqlCommand com = new SqlCommand("Select Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2 " +
+                using (SqlCommand com = new SqlCommand("Select Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
                     "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
                     "Where ListOperator.IDUser = " + GetID() + " and Peoples.Surname = '" + sSurname.Text + "'", con)) {
                     con.Open();
@@ -1213,7 +1231,7 @@ namespace RequestZp1 {
                             };
 
                             DataGridViewCell CS = new DataGridViewTextBoxCell {
-                                Value = ""
+                                Value = reader.IsDBNull(10) ? "" : reader.GetDateTime(10).ToString()
                             };
 
                             DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
@@ -1221,7 +1239,7 @@ namespace RequestZp1 {
                             };
 
                             DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
-                                Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(8).ToString()
+                                Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(9).ToString()
                             };
 
                             newRow.Cells.Add(checkoxCell);
