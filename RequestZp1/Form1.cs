@@ -214,7 +214,7 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                com = new SqlCommand("Select Count(*) From Peoples Where Name = @Name and Surname = @Surname and FatherName = @FatherName and DateBirthday = @DateBirthday", con);
+                com = new SqlCommand("Select Count(*) From Peoples Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DateBirthday", con);
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);//
@@ -614,7 +614,7 @@ namespace RequestZp1 {
             try {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                com = new SqlCommand("Select ID From Peoples Where Name = @Name and Surname = @Surname and FatherName = @FatherName and DateBirthday = @DateBirthday", con);
+                com = new SqlCommand("Select ID From Peoples Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DateBirthday", con);
                 com.Parameters.AddWithValue("@Name", tName.Text);
                 com.Parameters.AddWithValue("@Surname", tSurname.Text);
                 com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
@@ -645,7 +645,7 @@ namespace RequestZp1 {
 
         private object GetIDPeople(string name, string surname, string fatherName, string birthday) {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                using (SqlCommand com = new SqlCommand("Select ID From Peoples Where Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con)) {
+                using (SqlCommand com = new SqlCommand("Select ID From Peoples Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DateBirthday", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@Surname", surname);
                     com.Parameters.AddWithValue("@Name", name);
@@ -982,7 +982,7 @@ namespace RequestZp1 {
         private void SearchInformCS(int index) {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("Select ID From Peoples " +
-                            "Where Surname = @Surname and Name = @Name and FatherName = @FatherName and DateBirthday = @DateBirthday", con)) {
+                            "Where Upper(Surname) = Upper(@Surname) and Upper(Name) = Upper(@Name) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DateBirthday", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@Surname", RequestTable.Rows[index].Cells[1].Value.ToString());
                     com.Parameters.AddWithValue("@Name", RequestTable.Rows[index].Cells[2].Value.ToString());
@@ -1185,7 +1185,7 @@ namespace RequestZp1 {
                 
                 using (SqlCommand com = new SqlCommand("Select Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
                     "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
-                    "Where ListOperator.IDUser = " + GetID() + " and Peoples.Surname = '" + sSurname.Text + "'", con)) {
+                    "Where ListOperator.IDUser = " + GetID() + " and Upper(Peoples.Surname) Like Upper('" + sSurname.Text + "%')", con)) {
                     con.Open();
                     using (SqlDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
@@ -1288,7 +1288,7 @@ namespace RequestZp1 {
                         using (SqlCommand com = new SqlCommand("Update Peoples " +
                                             "Set Surname = @Surname, Name = @Name, FatherName = @FatherName, DateBirthday = @DR, " +
                                             "Pol = @Pol, CodeDocument = @Code, SeriesDoc = @Series, NumbDoc = @NumbDoc " +
-                                            "Where Surname = @SurnameEd and Name = @NameEd and FatherName = @FatherEd and DateBirthday = @DrED", con)) {
+                                            "Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DrED", con)) {
                             con.Open();
                             com.Parameters.AddWithValue("@Surname", RequestTable.Rows[indexRow].Cells[1].Value.ToString());
                             com.Parameters.AddWithValue("@Name", RequestTable.Rows[indexRow].Cells[2].Value.ToString());
