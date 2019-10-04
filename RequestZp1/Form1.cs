@@ -462,6 +462,7 @@ namespace RequestZp1 {
             tFatherName.Clear();
             tBirthday.Clear();
             comboBox1.Text = "Тип документа";
+            comboBox1.Items.Clear();
             tSeries.Clear();
             tNumber.Clear();
             radioButton1.Checked = false;
@@ -580,6 +581,11 @@ namespace RequestZp1 {
             this.AutoSize = false;
             this.Size = signInProfile1.Size;
             signInProfile1.ClearTextBox();
+            DelInform();
+            TableWithFilesCSV.Rows.Clear();
+            RequestTable.Rows.Clear();
+            TableWithInformation.Rows.Clear();
+            sSurname.Clear();
             using (FileStream stream = new FileStream("date.txt", FileMode.Truncate)) {
                 StreamWriter write = new StreamWriter(stream);
                 write.Write("");
