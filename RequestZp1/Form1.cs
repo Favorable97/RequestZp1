@@ -148,7 +148,13 @@ namespace RequestZp1 {
         private void AddPeople_Click(object sender, EventArgs e) {
             if (tName.Text == "" || tSurname.Text == "" || tBirthday.Text == "" || tBirthday.Text == "" || tSeries.Text == "" || tNumber.Text == "" || (!radioButton1.Checked && !radioButton2.Checked)) {
                 MessageBox.Show("Введены не все данные");
-            } else OperationWithPerson();
+            } else {
+                tName.Text = tName.Text.Trim(' ');
+                tSurname.Text = tName.Text.Trim(' ');
+                tFatherName.Text = tName.Text.Trim(' ');
+
+                OperationWithPerson();
+            }
         }
 
         // Методы с добавление людей
