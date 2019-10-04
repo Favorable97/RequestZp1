@@ -147,15 +147,17 @@
             // 
             // myHistoryMenuItem
             // 
+            this.myHistoryMenuItem.Enabled = false;
             this.myHistoryMenuItem.Name = "myHistoryMenuItem";
-            this.myHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.myHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
             this.myHistoryMenuItem.Text = "Моя история";
             this.myHistoryMenuItem.Click += new System.EventHandler(this.MyHistoryMenuItem_Click);
             // 
             // allHistoryMenuItem
             // 
+            this.allHistoryMenuItem.Enabled = false;
             this.allHistoryMenuItem.Name = "allHistoryMenuItem";
-            this.allHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.allHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
             this.allHistoryMenuItem.Text = "Вся история";
             this.allHistoryMenuItem.Click += new System.EventHandler(this.AllHistoryMenuItem_Click);
             // 
