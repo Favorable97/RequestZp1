@@ -87,6 +87,10 @@
             this.tBirthday = new System.Windows.Forms.MaskedTextBox();
             this.RefreshInfo = new System.Windows.Forms.Button();
             this.TableWithInformation = new System.Windows.Forms.DataGridView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.registration1 = new RequestZp1.Registration();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -104,10 +108,6 @@
             this.Column28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.registration1 = new RequestZp1.Registration();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -149,7 +149,7 @@
             // 
             this.myHistoryMenuItem.Enabled = false;
             this.myHistoryMenuItem.Name = "myHistoryMenuItem";
-            this.myHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.myHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
             this.myHistoryMenuItem.Text = "Моя история";
             this.myHistoryMenuItem.Click += new System.EventHandler(this.MyHistoryMenuItem_Click);
             // 
@@ -157,7 +157,7 @@
             // 
             this.allHistoryMenuItem.Enabled = false;
             this.allHistoryMenuItem.Name = "allHistoryMenuItem";
-            this.allHistoryMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.allHistoryMenuItem.Size = new System.Drawing.Size(175, 24);
             this.allHistoryMenuItem.Text = "Вся история";
             this.allHistoryMenuItem.Click += new System.EventHandler(this.AllHistoryMenuItem_Click);
             // 
@@ -798,9 +798,28 @@
             this.TableWithInformation.Location = new System.Drawing.Point(8, 14);
             this.TableWithInformation.Name = "TableWithInformation";
             this.TableWithInformation.RowHeadersVisible = false;
-            this.TableWithInformation.Size = new System.Drawing.Size(1401, 126);
+            this.TableWithInformation.Size = new System.Drawing.Size(1420, 126);
             this.TableWithInformation.TabIndex = 30;
             this.TableWithInformation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TableWithInformation_KeyDown);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // registration1
+            // 
+            this.registration1.AutoSize = true;
+            this.registration1.Location = new System.Drawing.Point(3, 791);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(1264, 570);
+            this.registration1.TabIndex = 20;
+            // 
+            // signInProfile1
+            // 
+            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
+            this.signInProfile1.TabIndex = 17;
             // 
             // Column14
             // 
@@ -866,6 +885,7 @@
             this.Column23.HeaderText = "POLIS";
             this.Column23.Name = "Column23";
             this.Column23.ReadOnly = true;
+            this.Column23.Width = 130;
             // 
             // Column24
             // 
@@ -914,25 +934,6 @@
             this.Column30.Name = "Column30";
             this.Column30.ReadOnly = true;
             this.Column30.Width = 60;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // registration1
-            // 
-            this.registration1.AutoSize = true;
-            this.registration1.Location = new System.Drawing.Point(3, 791);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(1264, 570);
-            this.registration1.TabIndex = 20;
-            // 
-            // signInProfile1
-            // 
-            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
-            this.signInProfile1.TabIndex = 17;
             // 
             // Form1
             // 
@@ -1025,6 +1026,19 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.TextBox sSurname;
         private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column32;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column33;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column31;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
@@ -1042,19 +1056,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column28;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column29;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column30;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column32;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column33;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column31;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
     }
 }
 

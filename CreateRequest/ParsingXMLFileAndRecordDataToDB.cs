@@ -71,7 +71,7 @@ namespace CreateRequest {
             }
         }
 
-        /*// запись в таблицу Results данных о человеке
+        // запись в таблицу Results данных о человеке
         private void RecordResult(XElement element) {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP, DBEG, DEND, OKATO, OPDOC, QOGRN, MAIN, POLIS, DUP, NR, MAINENP, DS, DR, W, POLVID) " +
@@ -148,116 +148,7 @@ namespace CreateRequest {
                     com.ExecuteNonQuery();
                 }
             }
-        }*/
-
-        // запись в таблицу Results данных о человеке
-        private void RecordResult(XElement element) {
-            using (SqlConnection con = new SqlConnection(connectionString)) {
-                
-                    con.Open();
-                    IEnumerable <XElement> in1 = element.Elements(xNamespace + "IN1");
-                    int count = 0;
-                    string mainEnp = "";
-                    foreach (XElement el in element.Element(xNamespace + "PID").Elements(xNamespace + "PID.3")) {
-                        using (SqlCommand com = new SqlCommand("INSERT INTO Results(PID, ENP, DBEG, DEND, OKATO, OPDOC, QOGRN, MAIN, POLIS, DUP, NR, MAINENP, DS, DR, W, POLVID) " +
-                                        "VALUES(@PID, @ENP, @DBEG, @DEND, @OKATO, @OPDOC, @QOGRN, @MAIN, @POLIS, @DUP, @NR, @MAINENP, @DS, @DR, @W, @POLVID)", con)) {
-                            bool flagDEND = false;
-                            string enp;
-                            if (count == 0) {
-                                mainEnp = el.Element(xNamespace + "CX.1").Value.ToString();
-                                count++;
-                            }
-                            else {
-                                enp = el.Element(xNamespace + "CX.1").Value.ToString();
-                                com.Parameters.AddWithValue("@PID", GetPID());
-                                com.Parameters.AddWithValue("@ENP", enp);
-                                com.Parameters.AddWithValue("@MAINENP", mainEnp);
-
-                                if (GetDBEG(in1.ElementAt(count - 1)) != "")
-                                    com.Parameters.AddWithValue("@DBEG", DateTime.ParseExact(GetDBEG(in1.ElementAt(count - 1)), "yyyy-MM-dd", null));
-                                else {
-                                    com.Parameters.AddWithValue("@DBEG", DBNull.Value);
-                                }
-                                if (GetDEND(in1.ElementAt(count - 1)) != "") {
-                                    com.Parameters.AddWithValue("@DEND", DateTime.ParseExact(GetDEND(in1.ElementAt(count - 1)), "yyyy-MM-dd", null));
-                                    flagDEND = true;
-                                }
-                                else {
-                                    com.Parameters.AddWithValue("@DEND", DBNull.Value);
-                                }
-                                if (GetOkato(in1.ElementAt(count - 1)) != "")
-                                    com.Parameters.AddWithValue("@OKATO", GetOkato(in1.ElementAt(count - 1)));
-                                else {
-                                    com.Parameters.AddWithValue("@OKATO", DBNull.Value);
-                                }
-                                if (GetOPDOC(in1.ElementAt(count - 1)) != "")
-                                    com.Parameters.AddWithValue("@OPDOC", GetOPDOC(in1.ElementAt(count - 1)));
-                                else {
-                                    com.Parameters.AddWithValue("@OPDOC", DBNull.Value);
-                                }
-                                if (GetQOGRN(in1.ElementAt(count - 1)) != "")
-                                    com.Parameters.AddWithValue("@QOGRN", GetQOGRN(in1.ElementAt(count - 1)));
-                                else {
-                                    com.Parameters.AddWithValue("@QOGRN", DBNull.Value);
-                                }
-                                if (flagDEND)
-                                    com.Parameters.AddWithValue("@MAIN", 0);
-                                else
-                                    com.Parameters.AddWithValue("@MAIN", 1);
-                                if (GetPOLIS(in1.ElementAt(count - 1)) != "")
-                                    com.Parameters.AddWithValue("@POLIS", GetPOLIS(in1.ElementAt(count - 1)));
-                                else {
-                                    com.Parameters.AddWithValue("@POLIS", DBNull.Value);
-                                }
-                                if (GetDUP(element) != "")
-                                    com.Parameters.AddWithValue("@DUP", GetDUP(element));
-                                else {
-                                    com.Parameters.AddWithValue("@DUP", DBNull.Value);
-                                }
-                                com.Parameters.AddWithValue("@NR", count);
-                                /*if (GetMainENP(element) != "")
-                                    com.Parameters.AddWithValue("@MAINENP", GetMainENP(element));
-                                else {
-                                    com.Parameters.AddWithValue("@MAINENP", DBNull.Value);
-                                }*/
-                                if (GetDS(element) != -1)
-                                    com.Parameters.AddWithValue("@DS", GetDS(element));
-                                else {
-                                    com.Parameters.AddWithValue("@DS", DBNull.Value);
-                                }
-                                if (GetDR(element) != "")
-                                    com.Parameters.AddWithValue("@DR", DateTime.ParseExact(GetDR(element), "yyyy-MM-dd", null));
-                                else {
-                                    com.Parameters.AddWithValue("@DR", DBNull.Value);
-                                }
-                                if (GetW(element) != 0)
-                                    com.Parameters.AddWithValue("@W", GetW(element));
-                                else {
-                                    com.Parameters.AddWithValue("@W", DBNull.Value);
-                                }
-                                if (GetPOLVID(in1.ElementAt(count - 1)) != "")
-                                    com.Parameters.AddWithValue("@POLVID", GetPOLVID(in1.ElementAt(count - 1)));
-                                else {
-                                    com.Parameters.AddWithValue("@POLVID", DBNull.Value);
-                                }
-
-                                com.ExecuteNonQuery();
-                                count++;
-                            }
-                        }
-                    
-                    /*com.Parameters.AddWithValue("@PID", GetPID());
-                    if (GetENP(element) != "")
-                        com.Parameters.AddWithValue("@ENP", GetENP(element));
-                    else {
-                        com.Parameters.AddWithValue("@ENP", DBNull.Value);
-                    }*/
-                    
-                    
-                    }
-                }
-            }
-
+        }
 
         // удаление данных о человеке в таблице Results
         private void DeletePerson() {
@@ -348,8 +239,8 @@ namespace CreateRequest {
         #region DBEG
         // Дата начала
         private string GetDBEG(XElement element) {
-            if (element.Element(xNamespace + "IN1.12").Value != null)
-                return element.Element(xNamespace + "IN1.12").Value;
+            if (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.12").Value != null)
+                return element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.12").Value;
             else return null;
         }
         #endregion
@@ -357,8 +248,8 @@ namespace CreateRequest {
         // Дата окончания
         #region DEND
         private string GetDEND(XElement element) {
-            if (element.Element(xNamespace + "IN1.13").Value != null)
-                return element.Element(xNamespace + "IN1.13").Value;
+            if (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.13").Value != null)
+                return element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.13").Value;
             else return null;
         }
         #endregion
@@ -366,8 +257,8 @@ namespace CreateRequest {
         // OKATO
         #region OKATO
         private string GetOkato(XElement element) {
-            if (element.Element(xNamespace + "IN1.15").Value != null)
-                return element.Element(xNamespace + "IN1.15").Value;
+            if (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.15").Value != null)
+                return element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.15").Value;
             else return null;
         }
         #endregion
@@ -375,7 +266,7 @@ namespace CreateRequest {
         // Тип полиса
         #region OPDOC
         private string GetOPDOC(XElement element) {
-            switch (element.Element(xNamespace + "IN1.35").Value) {
+            switch (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.35").Value) {
                 case "С":
                     return "1";
                 case "В":
@@ -395,8 +286,8 @@ namespace CreateRequest {
         // ОГРН
         #region QOGRN
         private string GetQOGRN(XElement element) {
-            if (element.Element(xNamespace + "IN1.3").Element(xNamespace + "CX.1").Value != null)
-                return element.Element(xNamespace + "IN1.3").Element(xNamespace + "CX.1").Value;
+            if (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.3").Element(xNamespace + "CX.1").Value != null)
+                return element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.3").Element(xNamespace + "CX.1").Value;
             else return null;
         }
         #endregion
@@ -404,8 +295,8 @@ namespace CreateRequest {
         // серия и номер полиса
         #region POLIS
         private string GetPOLIS(XElement element) {
-            if (element.Element(xNamespace + "IN1.36").Value != null)
-                return element.Element(xNamespace + "IN1.36").Value;
+            if (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.36").Value != null)
+                return element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.36").Value;
             else return null;
         }
         #endregion
@@ -471,8 +362,8 @@ namespace CreateRequest {
         // Вид полиса
         #region POLVID
         private string GetPOLVID(XElement element) {
-            if (element.Element(xNamespace + "IN1.35").Value != null)
-                return element.Element(xNamespace + "IN1.35").Value;
+            if (element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.35").Value != null)
+                return element.Element(xNamespace + "IN1").Element(xNamespace + "IN1.35").Value;
             else return null;
         }
         #endregion

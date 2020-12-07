@@ -13,13 +13,19 @@ namespace CreateRequest {
     class Program {
         static void Main(string[] args) {
             while (true) {
-                UprmesClass uprmesFile = new UprmesClass();
-                uprmesFile.WorkingProgram();
+                //try {
+                    UprmesClass uprmesFile = new UprmesClass();
+                    uprmesFile.WorkingProgram();
 
-                RecordDBResultFileSearch rfs = new RecordDBResultFileSearch();
-                rfs.SearchFileWithoutUprak1();
-                rfs.SearchFileWithoutUprak2();
-                Thread.Sleep(30000);
+                    RecordDBResultFileSearch rfs = new RecordDBResultFileSearch();
+                    rfs.SearchFileWithoutUprak1();
+                    rfs.SearchFileWithoutUprak2();
+                //} catch (Exception ex) {
+                    //Console.WriteLine("Ошибка работы программы: " /*+ ex.Message*/);
+                //}
+                //finally {
+                    Thread.Sleep(30000);
+                //}
             }
         }
     }
