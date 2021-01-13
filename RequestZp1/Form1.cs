@@ -150,8 +150,8 @@ namespace RequestZp1 {
                 MessageBox.Show("Введены не все данные");
             } else {
                 tName.Text = tName.Text.Trim(' ');
-                tSurname.Text = tName.Text.Trim(' ');
-                tFatherName.Text = tName.Text.Trim(' ');
+                tSurname.Text = tSurname.Text.Trim(' ');
+                tFatherName.Text = tFatherName.Text.Trim(' ');
                 tName.Text = char.ToUpper(tName.Text[0]) + tName.Text.Substring(1);
                 tSurname.Text = char.ToUpper(tSurname.Text[0]) + tSurname.Text.Substring(1);
                 tFatherName.Text = char.ToUpper(tFatherName.Text[0]) + tFatherName.Text.Substring(1);
