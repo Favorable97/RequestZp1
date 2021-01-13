@@ -43,7 +43,8 @@ namespace RequestZp1 {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
                     "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
-                    "Where ListOperator.IDUser = " + GetID(), con);
+                    "Where ListOperator.IDUser = " + GetID() + " " +
+                    "Order by Peoples.ID", con);
                 con.Open();
                 //com.Parameters.AddWithValue("@ListOperator.IDUser", GetID());
 
@@ -123,16 +124,16 @@ namespace RequestZp1 {
                 flag = true;
             }
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                using (SqlCommand com = new SqlCommand("SELECT Distinct FilesCSV.FileName " +
+                using (SqlCommand com = new SqlCommand("SELECT Distinct FilesCSV.ID, FilesCSV.FileName " +
                                             "FROM ListOperator join FilesCSV on ListOperator.IDCSV = FilesCSV.ID " +
-                                            "Where ListOperator.IDUser = " + GetID(), con)) {
+                                            "Where ListOperator.IDUser = " + GetID() + " Order by FilesCSV.ID", con)) {
                     con.Open();
                     using (SqlDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
                             DataGridViewRow newRow = new DataGridViewRow();
 
                             DataGridViewCell Name = new DataGridViewTextBoxCell {
-                                Value = reader.GetString(0)
+                                Value = reader.GetString(1)
                             };
 
                             newRow.Cells.Add(Name);
@@ -470,7 +471,6 @@ namespace RequestZp1 {
             tFatherName.Clear();
             tBirthday.Clear();
             comboBox1.Text = "Тип документа";
-            comboBox1.Items.Clear();
             tSeries.Clear();
             tNumber.Clear();
             radioButton1.Checked = false;
@@ -697,7 +697,7 @@ namespace RequestZp1 {
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) {
             string selectedState = comboBox1.SelectedItem.ToString();
             if (selectedState.Equals("Свидетельство о рождении")) {
-                
+                tSeries.Mask = "";
                 tSeries.Text = GetSeriesSB();
                 tNumber.Text = GetNumberSB();
                 code = 3;
@@ -1302,7 +1302,7 @@ namespace RequestZp1 {
                         using (SqlCommand com = new SqlCommand("Update Peoples " +
                                             "Set Surname = @Surname, Name = @Name, FatherName = @FatherName, DateBirthday = @DR, " +
                                             "Pol = @Pol, CodeDocument = @Code, SeriesDoc = @Series, NumbDoc = @NumbDoc " +
-                                            "Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DrED", con)) {
+                                            "Where Upper(Name) = Upper(@NameEd) and Upper(Surname) = Upper(@SurnameEd) and Upper(FatherName) = Upper(@FatherEd) and DateBirthday = @DrED", con)) {
                             con.Open();
                             com.Parameters.AddWithValue("@Surname", RequestTable.Rows[indexRow].Cells[1].Value.ToString());
                             com.Parameters.AddWithValue("@Name", RequestTable.Rows[indexRow].Cells[2].Value.ToString());
@@ -1319,9 +1319,11 @@ namespace RequestZp1 {
                             com.ExecuteNonQuery();
                         }
                     }
-                    for (int i = 1; i < RequestTable.CurrentRow.Cells.Count; i++) {
-                        RequestTable.Rows[indexRow].Cells[i].ReadOnly = true;
-                    }
+                    //RequestTable.ReadOnly = true;
+                    //for (int i = 1; i < RequestTable.CurrentRow.Cells.Count; i++) {
+                        for (int j = 1; j < RequestTable.ColumnCount; j++)
+                            RequestTable.Rows[RequestTable.CurrentRow.Index].Cells[j].ReadOnly = true;
+                    //}
                     flagEdit = true;
                     EditButton.Enabled = false;
                     EditButton.Text = "Изменить";
