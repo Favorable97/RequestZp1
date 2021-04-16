@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.IO;
+using System.Configuration;
 
 namespace RequestZp1 {
     public partial class SignInProfile : UserControl {
@@ -26,54 +27,51 @@ namespace RequestZp1 {
             RememberMe.Checked = false;
         }
         private object id;
-        readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
         byte countTry = 1;
         private void ToSignIn() {
-            SqlConnection con = null;
-            SqlCommand com;
-            SqlDataReader reader = null;
-
-
             try {
-                con = new SqlConnection(connectionString);
-                string encPassword = GetEncodingPassword(Password.Text);
-                con.Open();
-                com = new SqlCommand("Select Count(*) From Users Where Name = @Name and Password = @Password", con);
-                com.Parameters.AddWithValue("@Name", NameP.Text);
-                com.Parameters.AddWithValue("@Password", encPassword);
-                int count = (int)com.ExecuteScalar();
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString)) {
+                    con.Open();
+                    using (SqlCommand com = new SqlCommand("Select Count(*) From Users Where Name = @Name and Password = @Password", con)) {
+                        string encPassword = GetEncodingPassword(Password.Text);
+                        com.Parameters.AddWithValue("@Name", NameP.Text);
+                        com.Parameters.AddWithValue("@Password", encPassword);
+                        int count = (int)com.ExecuteScalar();
 
-                if (count == 0) {
-                    MessageBox.Show("Введеные неверные данные");
-                    NameP.Clear();
-                    Password.Clear();
-                    countTry++;
-                    return;
-                } else {
-                    MessageBox.Show("Вход выполнен");
-                    ToWriteFile();
-                    countTry = 1;
-                    com = new SqlCommand("Select ID, Rights From Users Where Name = @Name and Password = @Password", con);
-                    com.Parameters.AddWithValue("@Name", NameP.Text);
-                    com.Parameters.AddWithValue("@Password", encPassword);
-                    reader = com.ExecuteReader();
-                    reader.Read();
+                        if (count == 0) {
+                            MessageBox.Show("Введеные неверные данные");
+                            NameP.Clear();
+                            Password.Clear();
+                            countTry++;
+                            return;
+                        } else {
+                            MessageBox.Show("Вход выполнен");
+                            ToWriteFile();
+                            countTry = 1;
+                            using (SqlCommand com2 = new SqlCommand("Select ID, Rights From Users Where Name = @Name and Password = @Password", con)) {
+                                com2.Parameters.AddWithValue("@Name", NameP.Text);
+                                com2.Parameters.AddWithValue("@Password", encPassword);
+                                using (SqlDataReader reader = com2.ExecuteReader()) {
+                                    reader.Read();
+                                    object rights = reader.GetString(1);
+                                    id = reader.GetValue(0);
+                                    EditForm(rights);
+                                    ToWriteDataBaseSuccessful(countTry);
+                                }
+                            }
+                        }
 
-                    object rights = reader.GetString(1);
-                    id = reader.GetValue(0);
-                    EditForm(rights);
-                    ToWriteDataBaseSuccessful(countTry);
-                    reader.Close();
+                        if (countTry == 3) {
+                            ToWriteDataBaseNotSuccessful(countTry);
+                            MessageBox.Show("Мсье, вы не знаете пароля");
+                            Application.Exit();
+                        }
+                    }
+                    
                 }
-
-                if (countTry == 3) {
-                    ToWriteDataBaseNotSuccessful(countTry);
-                    MessageBox.Show("Мсье, вы не знаете пароля");
-                    Application.Exit();
-                }
+                
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close(); }
         }
 
         private void EditForm(object rights) {
@@ -130,23 +128,21 @@ namespace RequestZp1 {
 
         #region ListOperation
         private void ToWriteDataBaseSuccessful(byte countTry) {
-            SqlConnection con = null;
-            SqlCommand com;
-
             try {
-                con = new SqlConnection(connectionString);
-                com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, IsLogIn, Try, ID, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @ID, @Operation)", con);
-                con.Open();
-                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
-                com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
-                com.Parameters.AddWithValue("@IsLogIn", "Да");
-                com.Parameters.AddWithValue("@Try", countTry);
-                com.Parameters.AddWithValue("@ID", id);
-                com.Parameters.AddWithValue("@Operation", "Выполнен вход");
-                com.ExecuteNonQuery();
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString)){
+                    con.Open();
+                    using (SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, IsLogIn, Try, ID, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @ID, @Operation)", con)) {
+                        com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                        com.Parameters.AddWithValue("@DateTimeLogIn", DateTime.Now.ToString("s"));
+                        com.Parameters.AddWithValue("@IsLogIn", "Да");
+                        com.Parameters.AddWithValue("@Try", countTry);
+                        com.Parameters.AddWithValue("@ID", id);
+                        com.Parameters.AddWithValue("@Operation", "Выполнен вход");
+                        com.ExecuteNonQuery();
+                    }
+                }
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так"); }
-            finally { con.Close(); }
         }
 
         private void ToWriteDataBaseNotSuccessful(byte countTry) {
@@ -154,7 +150,7 @@ namespace RequestZp1 {
             SqlCommand com;
 
             try {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
                 com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, IsLogIn, Try, Operation) VALUES (@IP, @DateTimeLogIn, @IsLogIn, @Try, @Operation)", con);
                 con.Open();
                 com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());

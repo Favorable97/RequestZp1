@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Data.SqlClient;
+using System.Configuration;
 //using System.Data.SqlTypes;
 
 /*
@@ -16,9 +17,9 @@ using System.Data.SqlClient;
 
 namespace CreateRequest {
     class ParsingXMLFileAndRecordDataToDB {
-        private readonly static string path = @"\\192.168.2.205\Ident\tfoms";
+        private readonly static string path = ConfigurationManager.AppSettings["path"]; //@"\\192.168.2.205\Ident\tfoms";
 
-        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+        private readonly string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
         
         // порядковый номер, для определения ID человека
         int serialNumber = 0;

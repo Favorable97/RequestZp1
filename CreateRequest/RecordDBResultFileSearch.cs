@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.IO;
+using System.Configuration;
 
 /*
  * RecordDBResultFileSearch
@@ -21,8 +22,7 @@ using System.IO;
 
 namespace CreateRequest {
     class RecordDBResultFileSearch {
-        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
-        private readonly static string path = @"\\192.168.2.205\Ident\tfoms";
+        private readonly string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
         
         // Метод, который ищет файлы в БД, у которых ячейка Uprak1 = null 
         public void SearchFileWithoutUprak1() {
@@ -40,7 +40,7 @@ namespace CreateRequest {
 
         // Проверка на существование файла. На входе имя файла, который будем проверять
         private void SearchUprak1(string fileName) {
-            string fullFileName = path + @"\" + fileName + ".uprak1";
+            string fullFileName = ConfigurationManager.AppSettings["path"] + @"\" + fileName + ".uprak1";
             if (File.Exists(fullFileName)) {
                 WriteToOkUprak1(fileName);
             }
@@ -115,7 +115,7 @@ namespace CreateRequest {
 
         // Проверка на существование файла. На входе имя файла, который будем проверять
         private void SearchUprak2(string fileName) {
-            string fullFileName = path + @"\" + fileName + ".uprak2";
+            string fullFileName = ConfigurationManager.AppSettings["path"] + @"\" + fileName + ".uprak2";
             if (File.Exists(fullFileName)) {
                 WriteToOkUprak2(fileName);
                 ParsingXMLFileAndRecordDataToDB par = new ParsingXMLFileAndRecordDataToDB(fileName);

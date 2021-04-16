@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.IO;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace CreateRequest {
     /*
@@ -21,7 +22,7 @@ namespace CreateRequest {
         public bool flag = true;
         private readonly string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
-        public readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+        public readonly string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
         public string FileName { get; set; }
 

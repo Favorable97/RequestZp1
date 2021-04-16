@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.IO;
+using System.Configuration;
 
 /*
  * CreateAnswer
@@ -19,8 +20,9 @@ namespace RequestZp1 {
     class CreateAnswer {
         private List<string> MasWithPeoples { get; set; }
         private string Path { get; set; }
-        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
-        
+        private readonly string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString; //@"Data Source=SRZ\SRZ;Initial Catalog=Ident;Persist Security Info=True;User ID=user;Password=гыук";
+
+
         public CreateAnswer(List<string> persons, string path) {
             MasWithPeoples = persons;
             Path = path;

@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Threading;
+using System.Configuration;
 
 namespace RequestZp1 {
     public partial class Form1 : Form {
@@ -17,7 +18,7 @@ namespace RequestZp1 {
         public bool flag = false;
         private bool isFile = false;
         string fileName;
-        private readonly string connectionString = @"Data Source=SRZ\SRZ;Initial Catalog=ident;Persist Security Info=True;User ID=user;Password=гыук";
+        private readonly string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString; //@"Data Source=SRZ\SRZ;Initial Catalog=ident;Persist Security Info=True;User ID=user;Password=гыук";
         public Form1() {
             InitializeComponent();
             openFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
@@ -41,86 +42,90 @@ namespace RequestZp1 {
         // заполнение таблицы
         public void ToFillTable() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
+                con.Open();
+                using (SqlCommand com = new SqlCommand("SELECT Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
                     "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
                     "Where ListOperator.IDUser = " + GetID() + " " +
-                    "Order by Peoples.ID", con);
-                con.Open();
-                //com.Parameters.AddWithValue("@ListOperator.IDUser", GetID());
+                    "Order by ListOperator.ID", con)) {
 
-                SqlDataReader reader = com.ExecuteReader();
+                    using (SqlDataReader reader = com.ExecuteReader()) {
+                        while (reader.Read()) {
+                            DataGridViewRow newRow = new DataGridViewRow();
 
-                while (reader.Read()) {
-                    DataGridViewRow newRow = new DataGridViewRow();
+                            DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
+                                Value = 0
+                            };
+                            DataGridViewCell Surname = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(0)
+                            };
 
-                    DataGridViewCell checkoxCell = new DataGridViewCheckBoxCell {
-                        Value = 0
-                    };
-                    DataGridViewCell Surname = new DataGridViewTextBoxCell {
-                        Value = reader.GetString(0)
-                    };
+                            DataGridViewCell Name = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(1)
+                            };
 
-                    DataGridViewCell Name = new DataGridViewTextBoxCell {
-                        Value = reader.GetString(1)
-                    };
+                            DataGridViewCell FatherName = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(2)
+                            };
 
-                    DataGridViewCell FatherName = new DataGridViewTextBoxCell {
-                        Value = reader.GetString(2)
-                    };
+                            DataGridViewCell Birthday = new DataGridViewTextBoxCell {
+                                Value = reader.GetDateTime(3).ToShortDateString()
+                            };
 
-                    DataGridViewCell Birthday = new DataGridViewTextBoxCell {
-                        Value = reader.GetDateTime(3).ToShortDateString()
-                    };
+                            DataGridViewCell Pol = new DataGridViewTextBoxCell {
+                                Value = Convert.ToInt32(reader.GetInt32(4))
+                            };
 
-                    DataGridViewCell Pol = new DataGridViewTextBoxCell {
-                        Value = Convert.ToInt32(reader.GetInt32(4))
-                    };
+                            DataGridViewCell CodeDocument = new DataGridViewTextBoxCell {
+                                Value = reader.GetInt32(5)
+                            };
 
-                    DataGridViewCell CodeDocument = new DataGridViewTextBoxCell {
-                        Value = reader.GetInt32(5)
-                    };
+                            DataGridViewCell SeriesDoc = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(6)
+                            };
 
-                    DataGridViewCell SeriesDoc = new DataGridViewTextBoxCell {
-                        Value = reader.GetString(6)
-                    };
+                            DataGridViewCell NumbDoc = new DataGridViewTextBoxCell {
+                                Value = reader.GetString(7)
+                            };
 
-                    DataGridViewCell NumbDoc = new DataGridViewTextBoxCell {
-                        Value = reader.GetString(7)
-                    };
+                            DataGridViewCell RS = new DataGridViewTextBoxCell {
+                                Value = ""
+                            };
 
-                    DataGridViewCell RS = new DataGridViewTextBoxCell {
-                        Value = ""
-                    };
+                            DataGridViewCell CS = new DataGridViewTextBoxCell {
+                                Value = reader.IsDBNull(10) ? "" : reader.GetDateTime(10).ToString()
+                            };
 
-                    DataGridViewCell CS = new DataGridViewTextBoxCell {
-                        Value = reader.IsDBNull(10) ? "" : reader.GetDateTime(10).ToString()
-                    };
+                            DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
+                                Value = reader.IsDBNull(8) ? "" : reader.GetDateTime(8).ToString()
+                            };
 
-                    DataGridViewCell Uprak1 = new DataGridViewTextBoxCell {
-                        Value = reader.IsDBNull(8) ? "" : reader.GetDateTime(8).ToString()
-                    };
+                            DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
+                                Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(9).ToString()
+                            };
 
-                    DataGridViewCell Uprak2 = new DataGridViewTextBoxCell {
-                        Value = reader.IsDBNull(9) ? "" : reader.GetDateTime(9).ToString()
-                    };
+                            newRow.Cells.Add(checkoxCell);
+                            newRow.Cells.Add(Surname);
+                            newRow.Cells.Add(Name);
+                            newRow.Cells.Add(FatherName);
+                            newRow.Cells.Add(Birthday);
+                            newRow.Cells.Add(Pol);
+                            newRow.Cells.Add(CodeDocument);
+                            newRow.Cells.Add(SeriesDoc);
+                            newRow.Cells.Add(NumbDoc);
+                            newRow.Cells.Add(RS);
+                            newRow.Cells.Add(CS);
+                            newRow.Cells.Add(Uprak1);
+                            newRow.Cells.Add(Uprak2);
 
-                    newRow.Cells.Add(checkoxCell);
-                    newRow.Cells.Add(Surname);
-                    newRow.Cells.Add(Name);
-                    newRow.Cells.Add(FatherName);
-                    newRow.Cells.Add(Birthday);
-                    newRow.Cells.Add(Pol);
-                    newRow.Cells.Add(CodeDocument);
-                    newRow.Cells.Add(SeriesDoc);
-                    newRow.Cells.Add(NumbDoc);
-                    newRow.Cells.Add(RS);
-                    newRow.Cells.Add(CS);
-                    newRow.Cells.Add(Uprak1);
-                    newRow.Cells.Add(Uprak2);
-
-                    RequestTable.Rows.Add(newRow);
+                            RequestTable.Rows.Add(newRow);
+                        }
+                    }
+                    for (int i = 0; i < RequestTable.RowCount; i++) {
+                        for (int j = 1; j < RequestTable.ColumnCount; j++)
+                            RequestTable.Rows[i].Cells[j].ReadOnly = true;
+                    }
+                    
                 }
-                reader.Close();
                 flag = true;
             }
             using (SqlConnection con = new SqlConnection(connectionString)) {
@@ -277,20 +282,20 @@ namespace RequestZp1 {
 
         // запись в таблицу ListOperation информации о том, что был добавлен человек
         private void RecordDataBaseListOperationAddPeoples() {
-            SqlConnection con = null;
             try {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con); // что за IDPerson???
-                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
-                com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
-                com.Parameters.AddWithValue("@ID", GetID());
-                com.Parameters.AddWithValue("@Operation", "Добавление данных");
-                com.Parameters.AddWithValue("@IDPerson", GetIDPeople());
-                com.ExecuteNonQuery();
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    con.Open();
+                    using (SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation, IDPerson) VALUES (@IP, @DateTime, @ID, @Operation, @IDPerson)", con)) {
+                        com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                        com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
+                        com.Parameters.AddWithValue("@ID", GetID());
+                        com.Parameters.AddWithValue("@Operation", "Добавление данных");
+                        com.Parameters.AddWithValue("@IDPerson", GetIDPeople());
+                        com.ExecuteNonQuery();
+                    }
+                }
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
-            finally { con.Close(); }
         }
 
         // запись в таблицу ListOperator
@@ -623,24 +628,25 @@ namespace RequestZp1 {
 
         // получение ID человека
         private object GetIDPeople() {
-            SqlConnection con = null;
-            SqlCommand com;
             try {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                com = new SqlCommand("Select ID From Peoples Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DateBirthday", con);
-                com.Parameters.AddWithValue("@Name", tName.Text);
-                com.Parameters.AddWithValue("@Surname", tSurname.Text);
-                com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
-                com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
-                SqlDataReader reader = com.ExecuteReader();
-                reader.Read();
-                object id = reader.GetValue(0);
-                reader.Close();
-                return id;
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    con.Open();
+                    using (SqlCommand com = new SqlCommand("Select ID From Peoples Where Upper(Name) = Upper(@Name) and Upper(Surname) = Upper(@Surname) and Upper(FatherName) = Upper(@FatherName) and DateBirthday = @DateBirthday", con)) {
+                        com.Parameters.AddWithValue("@Name", tName.Text);
+                        com.Parameters.AddWithValue("@Surname", tSurname.Text);
+                        com.Parameters.AddWithValue("@FatherName", tFatherName.Text);
+                        com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(tBirthday.Text), "yyyyMdd", null));
+
+                        using (SqlDataReader reader = com.ExecuteReader()) {
+                            reader.Read();
+                            object id = reader.GetValue(0);
+                            reader.Close();
+                            return id;
+                        }
+                    }
+                }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            finally { con.Close(); }
             return 0;
         }
 
@@ -676,19 +682,18 @@ namespace RequestZp1 {
 
         // запись в таблицу ListOperation информации о том, что был создан файл
         private void RecordListOperationCreateFile() {
-            SqlConnection con = null;
-
             try {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation) VALUES (@IP, @DateTime, @ID, @Operation)", con); // что за IDPerson???
-                com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
-                com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
-                com.Parameters.AddWithValue("@ID", GetID());
-                com.Parameters.AddWithValue("@Operation", "Поиск в ЦС");
+                using (SqlConnection con = new SqlConnection(connectionString)) {
+                    con.Open();
+                    using (SqlCommand com = new SqlCommand("INSERT INTO ListOperation(IP, DateTime, ID, Operation) VALUES (@IP, @DateTime, @ID, @Operation)", con)) {
+                        com.Parameters.AddWithValue("@IP", System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].ToString());
+                        com.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("s"));
+                        com.Parameters.AddWithValue("@ID", GetID());
+                        com.Parameters.AddWithValue("@Operation", "Поиск в ЦС");
+                    }
+                }
             }
             catch (Exception) { MessageBox.Show("Что-то пошло не так!"); }
-            finally { con.Close(); }
         }
 
         
@@ -768,13 +773,14 @@ namespace RequestZp1 {
         private int GetCode() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
                 con.Open();
-                SqlCommand com = new SqlCommand("Select Code From DocumentsType Where DocumentName = @DocumentName", con);
-                com.Parameters.AddWithValue("@DocumentName", comboBox1.SelectedItem.ToString());
-                SqlDataReader reader = com.ExecuteReader();
-                reader.Read();
-                int code = Convert.ToInt32(reader.GetValue(0));
-                reader.Close();
-                return code;
+                using (SqlCommand com = new SqlCommand("Select Code From DocumentsType Where DocumentName = @DocumentName", con)) {
+                    com.Parameters.AddWithValue("@DocumentName", comboBox1.SelectedItem.ToString());
+                    SqlDataReader reader = com.ExecuteReader();
+                    reader.Read();
+                    int code = Convert.ToInt32(reader.GetValue(0));
+                    reader.Close();
+                    return code;
+                }
             }
         }
         
@@ -1002,12 +1008,13 @@ namespace RequestZp1 {
                     com.Parameters.AddWithValue("@Name", RequestTable.Rows[index].Cells[2].Value.ToString());
                     com.Parameters.AddWithValue("@FatherName", RequestTable.Rows[index].Cells[3].Value.ToString());//
                     com.Parameters.AddWithValue("@DateBirthday", DateTime.ParseExact(GetBirthday(RequestTable.Rows[index].Cells[4].Value.ToString()), "yyyyMdd", null));
-                    SqlDataReader reader = com.ExecuteReader();
-                    reader.Read();
-                    if (reader.HasRows) {
-                        GetInformationCS(Convert.ToInt32(reader.GetInt32(0)));
+                    using (SqlDataReader reader = com.ExecuteReader()) {
+                        reader.Read();
+                        if (reader.HasRows) {
+                            GetInformationCS(Convert.ToInt32(reader.GetInt32(0)));
+                        }
+                        reader.Close();
                     }
-                    reader.Close();
                 }
             }
         }
@@ -1017,17 +1024,16 @@ namespace RequestZp1 {
                 using (SqlCommand com = new SqlCommand("Select * From Results Where PID = @ID", con)) {
                     con.Open();
                     com.Parameters.AddWithValue("@ID", id);
-                    SqlDataReader reader = com.ExecuteReader();
-                    //reader.Read();
-                    int count = 0;
-                    if (reader.HasRows) {
-                        while (reader.Read()) {
-                            AddInformation(reader, count);
-                            count++;
+                    using (SqlDataReader reader = com.ExecuteReader()) {
+                        //reader.Read();
+                        int count = 0;
+                        if (reader.HasRows) {
+                            while (reader.Read()) {
+                                AddInformation(reader, count);
+                                count++;
+                            }
                         }
-                            
                     }
-                    reader.Close();
                 }
             }
         }
@@ -1196,7 +1202,6 @@ namespace RequestZp1 {
 
         private void SearchPeopleAtDB() {
             using (SqlConnection con = new SqlConnection(connectionString)) {
-                
                 using (SqlCommand com = new SqlCommand("Select Peoples.Surname, Peoples.Name, Peoples.FatherName, Peoples.DateBirthday, Peoples.Pol, Peoples.CodeDocument, Peoples.SeriesDoc, Peoples.NumbDoc, Peoples.Uprak1, Peoples.Uprak2, ListOperator.CSTime " +
                     "FROM ListOperator join Peoples on ListOperator.IDPeople = Peoples.ID " +
                     "Where ListOperator.IDUser = " + GetID() + " and Upper(Peoples.Surname) Like Upper('" + sSurname.Text + "%')", con)) {
@@ -1274,7 +1279,7 @@ namespace RequestZp1 {
                         }
                     }
                 }
-            }
+            }            
         }
 
         private void TableWithInformation_KeyDown(object sender, KeyEventArgs e) {
