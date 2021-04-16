@@ -35,7 +35,7 @@ namespace RequestZp1 {
                     using (SqlCommand com = new SqlCommand("Select Count(*) From Users Where Name = @Name and Password = @Password", con)) {
                         string encPassword = GetEncodingPassword(Password.Text);
                         com.Parameters.AddWithValue("@Name", NameP.Text);
-                        com.Parameters.AddWithValue("@Password", encPassword);
+                        com.Parameters.AddWithValue("@Password", Password.Text);
                         int count = (int)com.ExecuteScalar();
 
                         if (count == 0) {
@@ -50,7 +50,7 @@ namespace RequestZp1 {
                             countTry = 1;
                             using (SqlCommand com2 = new SqlCommand("Select ID, Rights From Users Where Name = @Name and Password = @Password", con)) {
                                 com2.Parameters.AddWithValue("@Name", NameP.Text);
-                                com2.Parameters.AddWithValue("@Password", encPassword);
+                                com2.Parameters.AddWithValue("@Password", Password.Text);
                                 using (SqlDataReader reader = com2.ExecuteReader()) {
                                     reader.Read();
                                     object rights = reader.GetString(1);

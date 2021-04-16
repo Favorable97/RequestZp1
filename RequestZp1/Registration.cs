@@ -37,7 +37,7 @@ namespace RequestZp1 {
                         com.Parameters.AddWithValue("@FatherName", FatherName.Text);
                         com.Parameters.AddWithValue("@Department", Department.Text);
                         com.Parameters.AddWithValue("@Rights", Rights.Text);
-                        com.Parameters.AddWithValue("@Password", encPassword);
+                        com.Parameters.AddWithValue("@Password", Password.Text);
                         com.ExecuteNonQuery();
                     }
 
