@@ -87,10 +87,6 @@
             this.tBirthday = new System.Windows.Forms.MaskedTextBox();
             this.RefreshInfo = new System.Windows.Forms.Button();
             this.TableWithInformation = new System.Windows.Forms.DataGridView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.registration1 = new RequestZp1.Registration();
-            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,6 +104,10 @@
             this.Column28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.registration1 = new RequestZp1.Registration();
+            this.signInProfile1 = new RequestZp1.SignInProfile();
             this.menuStrip1.SuspendLayout();
             this.panelWithHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryTable)).BeginInit();
@@ -311,12 +311,13 @@
             this.CreateFileAnwer.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CreateFileAnwer.Enabled = false;
             this.CreateFileAnwer.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.CreateFileAnwer.Location = new System.Drawing.Point(1489, 301);
+            this.CreateFileAnwer.Location = new System.Drawing.Point(1286, 297);
             this.CreateFileAnwer.Name = "CreateFileAnwer";
             this.CreateFileAnwer.Size = new System.Drawing.Size(156, 60);
             this.CreateFileAnwer.TabIndex = 39;
             this.CreateFileAnwer.Text = "Сформировать документ";
             this.CreateFileAnwer.UseVisualStyleBackColor = false;
+            this.CreateFileAnwer.Visible = false;
             this.CreateFileAnwer.Click += new System.EventHandler(this.CreateFileAnswer_Click);
             // 
             // TableWithFilesCSV
@@ -561,7 +562,7 @@
             this.CheckCS.BackColor = System.Drawing.Color.LightSteelBlue;
             this.CheckCS.Enabled = false;
             this.CheckCS.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CheckCS.Location = new System.Drawing.Point(1323, 301);
+            this.CheckCS.Location = new System.Drawing.Point(1511, 298);
             this.CheckCS.Name = "CheckCS";
             this.CheckCS.Size = new System.Drawing.Size(143, 60);
             this.CheckCS.TabIndex = 27;
@@ -802,25 +803,6 @@
             this.TableWithInformation.TabIndex = 30;
             this.TableWithInformation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TableWithInformation_KeyDown);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // registration1
-            // 
-            this.registration1.AutoSize = true;
-            this.registration1.Location = new System.Drawing.Point(3, 791);
-            this.registration1.Name = "registration1";
-            this.registration1.Size = new System.Drawing.Size(1264, 570);
-            this.registration1.TabIndex = 20;
-            // 
-            // signInProfile1
-            // 
-            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
-            this.signInProfile1.Name = "signInProfile1";
-            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
-            this.signInProfile1.TabIndex = 17;
-            // 
             // Column14
             // 
             this.Column14.HeaderText = "ID";
@@ -934,6 +916,25 @@
             this.Column30.Name = "Column30";
             this.Column30.ReadOnly = true;
             this.Column30.Width = 60;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // registration1
+            // 
+            this.registration1.AutoSize = true;
+            this.registration1.Location = new System.Drawing.Point(3, 791);
+            this.registration1.Name = "registration1";
+            this.registration1.Size = new System.Drawing.Size(1264, 570);
+            this.registration1.TabIndex = 20;
+            // 
+            // signInProfile1
+            // 
+            this.signInProfile1.Location = new System.Drawing.Point(14, 783);
+            this.signInProfile1.Name = "signInProfile1";
+            this.signInProfile1.Size = new System.Drawing.Size(1260, 570);
+            this.signInProfile1.TabIndex = 17;
             // 
             // Form1
             // 
