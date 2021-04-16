@@ -598,6 +598,11 @@ namespace RequestZp1 {
             TableWithFilesCSV.Rows.Clear();
             RequestTable.Rows.Clear();
             TableWithInformation.Rows.Clear();
+            tSeries.Clear();
+            tNumber.Clear();
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+            comboBox1.Items.Clear();
             sSurname.Clear();
             using (FileStream stream = new FileStream("date.txt", FileMode.Truncate)) {
                 StreamWriter write = new StreamWriter(stream);
