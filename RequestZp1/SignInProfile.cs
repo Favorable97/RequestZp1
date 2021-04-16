@@ -79,7 +79,7 @@ namespace RequestZp1 {
             (Application.OpenForms[0] as Form1).AutoSize = true;
             (Application.OpenForms[0] as Form1).nameUser = NameP.Text;
             (Application.OpenForms[0] as Form1).VisibleProfile();
-            (Application.OpenForms[0] as Form1).encPas = GetEncodingPassword(Password.Text);
+            (Application.OpenForms[0] as Form1).encPas = Password.Text;
             (Application.OpenForms[0] as Form1).rights = (string)rights;
             (Application.OpenForms[0] as Form1).IsAdmin();
             (Application.OpenForms[0] as Form1).ToFillTable();
