@@ -52,7 +52,7 @@ namespace RequestZp1 {
                                 com2.Parameters.AddWithValue("@Name", NameP.Text);
                                 com2.Parameters.AddWithValue("@Password", Password.Text);
                                 using (SqlDataReader reader = com2.ExecuteReader()) {
-                                    reader.Read();
+                                    reader.Read(); 
                                     object rights = reader.GetString(1);
                                     id = reader.GetValue(0);
                                     EditForm(rights);

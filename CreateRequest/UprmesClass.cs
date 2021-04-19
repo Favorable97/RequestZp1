@@ -57,7 +57,7 @@ namespace CreateRequest {
         private void CreateXmlFile() {
             Random rnd = new Random();
             int rndNumb = rnd.Next(0, 33);
-            string hash = "r" + GetHash(alphabet[rndNumb].ToString() + DateTime.Now.ToString()).ToString();
+            string hash = "m" + GetHash(alphabet[rndNumb].ToString() + DateTime.Now.ToString()).ToString();
             hash = hash.Replace("=", "");
             hash = hash.Replace("+", "");
             FileName = ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString();
@@ -275,7 +275,7 @@ namespace CreateRequest {
             #endregion
             upprmes.Add(bts);
             xdoc.Add(upprmes);
-            xdoc.Save(@"\\192.168.2.205\Ident\" + ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString());
+            xdoc.Save(ConfigurationManager.AppSettings["path2"] + ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString());
 
             #endregion
         }

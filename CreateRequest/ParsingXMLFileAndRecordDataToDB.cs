@@ -17,7 +17,7 @@ using System.Configuration;
 
 namespace CreateRequest {
     class ParsingXMLFileAndRecordDataToDB {
-        private readonly static string path = ConfigurationManager.AppSettings["path"]; //@"\\192.168.2.205\Ident\tfoms";
+        private readonly static string path = ConfigurationManager.AppSettings["path2"]; //@"\\192.168.2.205\Ident\tfoms";
 
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
         
