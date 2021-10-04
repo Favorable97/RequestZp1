@@ -40,7 +40,7 @@ namespace CreateRequest {
 
         // Проверка на существование файла. На входе имя файла, который будем проверять
         private void SearchUprak1(string fileName) {
-            string fullFileName = ConfigurationManager.AppSettings["path"] + @"\" + fileName + ".uprak1";
+            string fullFileName = ConfigurationManager.AppSettings["path2"] + @"\" + fileName + ".uprak1";
             if (File.Exists(fullFileName)) {
                 WriteToOkUprak1(fileName);
             }
@@ -115,7 +115,7 @@ namespace CreateRequest {
 
         // Проверка на существование файла. На входе имя файла, который будем проверять
         private void SearchUprak2(string fileName) {
-            string fullFileName = ConfigurationManager.AppSettings["path"] + @"\" + fileName + ".uprak2";
+            string fullFileName = ConfigurationManager.AppSettings["path2"] + @"\" + fileName + ".uprak2";
             if (File.Exists(fullFileName)) {
                 WriteToOkUprak2(fileName);
                 ParsingXMLFileAndRecordDataToDB par = new ParsingXMLFileAndRecordDataToDB(fileName);

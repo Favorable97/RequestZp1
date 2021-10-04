@@ -275,7 +275,7 @@ namespace CreateRequest {
             #endregion
             upprmes.Add(bts);
             xdoc.Add(upprmes);
-            xdoc.Save(ConfigurationManager.AppSettings["path2"] + ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString());
+            xdoc.Save(ConfigurationManager.AppSettings["path1"] + ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString());
 
             #endregion
         }
