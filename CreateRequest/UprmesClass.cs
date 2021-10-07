@@ -164,11 +164,11 @@ namespace CreateRequest {
             XElement cwe3 = new XElement(xNamespace + "CWE.3", "1.2.643.2.40.1.9");
             qpd1.Add(cwe1, cwe3);
             XElement qpd3 = new XElement(xNamespace + "QPD.3", "У");
-            XElement qpd4 = new XElement(xNamespace + "QPD.4", GetBirthday(DateTime.Now.ToShortDateString()));
+            //XElement qpd4 = new XElement(xNamespace + "QPD.4", GetBirthday(DateTime.Now.ToShortDateString()));
             string strWithDate = msh1.Value.ToString() + msh2.Value.ToString() + hd1.Value.ToString() + hd1_.Value.ToString() + hd2.Value.ToString() +
                 hd3.Value.ToString() + _hd1.Value.ToString() + hd1__.Value.ToString() + hd2_.Value.ToString() + hd3_.Value.ToString() +
                 msg1.Value.ToString() + msg2.Value.ToString() + msg3.Value.ToString() + pt1.Value.ToString() + vid1.Value.ToString() + msh15.Value.ToString() +
-                msh16.Value.ToString() + cwe1.Value.ToString() + cwe3.Value.ToString() + qpd3.Value.ToString() + qpd4.Value.ToString();
+                msh16.Value.ToString() + cwe1.Value.ToString() + cwe3.Value.ToString() + qpd3.Value.ToString() /*+ qpd4.Value.ToString()*/;
 
 
 
@@ -253,7 +253,7 @@ namespace CreateRequest {
                             xpn1.Add(fn1);
                             qpd6.Add(xpn1, xpn2, xpn3, xpn7);
 
-                            qpd.Add(qpd1, qpd3, qpd4, qpd5, qpd6, qpd7, qpd8, qpd9);
+                            qpd.Add(qpd1, qpd3, /*qpd4,*/ qpd5, qpd6, qpd7, qpd8, qpd9);
                             msh.Add(msh1, msh2, msh3, msh4, msh5, msh6, msh7, msh9, msh10, msh11, msh12, msh15, msh16);
                             qbp_zp1.Add(msh, qpd);
                             upprmes.Add(qbp_zp1);
