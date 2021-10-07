@@ -57,7 +57,7 @@ namespace CreateRequest {
         private void CreateXmlFile() {
             Random rnd = new Random();
             int rndNumb = rnd.Next(0, 33);
-            string hash = "r" + GetHash(alphabet[rndNumb].ToString() + DateTime.Now.ToString()).ToString();
+            string hash = ConfigurationManager.AppSettings["bukva"].ToString() + GetHash(alphabet[rndNumb].ToString() + DateTime.Now.ToString()).ToString();
             hash = hash.Replace("=", "");
             hash = hash.Replace("+", "");
             FileName = ("90000-" + hash.ToString().Replace(@"/", "") + ".uprmes").ToString();
